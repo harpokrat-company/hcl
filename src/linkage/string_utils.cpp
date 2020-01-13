@@ -5,11 +5,11 @@
 #include "string_utils.h"
 
 extern "C" {
-    void DeleteString(std::string *string) {
-        delete string;
-    }
+void EXPORT_FUNCTION DeleteString(std::string *string) {
+    delete string;
+}
 
-    const char *GetCharArrayFromString(std::string *string) {
-        return string->c_str();
-    }
+const char *EXPORT_FUNCTION GetCharArrayFromString(std::string *string) {
+    return string->c_str();
+}
 }

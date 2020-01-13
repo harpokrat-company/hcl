@@ -5,6 +5,7 @@
 #ifndef HCL_USER_LINKAGE_H
 #define HCL_USER_LINKAGE_H
 
+#include "linkage.h"
 #include "../services/Harpokrat/User.h"
 
 extern "C" {

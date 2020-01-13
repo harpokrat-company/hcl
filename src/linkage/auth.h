@@ -6,6 +6,7 @@
 #define HCL_AUTH_LINKAGE_H
 
 #include <string>
+#include "linkage.h"
 
 extern "C" std::string *GetBasicAuth(const char *raw_email, const char *raw_password);
 

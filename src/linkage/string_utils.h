@@ -6,10 +6,11 @@
 #define HCL_STRING_UTILS_LINKAGE_H
 
 #include <string>
+#include "linkage.h"
 
 extern "C" {
-    void DeleteString(std::string *);
-    const char *GetCharArrayFromString(std::string *);
+void DeleteString(std::string *);
+const char *GetCharArrayFromString(std::string *);
 };
 
 #endif //HCL_STRING_UTILS_LINKAGE_H
