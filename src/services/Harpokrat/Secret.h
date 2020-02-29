@@ -16,6 +16,7 @@ union SerializedSecretHeader {
 class Secret {
  public:
   explicit Secret(const std::string &);
+  explicit Secret() = default;
   [[nodiscard]] std::string Serialize() const;
   [[nodiscard]] const std::string &GetName() const;
   [[nodiscard]] const std::string &GetLogin() const;

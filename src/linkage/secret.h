@@ -11,6 +11,7 @@
 
 extern "C" {
 HCL::Secret *GetSecretFromContent(const char *raw_content);
+HCL::Secret *CreateSecret();
 const char *GetNameFromSecret(HCL::Secret *secret);
 const char *GetLoginFromSecret(HCL::Secret *secret);
 const char *GetPasswordFromSecret(HCL::Secret *secret);

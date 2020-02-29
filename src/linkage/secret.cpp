@@ -9,6 +9,10 @@ HCL::Secret *EXPORT_FUNCTION GetSecretFromContent(const char *raw_content) {
     return new HCL::Secret(raw_content);
 }
 
+HCL::Secret *EXPORT_FUNCTION CreateSecret() {
+    return new HCL::Secret();
+}
+
 const char *EXPORT_FUNCTION GetNameFromSecret(HCL::Secret *secret) {
     return secret->GetName().c_str();
 }
