@@ -33,8 +33,8 @@ void HCL::Crypto::RijndaelKeySchedule::XorBytes(const uint8_t a[BytesNumber],
 }
 
 template<uint8_t KeySize, uint8_t RoundKeys>
-void HCL::Crypto::RijndaelKeySchedule::KeyExpansion(const uint8_t *key,
-                                                    uint8_t (*round_keys)[16]) {
+void HCL::Crypto::RijndaelKeySchedule::KeyExpansion(const uint8_t key[KeySize],
+                                                    uint8_t round_keys[RoundKeys][16]) {
   uint8_t temporary_word[4];
 
   for (int i = 0; i < KeySize; ++i) {

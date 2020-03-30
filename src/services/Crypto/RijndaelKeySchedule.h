@@ -16,7 +16,7 @@ namespace HCL::Crypto {
 class RijndaelKeySchedule {
  public:
   template<uint8_t KeySize, uint8_t RoundKeys>
-  static void KeyExpansion(const uint8_t *, uint8_t (*)[16]);
+  static void KeyExpansion(const uint8_t [KeySize], uint8_t [RoundKeys][16]);
   static void AES128KeyExpansion(const uint8_t [16], uint8_t [11][16]);
   static void AES192KeyExpansion(const uint8_t [24], uint8_t [13][16]);
   static void AES256KeyExpansion(const uint8_t [32], uint8_t [15][16]);
