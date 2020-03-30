@@ -67,3 +67,11 @@ void HCL::Crypto::RijndaelSubstitutionBox::InvSubBytes(const uint8_t bytes[Bytes
     destination[i] = InvSubByte(bytes[i]);
   }
 }
+
+void HCL::Crypto::RijndaelSubstitutionBox::SubWord(const uint8_t word[4], uint8_t destination[4]) {
+  SubBytes<4>(word, destination);
+}
+
+void HCL::Crypto::RijndaelSubstitutionBox::InvSubWord(const uint8_t word[4], uint8_t destination[4]) {
+  InvSubBytes<4>(word, destination);
+}

@@ -16,12 +16,8 @@ class RijndaelSubstitutionBox {
   static void SubBytes(const uint8_t [BytesNumber], uint8_t [BytesNumber]);
   template<uint8_t BytesNumber>
   static void InvSubBytes(const uint8_t [BytesNumber], uint8_t [BytesNumber]);
-  static void SubWord(const uint8_t word[4], uint8_t destination[4]) {
-    SubBytes<4>(word, destination);
-  }
-  static void InvSubWord(const uint8_t word[4], uint8_t destination[4]) {
-    InvSubBytes<4>(word, destination);
-  }
+  static void SubWord(const uint8_t word[4], uint8_t destination[4]);
+  static void InvSubWord(const uint8_t word[4], uint8_t destination[4]);
  private:
   static const uint8_t substitution_box_[256];
   static const uint8_t reverse_substitution_box_[256];
