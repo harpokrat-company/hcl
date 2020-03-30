@@ -11,7 +11,7 @@
 #include "../src/services/Crypto/RijndaelKeySchedule.h"
 
 template<uint8_t RoundKeys>
-int CompareRoundKeys(const uint8_t a[RoundKeys][16], const uint8_t b[RoundKeys][16]) {
+static int CompareRoundKeys(const uint8_t a[RoundKeys][16], const uint8_t b[RoundKeys][16]) {
   for (int key = 0; key < RoundKeys; ++key) {
     for (int byte = 0; byte < 16; ++byte) {
       if (a[key][byte] != b[key][byte]) {
@@ -23,7 +23,7 @@ int CompareRoundKeys(const uint8_t a[RoundKeys][16], const uint8_t b[RoundKeys][
 }
 
 template<uint8_t KeySize, uint8_t RoundKeys>
-void ShowRoundKeyError(const uint8_t key[KeySize],
+static void ShowRoundKeyError(const uint8_t key[KeySize],
                        const uint8_t expected[RoundKeys][16],
                        const uint8_t result[RoundKeys][16]) {
   std::cerr << "For key: ";
@@ -46,7 +46,7 @@ void ShowRoundKeyError(const uint8_t key[KeySize],
   }
 }
 
-static int AES128KeyExpansionTests() {
+static int AES128KeyExpansionTest() {
   const size_t tests_number = 3;
   const uint8_t test_keys[][16] = {
       {
@@ -59,7 +59,7 @@ static int AES128KeyExpansionTests() {
           0xff, 0xdc, 0x93, 0xae, 0xac, 0xfe, 0x6d, 0x76, 0x7a, 0x4e, 0xa7, 0x1c, 0x2c, 0x81, 0x63, 0x3c
       }
   };
-  const uint8_t result_round_keys[][11][16] = {
+  const uint8_t expected_round_keys[][11][16] = {
       {
           {0x55, 0xce, 0xb0, 0x07, 0x6c, 0x4f, 0x0d, 0xe7, 0x4a, 0x94, 0xd9, 0xc0, 0x8e, 0xcf, 0x69, 0x11},
           {0xde, 0x37, 0x32, 0x1e, 0xb2, 0x78, 0x3f, 0xf9, 0xf8, 0xec, 0xe6, 0x39, 0x76, 0x23, 0x8f, 0x28},
@@ -105,9 +105,9 @@ static int AES128KeyExpansionTests() {
     std::cout << "Running test data " << i + 1 << "/" << tests_number << " of AES128 Rijndael Key Expansion test... "
               << std::flush;
     HCL::Crypto::RijndaelKeySchedule::AES128KeyExpansion(test_keys[i], result);
-    if (CompareRoundKeys<11>(result, result_round_keys[i]) != 0) {
+    if (CompareRoundKeys<11>(result, expected_round_keys[i]) != 0) {
       std::cerr << "Error:" << std::endl;
-      ShowRoundKeyError<16, 11>(test_keys[i], result_round_keys[i], result);
+      ShowRoundKeyError<16, 11>(test_keys[i], expected_round_keys[i], result);
       return 1;
     } else {
       std::cout << "Success!" << std::endl;
@@ -116,7 +116,7 @@ static int AES128KeyExpansionTests() {
   return 0;
 }
 
-static int AES192KeyExpansionTests() {
+static int AES192KeyExpansionTest() {
   const size_t tests_number = 3;
   const uint8_t test_keys[][24] = {
       {
@@ -132,7 +132,7 @@ static int AES192KeyExpansionTests() {
           0x3d, 0xdc, 0xce, 0x29, 0x56, 0x45, 0xd5, 0x3e
       }
   };
-  const uint8_t result_round_keys[][13][16] = {
+  const uint8_t expected_round_keys[][13][16] = {
       {
           {0x9b, 0x79, 0x19, 0x5d, 0xce, 0xd0, 0x9c, 0x05, 0xa1, 0xc2, 0xcd, 0xda, 0x99, 0x56, 0xc2, 0x76},
           {0xfc, 0x5a, 0xf0, 0x75, 0xc7, 0xf5, 0x44, 0x36, 0x7c, 0x62, 0x1c, 0x9b, 0xb2, 0xb2, 0x80, 0x9e},
@@ -184,9 +184,9 @@ static int AES192KeyExpansionTests() {
     std::cout << "Running test data " << i + 1 << "/" << tests_number << " of AES192 Rijndael Key Expansion test... "
               << std::flush;
     HCL::Crypto::RijndaelKeySchedule::AES192KeyExpansion(test_keys[i], result);
-    if (CompareRoundKeys<13>(result, result_round_keys[i]) != 0) {
+    if (CompareRoundKeys<13>(result, expected_round_keys[i]) != 0) {
       std::cerr << "Error:" << std::endl;
-      ShowRoundKeyError<24, 13>(test_keys[i], result_round_keys[i], result);
+      ShowRoundKeyError<24, 13>(test_keys[i], expected_round_keys[i], result);
       return 1;
     } else {
       std::cout << "Success!" << std::endl;
@@ -195,7 +195,7 @@ static int AES192KeyExpansionTests() {
   return 0;
 }
 
-static int AES256KeyExpansionTests() {
+static int AES256KeyExpansionTest() {
   const size_t tests_number = 3;
   const uint8_t test_keys[][32] = {
       {
@@ -211,7 +211,7 @@ static int AES256KeyExpansionTests() {
           0x4b, 0x66, 0x2c, 0x1f, 0x6c, 0x1f, 0x5f, 0xe9, 0xb7, 0xda, 0x84, 0xa1, 0x30, 0x9a, 0x77, 0x56
       }
   };
-  const uint8_t result_round_keys[][15][16] = {
+  const uint8_t expected_round_keys[][15][16] = {
       {
           {0x3c, 0x4c, 0xf5, 0x5e, 0xbc, 0xe7, 0x83, 0xb7, 0x6b, 0x89, 0xa3, 0xac, 0x1b, 0x23, 0xb8, 0x62},
           {0x46, 0x79, 0x30, 0x37, 0xc8, 0x95, 0x3c, 0x90, 0x72, 0x0e, 0x9b, 0x41, 0xfc, 0xd4, 0x80, 0x77},
@@ -269,9 +269,9 @@ static int AES256KeyExpansionTests() {
     std::cout << "Running test data " << i + 1 << "/" << tests_number << " of AES256 Rijndael Key Expansion test... "
               << std::flush;
     HCL::Crypto::RijndaelKeySchedule::AES256KeyExpansion(test_keys[i], result);
-    if (CompareRoundKeys<15>(result, result_round_keys[i]) != 0) {
+    if (CompareRoundKeys<15>(result, expected_round_keys[i]) != 0) {
       std::cerr << "Error:" << std::endl;
-      ShowRoundKeyError<32, 15>(test_keys[i], result_round_keys[i], result);
+      ShowRoundKeyError<32, 15>(test_keys[i], expected_round_keys[i], result);
       return 1;
     } else {
       std::cout << "Success!" << std::endl;
@@ -280,7 +280,7 @@ static int AES256KeyExpansionTests() {
   return 0;
 }
 
-static int AES128KeyExpansionPerformanceTests() {
+static int AES128KeyExpansionPerformanceTest() {
   const size_t tests_number = 1000000;
   std::vector<std::array<uint8_t, 16>> keys;
   std::random_device dev;
@@ -288,7 +288,7 @@ static int AES128KeyExpansionPerformanceTests() {
   std::uniform_int_distribution<std::mt19937::result_type> dist_byte(0, 255);
   uint8_t result[11][16];
 
-  std::cout << "Generating " << tests_number << " random keys to run AES 128 Key Expansion performance tests... "
+  std::cout << "Generating " << tests_number << " random keys to run AES 128 Key Expansion performance test... "
             << std::flush;
   for (int i = 0; i < tests_number; ++i) {
     keys.emplace_back(std::array<uint8_t, 16>());
@@ -307,7 +307,7 @@ static int AES128KeyExpansionPerformanceTests() {
   return 0;
 }
 
-static int AES192KeyExpansionPerformanceTests() {
+static int AES192KeyExpansionPerformanceTest() {
   const size_t tests_number = 1000000;
   std::vector<std::array<uint8_t, 24>> keys;
   std::random_device dev;
@@ -315,7 +315,7 @@ static int AES192KeyExpansionPerformanceTests() {
   std::uniform_int_distribution<std::mt19937::result_type> dist_byte(0, 255);
   uint8_t result[13][16];
 
-  std::cout << "Generating " << tests_number << " random keys to run AES 192 Key Expansion performance tests... "
+  std::cout << "Generating " << tests_number << " random keys to run AES 192 Key Expansion performance test... "
             << std::flush;
   for (int i = 0; i < tests_number; ++i) {
     keys.emplace_back(std::array<uint8_t, 24>());
@@ -334,7 +334,7 @@ static int AES192KeyExpansionPerformanceTests() {
   return 0;
 }
 
-static int AES256KeyExpansionPerformanceTests() {
+static int AES256KeyExpansionPerformanceTest() {
   const size_t tests_number = 1000000;
   std::vector<std::array<uint8_t, 32>> keys;
   std::random_device dev;
@@ -342,7 +342,7 @@ static int AES256KeyExpansionPerformanceTests() {
   std::uniform_int_distribution<std::mt19937::result_type> dist_byte(0, 255);
   uint8_t result[15][16];
 
-  std::cout << "Generating " << tests_number << " random keys to run AES 256 Key Expansion performance tests... "
+  std::cout << "Generating " << tests_number << " random keys to run AES 256 Key Expansion performance test... "
             << std::flush;
   for (int i = 0; i < tests_number; ++i) {
     keys.emplace_back(std::array<uint8_t, 32>());
@@ -362,12 +362,12 @@ static int AES256KeyExpansionPerformanceTests() {
 }
 
 static int (*rijndael_key_schedule_test_functions[])() = {
-    AES128KeyExpansionTests,
-    AES192KeyExpansionTests,
-    AES256KeyExpansionTests,
-    AES128KeyExpansionPerformanceTests,
-    AES192KeyExpansionPerformanceTests,
-    AES256KeyExpansionPerformanceTests,
+    AES128KeyExpansionTest,
+    AES192KeyExpansionTest,
+    AES256KeyExpansionTest,
+    AES128KeyExpansionPerformanceTest,
+    AES192KeyExpansionPerformanceTest,
+    AES256KeyExpansionPerformanceTest,
     nullptr
 };
 

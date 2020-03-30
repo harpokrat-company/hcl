@@ -6,5 +6,6 @@
 #define HCL_TESTS_TESTS_H_
 
 int RijndaelKeyScheduleTests();
+int AESTests();
 
 #endif //HCL_TESTS_TESTS_H_
