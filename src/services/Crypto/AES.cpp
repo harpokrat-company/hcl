@@ -2,6 +2,9 @@
 // Created by neodar on 28/03/2020.
 //
 
+#include <iostream>
+#include <iomanip>
+
 #include "AES.h"
 #include "RijndaelKeySchedule.h"
 
@@ -49,13 +52,30 @@ void HCL::Crypto::AES::MixColumns(uint8_t state[4][4]) {
     MixColumn(state, column_index);
   }
 }
-void HCL::Crypto::AES::AES256(const uint8_t key[32], uint8_t state[4][4]) {
-  uint8_t round_keys[15][16] = {};
 
-  // TODO Template for different sizes
-  HCL::Crypto::RijndaelKeySchedule::AES256KeyExpansion(key, round_keys);
+void HCL::Crypto::AES::FlatToState(const uint8_t data[16], uint8_t state[4][4]) {
+  for (int i = 0; i < 4; ++i) {
+    for (int j = 0; j < 4; ++j) {
+      state[j][i] = data[i * 4 + j];
+    }
+  }
+}
+
+void HCL::Crypto::AES::StateToFlat(const uint8_t state[4][4], uint8_t data[16]) {
+  for (int i = 0; i < 4; ++i) {
+    for (int j = 0; j < 4; ++j) {
+      data[i * 4 + j] = state[j][i];
+    }
+  }
+}
+
+template<uint8_t KeySize, uint8_t Rounds>
+void HCL::Crypto::AES::Cipher(const uint8_t key[KeySize], uint8_t state[4][4]) {
+  uint8_t round_keys[Rounds + 1][16] = {};
+
+  HCL::Crypto::RijndaelKeySchedule::KeyExpansion<KeySize, Rounds + 1>(key, round_keys);
   AddRoundKey(state, round_keys[0]);
-  for (int i = 0; i < 13; ++i) {
+  for (int i = 0; i < Rounds - 1; ++i) {
     SubBytes(state);
     ShiftRows(state);
     MixColumns(state);
@@ -63,5 +83,26 @@ void HCL::Crypto::AES::AES256(const uint8_t key[32], uint8_t state[4][4]) {
   }
   SubBytes(state);
   ShiftRows(state);
-  AddRoundKey(state, round_keys[14]);
+  AddRoundKey(state, round_keys[Rounds]);
+}
+
+template<uint8_t KeySize, uint8_t Rounds>
+void HCL::Crypto::AES::FlatAES(const uint8_t key[KeySize], uint8_t data[16]) {
+  uint8_t state[4][4];
+
+  FlatToState(data, state);
+  Cipher<KeySize, Rounds>(key, state);
+  StateToFlat(state, data);
+}
+
+void HCL::Crypto::AES::AES128(const uint8_t key[16], uint8_t data[16]) {
+  FlatAES<16, 10>(key, data);
+}
+
+void HCL::Crypto::AES::AES192(const uint8_t key[24], uint8_t data[16]) {
+  FlatAES<24, 12>(key, data);
+}
+
+void HCL::Crypto::AES::AES256(const uint8_t key[32], uint8_t data[16]) {
+  FlatAES<32, 14>(key, data);
 }

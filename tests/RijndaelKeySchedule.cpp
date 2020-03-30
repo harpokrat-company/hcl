@@ -104,7 +104,7 @@ static int AES128KeyExpansionTest() {
   for (int i = 0; i < tests_number; ++i) {
     std::cout << "Running test data " << i + 1 << "/" << tests_number << " of AES128 Rijndael Key Expansion test... "
               << std::flush;
-    HCL::Crypto::RijndaelKeySchedule::AES128KeyExpansion(test_keys[i], result);
+    HCL::Crypto::RijndaelKeySchedule::KeyExpansion<16, 11>(test_keys[i], result);
     if (CompareRoundKeys<11>(result, expected_round_keys[i]) != 0) {
       std::cerr << "Error:" << std::endl;
       ShowRoundKeyError<16, 11>(test_keys[i], expected_round_keys[i], result);
@@ -183,7 +183,7 @@ static int AES192KeyExpansionTest() {
   for (int i = 0; i < tests_number; ++i) {
     std::cout << "Running test data " << i + 1 << "/" << tests_number << " of AES192 Rijndael Key Expansion test... "
               << std::flush;
-    HCL::Crypto::RijndaelKeySchedule::AES192KeyExpansion(test_keys[i], result);
+    HCL::Crypto::RijndaelKeySchedule::KeyExpansion<24, 13>(test_keys[i], result);
     if (CompareRoundKeys<13>(result, expected_round_keys[i]) != 0) {
       std::cerr << "Error:" << std::endl;
       ShowRoundKeyError<24, 13>(test_keys[i], expected_round_keys[i], result);
@@ -268,7 +268,7 @@ static int AES256KeyExpansionTest() {
   for (int i = 0; i < tests_number; ++i) {
     std::cout << "Running test data " << i + 1 << "/" << tests_number << " of AES256 Rijndael Key Expansion test... "
               << std::flush;
-    HCL::Crypto::RijndaelKeySchedule::AES256KeyExpansion(test_keys[i], result);
+    HCL::Crypto::RijndaelKeySchedule::KeyExpansion<32, 15>(test_keys[i], result);
     if (CompareRoundKeys<15>(result, expected_round_keys[i]) != 0) {
       std::cerr << "Error:" << std::endl;
       ShowRoundKeyError<32, 15>(test_keys[i], expected_round_keys[i], result);
@@ -299,7 +299,7 @@ static int AES128KeyExpansionPerformanceTest() {
   std::cout << "Done!" << std::endl << "Running test... " << std::flush;
   auto t1 = std::chrono::high_resolution_clock::now();
   for (auto &key : keys) {
-    HCL::Crypto::RijndaelKeySchedule::AES128KeyExpansion(key.data(), result);
+    HCL::Crypto::RijndaelKeySchedule::KeyExpansion<16, 11>(key.data(), result);
   }
   auto t2 = std::chrono::high_resolution_clock::now();
   auto duration = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
@@ -326,7 +326,7 @@ static int AES192KeyExpansionPerformanceTest() {
   std::cout << "Done!" << std::endl << "Running test... " << std::flush;
   auto t1 = std::chrono::high_resolution_clock::now();
   for (auto &key : keys) {
-    HCL::Crypto::RijndaelKeySchedule::AES192KeyExpansion(key.data(), result);
+    HCL::Crypto::RijndaelKeySchedule::KeyExpansion<24, 13>(key.data(), result);
   }
   auto t2 = std::chrono::high_resolution_clock::now();
   auto duration = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
@@ -353,7 +353,7 @@ static int AES256KeyExpansionPerformanceTest() {
   std::cout << "Done!" << std::endl << "Running test... " << std::flush;
   auto t1 = std::chrono::high_resolution_clock::now();
   for (auto &key : keys) {
-    HCL::Crypto::RijndaelKeySchedule::AES256KeyExpansion(key.data(), result);
+    HCL::Crypto::RijndaelKeySchedule::KeyExpansion<32, 15>(key.data(), result);
   }
   auto t2 = std::chrono::high_resolution_clock::now();
   auto duration = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
