@@ -156,6 +156,70 @@ static int AES256Test() {
   return 0;
 }
 
+static int AES128PerformanceTest() {
+  const size_t tests_number = 100000;
+  std::vector<std::array<uint8_t, 16>> test_keys;
+  std::vector<std::array<uint8_t, 16>> test_data;
+  std::random_device dev;
+  std::mt19937 rng(dev());
+  std::uniform_int_distribution<std::mt19937::result_type> dist_byte(0, 255);
+
+  std::cout << "Generating " << tests_number
+            << " random keys and data block to run AES 128 block cipher performance test... "
+            << std::flush;
+  for (int i = 0; i < tests_number; ++i) {
+    test_keys.emplace_back(std::array<uint8_t, 16>());
+    test_data.emplace_back(std::array<uint8_t, 16>());
+    for (uint8_t &byte : test_keys[i]) {
+      byte = dist_byte(rng);
+    }
+    for (uint8_t &byte : test_data[i]) {
+      byte = dist_byte(rng);
+    }
+  }
+  std::cout << "Done!" << std::endl << "Running test... " << std::flush;
+  auto t1 = std::chrono::high_resolution_clock::now();
+  for (int i = 0; i < tests_number; ++i) {
+    HCL::Crypto::AES::AES128(test_keys[i].data(), test_data[i].data());
+  }
+  auto t2 = std::chrono::high_resolution_clock::now();
+  auto duration = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
+  std::cout << "Done! Computed " << tests_number << " AES 128 block ciphers in " << duration << "us." << std::endl;
+  return 0;
+}
+
+static int AES192PerformanceTest() {
+  const size_t tests_number = 100000;
+  std::vector<std::array<uint8_t, 24>> test_keys;
+  std::vector<std::array<uint8_t, 16>> test_data;
+  std::random_device dev;
+  std::mt19937 rng(dev());
+  std::uniform_int_distribution<std::mt19937::result_type> dist_byte(0, 255);
+
+  std::cout << "Generating " << tests_number
+            << " random keys and data block to run AES 192 block cipher performance test... "
+            << std::flush;
+  for (int i = 0; i < tests_number; ++i) {
+    test_keys.emplace_back(std::array<uint8_t, 24>());
+    test_data.emplace_back(std::array<uint8_t, 16>());
+    for (uint8_t &byte : test_keys[i]) {
+      byte = dist_byte(rng);
+    }
+    for (uint8_t &byte : test_data[i]) {
+      byte = dist_byte(rng);
+    }
+  }
+  std::cout << "Done!" << std::endl << "Running test... " << std::flush;
+  auto t1 = std::chrono::high_resolution_clock::now();
+  for (int i = 0; i < tests_number; ++i) {
+    HCL::Crypto::AES::AES192(test_keys[i].data(), test_data[i].data());
+  }
+  auto t2 = std::chrono::high_resolution_clock::now();
+  auto duration = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
+  std::cout << "Done! Computed " << tests_number << " AES 192 block ciphers in " << duration << "us." << std::endl;
+  return 0;
+}
+
 static int AES256PerformanceTest() {
   const size_t tests_number = 100000;
   std::vector<std::array<uint8_t, 32>> test_keys;
@@ -192,6 +256,8 @@ static int (*aes_test_functions[])() = {
     AES128Test,
     AES192Test,
     AES256Test,
+    AES128PerformanceTest,
+    AES192PerformanceTest,
     AES256PerformanceTest,
     nullptr
 };

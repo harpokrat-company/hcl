@@ -281,7 +281,7 @@ static int AES256KeyExpansionTest() {
 }
 
 static int AES128KeyExpansionPerformanceTest() {
-  const size_t tests_number = 1000000;
+  const size_t tests_number = 100000;
   std::vector<std::array<uint8_t, 16>> keys;
   std::random_device dev;
   std::mt19937 rng(dev());
@@ -308,7 +308,7 @@ static int AES128KeyExpansionPerformanceTest() {
 }
 
 static int AES192KeyExpansionPerformanceTest() {
-  const size_t tests_number = 1000000;
+  const size_t tests_number = 100000;
   std::vector<std::array<uint8_t, 24>> keys;
   std::random_device dev;
   std::mt19937 rng(dev());
@@ -335,7 +335,7 @@ static int AES192KeyExpansionPerformanceTest() {
 }
 
 static int AES256KeyExpansionPerformanceTest() {
-  const size_t tests_number = 1000000;
+  const size_t tests_number = 100000;
   std::vector<std::array<uint8_t, 32>> keys;
   std::random_device dev;
   std::mt19937 rng(dev());
