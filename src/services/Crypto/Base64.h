@@ -11,12 +11,12 @@ namespace HCL::Crypto {
 
 class Base64 {
  public:
-  static std::string Encode(const std::string &);
-  static std::string Decode(const std::string &);
+  static std::string Encode(const std::string &) __attribute__((const));
+  static std::string Decode(const std::string &) __attribute__((const));
   static bool IsBase64(unsigned char);
 
  private:
-  static const std::string base64_chars;
+  static const std::string base64_chars_;
 };
 }
 
