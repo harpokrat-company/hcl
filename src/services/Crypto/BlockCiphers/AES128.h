@@ -13,7 +13,7 @@ namespace HCL::Crypto {
 
 class AES128 : public AutoRegisterer<ABlockCipher, AES128>, public Rijndael<16, 10> {
  public:
-  AES128() : Rijndael() {};
+  AES128(const std::string &header, size_t &header_length) : Rijndael(header, header_length) {};
   static const uint16_t Id = 1;
 };
 }

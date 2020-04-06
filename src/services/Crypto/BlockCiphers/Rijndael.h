@@ -16,11 +16,10 @@ namespace HCL::Crypto {
 template<uint8_t KeySize, uint8_t Rounds>
 class Rijndael : virtual public ABlockCipher {
  public:
-  Rijndael() = default;
+  Rijndael(const std::string &header, size_t &header_length) : ABlockCipher(header, header_length) {};
   std::string EncryptBloc(const std::string &key, const std::string &bloc) override;
   std::string DecryptBloc(const std::string &key, const std::string &bloc) override;
   size_t GetBlockSize() override __attribute__((const));
-  size_t GetKeySize() override __attribute__((const));
  private:
   static void EncryptArrayBloc(const uint8_t[KeySize], uint8_t [16]);
   static void DecryptArrayBloc(const uint8_t[KeySize], uint8_t [16]);

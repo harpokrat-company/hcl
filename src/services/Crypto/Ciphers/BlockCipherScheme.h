@@ -7,6 +7,7 @@
 
 #include "ACipher.h"
 #include "../AutoRegisterer.h"
+#include "../BlockCipherModes/ABlockCipherMode.h"
 
 namespace HCL::Crypto {
 
@@ -17,6 +18,7 @@ class BlockCipherScheme : public AutoRegisterer<ACipher, BlockCipherScheme> {
   std::string Decrypt(const std::string &key, const std::string &content) override;
   static const uint16_t Id = 1;
  private:
+  std::unique_ptr<ABlockCipherMode> block_cipher_mode_;
 };
 }
 

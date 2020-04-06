@@ -5,15 +5,13 @@
 #include "BlockCipherScheme.h"
 
 HCL::Crypto::BlockCipherScheme::BlockCipherScheme(const std::string &header, size_t &header_length) {
-  // TODO Parse header to get Block cipher, Mode of operation and Key derivation
+  this->block_cipher_mode_ = Factory<ABlockCipherMode>::GetInstanceFromHeader(header, header_length);
 }
 
 std::string HCL::Crypto::BlockCipherScheme::Encrypt(const std::string &password, const std::string &content) {
-  // TODO
-  return std::__cxx11::string();
+  return block_cipher_mode_->Encrypt(password, content);
 }
 
 std::string HCL::Crypto::BlockCipherScheme::Decrypt(const std::string &password, const std::string &content) {
-  // TODO
-  return std::__cxx11::string();
+  return block_cipher_mode_->Decrypt(password, content);
 }

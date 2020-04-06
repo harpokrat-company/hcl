@@ -20,6 +20,7 @@ class Factory {
   static bool Register(uint16_t identifier, Instantiator<AbstractClass>);
   static std::unique_ptr<AbstractClass> GetInstanceFromHeader(const std::string &, size_t &);
   // TODO Add getInstanceFromId without header ? Maybe via second factory ?
+  // TODO Add debug dump of registered classes
  private:
   static std::map<uint16_t, Instantiator<AbstractClass>> registered_classes_;
 };
@@ -36,16 +37,16 @@ std::unique_ptr<AbstractClass> Factory<AbstractClass>::GetInstanceFromHeader(con
                                                                              size_t &header_length) {
   uint16_t id = 0;
 
-  if (header.length() < 2) {
+  if (header.length() < header_length + 2) {
     return std::unique_ptr<AbstractClass>{};
   }
-  id = uint16_t(((uint8_t) header[0]) << 8 | (uint8_t) header[1]);
+  id = uint16_t(((uint8_t) header[header_length]) << 8 | (uint8_t) header[header_length + 1]);
   typename std::map<uint16_t, Instantiator<AbstractClass>>::iterator registered_pair = registered_classes_.find(id);
   if (registered_pair == registered_classes_.end()) {
     return std::unique_ptr<AbstractClass>{};
   }
   header_length += 2;
-  return registered_pair->second(header.substr(2), header_length);
+  return registered_pair->second(header, header_length);
 }
 
 template<typename AbstractClass>

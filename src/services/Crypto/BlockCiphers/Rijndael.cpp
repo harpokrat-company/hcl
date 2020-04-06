@@ -223,8 +223,3 @@ template<uint8_t KeySize, uint8_t Rounds>
 size_t HCL::Crypto::Rijndael<KeySize, Rounds>::GetBlockSize() {
   return 16;
 }
-
-template<uint8_t KeySize, uint8_t Rounds>
-size_t HCL::Crypto::Rijndael<KeySize, Rounds>::GetKeySize() {
-  return KeySize;
-}

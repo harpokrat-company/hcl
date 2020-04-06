@@ -41,10 +41,21 @@ set(LIBRARY_SOURCE_FILES
     src/services/Crypto/AutoRegisterer.h
     src/services/Crypto/Ciphers/BlockCipherScheme.cpp
     src/services/Crypto/Ciphers/BlockCipherScheme.h
+    src/services/Crypto/BlockCiphers/ABlockCipher.cpp
     src/services/Crypto/BlockCiphers/ABlockCipher.h
     src/services/Crypto/BlockCiphers/AES128.h
     src/services/Crypto/BlockCiphers/AES192.h
-    src/services/Crypto/BlockCiphers/AES256.h)
+    src/services/Crypto/BlockCiphers/AES256.h
+    src/services/Crypto/BlockCipherModes/ABlockCipherMode.cpp
+    src/services/Crypto/BlockCipherModes/ABlockCipherMode.h
+    src/services/Crypto/BlockCipherModes/CBC.cpp
+    src/services/Crypto/BlockCipherModes/CBC.h
+    src/services/Crypto/Paddings/PaddedCipher.cpp
+    src/services/Crypto/Paddings/PaddedCipher.h
+    src/services/Crypto/Paddings/APadding.h
+    src/services/Crypto/KeyStretching/AKeyStretching.h
+    src/services/Crypto/HashFunctions/AHashFunction.cpp
+    src/services/Crypto/HashFunctions/AHashFunction.h)
 
 set(TEST_SOURCE_FILES
     tests/main.cpp

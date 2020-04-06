@@ -11,7 +11,7 @@
 namespace HCL::Crypto {
 
 template<typename AbstractClass, typename RegisteredClass>
-class AutoRegisterer : public AbstractClass {
+class AutoRegisterer : virtual public AbstractClass {
  public:
   static std::unique_ptr<ACipher> InstantiateFromHeader(const std::string &header, size_t &header_length) {
     return std::make_unique<RegisteredClass>(header, header_length);
