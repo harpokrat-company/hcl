@@ -2,13 +2,13 @@
 // Created by neodar on 28/03/2020.
 //
 
-#include <iostream>
-#include <iomanip>
+#include <cstring>
 
-#include "AES.h"
+#include "Rijndael.h"
 #include "../RijndaelKeySchedule.h"
 
-void HCL::Crypto::AES::AddRoundKey(uint8_t state[4][4], const uint8_t round_key[16]) {
+template<uint8_t KeySize, uint8_t Rounds>
+void HCL::Crypto::Rijndael<KeySize, Rounds>::AddRoundKey(uint8_t state[4][4], const uint8_t round_key[16]) {
   for (int i = 0; i < 4; ++i) {
     for (int j = 0; j < 4; ++j) {
       state[j][i] ^= round_key[i * 4 + j];
@@ -16,19 +16,22 @@ void HCL::Crypto::AES::AddRoundKey(uint8_t state[4][4], const uint8_t round_key[
   }
 }
 
-void HCL::Crypto::AES::SubBytes(uint8_t state[4][4]) {
+template<uint8_t KeySize, uint8_t Rounds>
+void HCL::Crypto::Rijndael<KeySize, Rounds>::SubBytes(uint8_t state[4][4]) {
   for (int i = 0; i < 4; ++i) {
     HCL::Crypto::RijndaelSubstitutionBox::SubWord(state[i], state[i]);
   }
 }
 
-void HCL::Crypto::AES::InvSubBytes(uint8_t state[4][4]) {
+template<uint8_t KeySize, uint8_t Rounds>
+void HCL::Crypto::Rijndael<KeySize, Rounds>::InvSubBytes(uint8_t state[4][4]) {
   for (int i = 0; i < 4; ++i) {
     HCL::Crypto::RijndaelSubstitutionBox::InvSubWord(state[i], state[i]);
   }
 }
 
-void HCL::Crypto::AES::ShiftRows(uint8_t state[4][4]) {
+template<uint8_t KeySize, uint8_t Rounds>
+void HCL::Crypto::Rijndael<KeySize, Rounds>::ShiftRows(uint8_t state[4][4]) {
   for (int i = 0; i < 4; ++i) {
     for (int _ = 0; _ < i; ++_) {
       HCL::Crypto::CryptoHelper::RotWord(state[i], state[i]);
@@ -36,7 +39,8 @@ void HCL::Crypto::AES::ShiftRows(uint8_t state[4][4]) {
   }
 }
 
-void HCL::Crypto::AES::InvShiftRows(uint8_t state[4][4]) {
+template<uint8_t KeySize, uint8_t Rounds>
+void HCL::Crypto::Rijndael<KeySize, Rounds>::InvShiftRows(uint8_t state[4][4]) {
   for (int i = 0; i < 4; ++i) {
     for (int _ = 0; _ < i; ++_) {
       HCL::Crypto::CryptoHelper::InvRotWord(state[i], state[i]);
@@ -46,7 +50,8 @@ void HCL::Crypto::AES::InvShiftRows(uint8_t state[4][4]) {
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "hicpp-signed-bitwise"
-uint8_t HCL::Crypto::AES::GaloisProduct(uint8_t a, uint8_t b) {
+template<uint8_t KeySize, uint8_t Rounds>
+uint8_t HCL::Crypto::Rijndael<KeySize, Rounds>::GaloisProduct(uint8_t a, uint8_t b) {
   bool high_bit_set;
   uint8_t product = 0;
 
@@ -66,7 +71,9 @@ uint8_t HCL::Crypto::AES::GaloisProduct(uint8_t a, uint8_t b) {
 }
 #pragma clang diagnostic pop
 
-uint8_t HCL::Crypto::AES::GaloisColumnProduct(const uint8_t coefficient[4], const uint8_t column[4]) {
+template<uint8_t KeySize, uint8_t Rounds>
+uint8_t HCL::Crypto::Rijndael<KeySize, Rounds>::GaloisColumnProduct(const uint8_t coefficient[4],
+                                                                    const uint8_t column[4]) {
   uint8_t product = 0;
 
   for (int i = 0; i < 4; ++i) {
@@ -75,7 +82,8 @@ uint8_t HCL::Crypto::AES::GaloisColumnProduct(const uint8_t coefficient[4], cons
   return product;
 }
 
-void HCL::Crypto::AES::MixColumn(uint8_t state[4][4], uint8_t column_index) {
+template<uint8_t KeySize, uint8_t Rounds>
+void HCL::Crypto::Rijndael<KeySize, Rounds>::MixColumn(uint8_t state[4][4], uint8_t column_index) {
   const uint8_t coefficients[4][4] = {
       {2, 3, 1, 1},
       {1, 2, 3, 1},
@@ -92,12 +100,15 @@ void HCL::Crypto::AES::MixColumn(uint8_t state[4][4], uint8_t column_index) {
   }
 }
 
-void HCL::Crypto::AES::MixColumns(uint8_t state[4][4]) {
+template<uint8_t KeySize, uint8_t Rounds>
+void HCL::Crypto::Rijndael<KeySize, Rounds>::MixColumns(uint8_t state[4][4]) {
   for (int column_index = 0; column_index < 4; ++column_index) {
     MixColumn(state, column_index);
   }
 }
-void HCL::Crypto::AES::InvMixColumn(uint8_t state[4][4], uint8_t column_index) {
+
+template<uint8_t KeySize, uint8_t Rounds>
+void HCL::Crypto::Rijndael<KeySize, Rounds>::InvMixColumn(uint8_t state[4][4], uint8_t column_index) {
   const uint8_t coefficients[4][4] = {
       {14, 11, 13, 9},
       {9, 14, 11, 13},
@@ -114,13 +125,15 @@ void HCL::Crypto::AES::InvMixColumn(uint8_t state[4][4], uint8_t column_index) {
   }
 }
 
-void HCL::Crypto::AES::InvMixColumns(uint8_t state[4][4]) {
+template<uint8_t KeySize, uint8_t Rounds>
+void HCL::Crypto::Rijndael<KeySize, Rounds>::InvMixColumns(uint8_t state[4][4]) {
   for (int column_index = 0; column_index < 4; ++column_index) {
     InvMixColumn(state, column_index);
   }
 }
 
-void HCL::Crypto::AES::BlocToState(const uint8_t data[16], uint8_t state[4][4]) {
+template<uint8_t KeySize, uint8_t Rounds>
+void HCL::Crypto::Rijndael<KeySize, Rounds>::BlocToState(const uint8_t data[16], uint8_t state[4][4]) {
   for (int i = 0; i < 4; ++i) {
     for (int j = 0; j < 4; ++j) {
       state[j][i] = data[i * 4 + j];
@@ -128,7 +141,8 @@ void HCL::Crypto::AES::BlocToState(const uint8_t data[16], uint8_t state[4][4]) 
   }
 }
 
-void HCL::Crypto::AES::StateToBloc(const uint8_t state[4][4], uint8_t data[16]) {
+template<uint8_t KeySize, uint8_t Rounds>
+void HCL::Crypto::Rijndael<KeySize, Rounds>::StateToBloc(const uint8_t state[4][4], uint8_t data[16]) {
   for (int i = 0; i < 4; ++i) {
     for (int j = 0; j < 4; ++j) {
       data[i * 4 + j] = state[j][i];
@@ -137,7 +151,7 @@ void HCL::Crypto::AES::StateToBloc(const uint8_t state[4][4], uint8_t data[16]) 
 }
 
 template<uint8_t KeySize, uint8_t Rounds>
-void HCL::Crypto::AES::EncryptState(const uint8_t key[KeySize], uint8_t state[4][4]) {
+void HCL::Crypto::Rijndael<KeySize, Rounds>::EncryptState(const uint8_t key[KeySize], uint8_t state[4][4]) {
   uint8_t round_keys[Rounds + 1][16] = {};
 
   HCL::Crypto::RijndaelKeySchedule::KeyExpansion<KeySize, Rounds + 1>(key, round_keys);
@@ -154,16 +168,7 @@ void HCL::Crypto::AES::EncryptState(const uint8_t key[KeySize], uint8_t state[4]
 }
 
 template<uint8_t KeySize, uint8_t Rounds>
-void HCL::Crypto::AES::EncryptBloc(const uint8_t key[KeySize], uint8_t data[16]) {
-  uint8_t state[4][4];
-
-  BlocToState(data, state);
-  EncryptState<KeySize, Rounds>(key, state);
-  StateToBloc(state, data);
-}
-
-template<uint8_t KeySize, uint8_t Rounds>
-void HCL::Crypto::AES::DecryptState(const uint8_t key[KeySize], uint8_t state[4][4]) {
+void HCL::Crypto::Rijndael<KeySize, Rounds>::DecryptState(const uint8_t key[KeySize], uint8_t state[4][4]) {
   uint8_t round_keys[Rounds + 1][16] = {};
 
   HCL::Crypto::RijndaelKeySchedule::KeyExpansion<KeySize, Rounds + 1>(key, round_keys);
@@ -179,34 +184,47 @@ void HCL::Crypto::AES::DecryptState(const uint8_t key[KeySize], uint8_t state[4]
 }
 
 template<uint8_t KeySize, uint8_t Rounds>
-void HCL::Crypto::AES::DecryptBloc(const uint8_t key[KeySize], uint8_t data[16]) {
+void HCL::Crypto::Rijndael<KeySize, Rounds>::EncryptArrayBloc(const uint8_t key[KeySize], uint8_t data[16]) {
   uint8_t state[4][4];
 
   BlocToState(data, state);
-  DecryptState<KeySize, Rounds>(key, state);
+  EncryptState(key, state);
   StateToBloc(state, data);
 }
 
-void HCL::Crypto::AES::AES128Encrypt(const uint8_t key[16], uint8_t data[16]) {
-  EncryptBloc<16, 10>(key, data);
+template<uint8_t KeySize, uint8_t Rounds>
+void HCL::Crypto::Rijndael<KeySize, Rounds>::DecryptArrayBloc(const uint8_t key[KeySize], uint8_t data[16]) {
+  uint8_t state[4][4];
+
+  BlocToState(data, state);
+  DecryptState(key, state);
+  StateToBloc(state, data);
 }
 
-void HCL::Crypto::AES::AES192Encrypt(const uint8_t key[24], uint8_t data[16]) {
-  EncryptBloc<24, 12>(key, data);
+template<uint8_t KeySize, uint8_t Rounds>
+std::string HCL::Crypto::Rijndael<KeySize, Rounds>::EncryptBloc(const std::string &key, const std::string &bloc) {
+  char data[16];
+
+  std::strcpy(data, bloc.c_str());
+  EncryptArrayBloc((uint8_t *) key.c_str(), (uint8_t *) data);
+  return std::string(data, 16);
 }
 
-void HCL::Crypto::AES::AES256Encrypt(const uint8_t key[32], uint8_t data[16]) {
-  EncryptBloc<32, 14>(key, data);
+template<uint8_t KeySize, uint8_t Rounds>
+std::string HCL::Crypto::Rijndael<KeySize, Rounds>::DecryptBloc(const std::string &key, const std::string &bloc) {
+  char data[16];
+
+  std::strcpy(data, bloc.c_str());
+  DecryptArrayBloc((uint8_t *) key.c_str(), (uint8_t *) data);
+  return std::string(data, 16);
 }
 
-void HCL::Crypto::AES::AES128Decrypt(const uint8_t key[16], uint8_t data[16]) {
-  DecryptBloc<16, 10>(key, data);
+template<uint8_t KeySize, uint8_t Rounds>
+size_t HCL::Crypto::Rijndael<KeySize, Rounds>::GetBlockSize() {
+  return 16;
 }
 
-void HCL::Crypto::AES::AES192Decrypt(const uint8_t key[24], uint8_t data[16]) {
-  DecryptBloc<24, 12>(key, data);
-}
-
-void HCL::Crypto::AES::AES256Decrypt(const uint8_t key[32], uint8_t data[16]) {
-  DecryptBloc<32, 14>(key, data);
+template<uint8_t KeySize, uint8_t Rounds>
+size_t HCL::Crypto::Rijndael<KeySize, Rounds>::GetKeySize() {
+  return KeySize;
 }

@@ -24,8 +24,8 @@ set(LIBRARY_SOURCE_FILES
     src/linkage/user.cpp
     src/linkage/user.h
     src/linkage/linkage.h
-    src/services/Crypto/BlockCiphers/AES.cpp
-    src/services/Crypto/BlockCiphers/AES.h
+    src/services/Crypto/BlockCiphers/Rijndael.cpp
+    src/services/Crypto/BlockCiphers/Rijndael.h
     src/services/Crypto/RijndaelKeySchedule.cpp
     src/services/Crypto/RijndaelKeySchedule.tpp
     src/services/Crypto/RijndaelKeySchedule.h
@@ -33,16 +33,18 @@ set(LIBRARY_SOURCE_FILES
     src/services/Crypto/RijndaelSubstitutionBox.h
     src/services/Crypto/CryptoHelper.cpp
     src/services/Crypto/CryptoHelper.h
-    src/services/Crypto/Ciphers/ACipher.cpp
     src/services/Crypto/Ciphers/ACipher.h
     src/services/Crypto/EncryptedBlob.cpp
     src/services/Crypto/EncryptedBlob.h
     src/services/Crypto/Factory.cpp
     src/services/Crypto/Factory.h
-    src/services/Crypto/AutoRegisterer.cpp
     src/services/Crypto/AutoRegisterer.h
     src/services/Crypto/Ciphers/BlockCipherScheme.cpp
-    src/services/Crypto/Ciphers/BlockCipherScheme.h)
+    src/services/Crypto/Ciphers/BlockCipherScheme.h
+    src/services/Crypto/BlockCiphers/ABlockCipher.h
+    src/services/Crypto/BlockCiphers/AES128.h
+    src/services/Crypto/BlockCiphers/AES192.h
+    src/services/Crypto/BlockCiphers/AES256.h)
 
 set(TEST_SOURCE_FILES
     tests/main.cpp

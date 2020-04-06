@@ -10,11 +10,11 @@
 
 namespace HCL::Crypto {
 
-class BlockCipherScheme : AutoRegisterer<ACipher, BlockCipherScheme> {
+class BlockCipherScheme : public AutoRegisterer<ACipher, BlockCipherScheme> {
  public:
   BlockCipherScheme(const std::string &header, size_t &header_length);
-  std::string Encrypt(const std::string &password, const std::string &content) override;
-  std::string Decrypt(const std::string &password, const std::string &content) override;
+  std::string Encrypt(const std::string &key, const std::string &content) override;
+  std::string Decrypt(const std::string &key, const std::string &content) override;
   static const uint16_t Id = 1;
  private:
 };

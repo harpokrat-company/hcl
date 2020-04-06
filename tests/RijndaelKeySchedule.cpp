@@ -288,7 +288,7 @@ static int AES128KeyExpansionPerformanceTest() {
   std::uniform_int_distribution<std::mt19937::result_type> dist_byte(0, 255);
   uint8_t result[11][16];
 
-  std::cout << "Generating " << tests_number << " random keys to run AES 128 Key Expansion performance test... "
+  std::cout << "Generating " << tests_number << " random keys to run Rijndael 128 Key Expansion performance test... "
             << std::flush;
   for (int i = 0; i < tests_number; ++i) {
     keys.emplace_back(std::array<uint8_t, 16>());
@@ -303,7 +303,7 @@ static int AES128KeyExpansionPerformanceTest() {
   }
   auto t2 = std::chrono::high_resolution_clock::now();
   auto duration = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
-  std::cout << "Done! Computed " << tests_number << " AES 128 Key Expansions in " << duration << "us." << std::endl;
+  std::cout << "Done! Computed " << tests_number << " Rijndael 128 Key Expansions in " << duration << "us." << std::endl;
   return 0;
 }
 
@@ -315,7 +315,7 @@ static int AES192KeyExpansionPerformanceTest() {
   std::uniform_int_distribution<std::mt19937::result_type> dist_byte(0, 255);
   uint8_t result[13][16];
 
-  std::cout << "Generating " << tests_number << " random keys to run AES 192 Key Expansion performance test... "
+  std::cout << "Generating " << tests_number << " random keys to run Rijndael 192 Key Expansion performance test... "
             << std::flush;
   for (int i = 0; i < tests_number; ++i) {
     keys.emplace_back(std::array<uint8_t, 24>());
@@ -330,7 +330,7 @@ static int AES192KeyExpansionPerformanceTest() {
   }
   auto t2 = std::chrono::high_resolution_clock::now();
   auto duration = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
-  std::cout << "Done! Computed " << tests_number << " AES 192 Key Expansions in " << duration << "us." << std::endl;
+  std::cout << "Done! Computed " << tests_number << " Rijndael 192 Key Expansions in " << duration << "us." << std::endl;
   return 0;
 }
 
@@ -342,7 +342,7 @@ static int AES256KeyExpansionPerformanceTest() {
   std::uniform_int_distribution<std::mt19937::result_type> dist_byte(0, 255);
   uint8_t result[15][16];
 
-  std::cout << "Generating " << tests_number << " random keys to run AES 256 Key Expansion performance test... "
+  std::cout << "Generating " << tests_number << " random keys to run Rijndael 256 Key Expansion performance test... "
             << std::flush;
   for (int i = 0; i < tests_number; ++i) {
     keys.emplace_back(std::array<uint8_t, 32>());
@@ -357,7 +357,7 @@ static int AES256KeyExpansionPerformanceTest() {
   }
   auto t2 = std::chrono::high_resolution_clock::now();
   auto duration = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
-  std::cout << "Done! Computed " << tests_number << " AES 256 Key Expansions in " << duration << "us." << std::endl;
+  std::cout << "Done! Computed " << tests_number << " Rijndael 256 Key Expansions in " << duration << "us." << std::endl;
   return 0;
 }
 

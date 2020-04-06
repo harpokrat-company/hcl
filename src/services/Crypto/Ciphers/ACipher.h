@@ -12,8 +12,8 @@ namespace HCL::Crypto {
 
 class ACipher {
  public:
-  virtual std::string Encrypt(const std::string &password, const std::string &content) = 0;
-  virtual std::string Decrypt(const std::string &password, const std::string &content) = 0;
+  virtual std::string Encrypt(const std::string &key, const std::string &content) = 0;
+  virtual std::string Decrypt(const std::string &key, const std::string &content) = 0;
 };
 
 }

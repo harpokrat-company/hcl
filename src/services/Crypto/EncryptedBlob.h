@@ -15,11 +15,11 @@ namespace HCL::Crypto {
 class EncryptedBlob {
  public:
   EncryptedBlob() = default;
-  EncryptedBlob(const std::string &password, const std::string &blob);
+  EncryptedBlob(const std::string &key, const std::string &blob);
   void SetCipher(std::unique_ptr<ACipher>);
   void SetContent(const std::string &);
   std::string GetContent();
-  std::string GetEncryptedContent(const std::string &password);
+  std::string GetEncryptedContent(const std::string &key);
  private:
   std::unique_ptr<ACipher> cipher_;
   std::string content_;

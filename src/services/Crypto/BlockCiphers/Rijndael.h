@@ -9,22 +9,21 @@
 
 #include "../RijndaelSubstitutionBox.h"
 #include "../CryptoHelper.h"
+#include "ABlockCipher.h"
 
 namespace HCL::Crypto {
 
-class AES {
+template<uint8_t KeySize, uint8_t Rounds>
+class Rijndael : virtual public ABlockCipher {
  public:
-  template<uint8_t KeySize, uint8_t Rounds>
-  static void EncryptBloc(const uint8_t[KeySize], uint8_t [16]);
-  template<uint8_t KeySize, uint8_t Rounds>
-  static void DecryptBloc(const uint8_t[KeySize], uint8_t [16]);
-  static void AES128Encrypt(const uint8_t[16], uint8_t [16]);
-  static void AES192Encrypt(const uint8_t[24], uint8_t [16]);
-  static void AES256Encrypt(const uint8_t[32], uint8_t [16]);
-  static void AES128Decrypt(const uint8_t[16], uint8_t [16]);
-  static void AES192Decrypt(const uint8_t[24], uint8_t [16]);
-  static void AES256Decrypt(const uint8_t[32], uint8_t [16]);
+  Rijndael() = default;
+  std::string EncryptBloc(const std::string &key, const std::string &bloc) override;
+  std::string DecryptBloc(const std::string &key, const std::string &bloc) override;
+  size_t GetBlockSize() override __attribute__((const));
+  size_t GetKeySize() override __attribute__((const));
  private:
+  static void EncryptArrayBloc(const uint8_t[KeySize], uint8_t [16]);
+  static void DecryptArrayBloc(const uint8_t[KeySize], uint8_t [16]);
   static void AddRoundKey(uint8_t [4][4], const uint8_t [16]);
   static void SubBytes(uint8_t [4][4]);
   static void ShiftRows(uint8_t [4][4]);
@@ -38,9 +37,7 @@ class AES {
   static void InvMixColumns(uint8_t [4][4]);
   static void BlocToState(const uint8_t [16], uint8_t [4][4]);
   static void StateToBloc(const uint8_t [4][4], uint8_t [16]);
-  template<uint8_t KeySize, uint8_t Rounds>
   static void EncryptState(const uint8_t[KeySize], uint8_t [4][4]);
-  template<uint8_t KeySize, uint8_t Rounds>
   static void DecryptState(const uint8_t[KeySize], uint8_t [4][4]);
 };
 }

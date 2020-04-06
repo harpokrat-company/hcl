@@ -5,14 +5,14 @@
 #include "EncryptedBlob.h"
 #include "Factory.h"
 
-HCL::Crypto::EncryptedBlob::EncryptedBlob(const std::string &password, const std::string &blob) {
+HCL::Crypto::EncryptedBlob::EncryptedBlob(const std::string &key, const std::string &blob) {
   size_t header_length = 0;
 
   this->SetCipher(Factory<ACipher>::GetInstanceFromHeader(blob, header_length));
   if (!this->cipher_) {
     throw std::runtime_error("EncryptedBlob: Error while parsing blob header");
   }
-  this->SetContent(this->cipher_->Decrypt(password, blob.substr(header_length)));
+  this->SetContent(this->cipher_->Decrypt(key, blob.substr(header_length)));
 }
 
 void HCL::Crypto::EncryptedBlob::SetCipher(std::unique_ptr<ACipher> cipher) {
@@ -29,9 +29,9 @@ std::string HCL::Crypto::EncryptedBlob::GetContent() {
   return this->content_;
 }
 
-std::string HCL::Crypto::EncryptedBlob::GetEncryptedContent(const std::string &password) {
+std::string HCL::Crypto::EncryptedBlob::GetEncryptedContent(const std::string &key) {
   if (!this->cipher_)
     throw std::runtime_error("EncryptedBlob: Cannot encrypt content: No cipher is set");
-  return this->cipher_->Encrypt(password, this->content_);
+  return this->cipher_->Encrypt(key, this->content_);
 }
 
