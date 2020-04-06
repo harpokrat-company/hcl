@@ -24,8 +24,8 @@ set(LIBRARY_SOURCE_FILES
     src/linkage/user.cpp
     src/linkage/user.h
     src/linkage/linkage.h
-    src/services/Crypto/AES.cpp
-    src/services/Crypto/AES.h
+    src/services/Crypto/BlockCiphers/AES.cpp
+    src/services/Crypto/BlockCiphers/AES.h
     src/services/Crypto/RijndaelKeySchedule.cpp
     src/services/Crypto/RijndaelKeySchedule.tpp
     src/services/Crypto/RijndaelKeySchedule.h
@@ -37,7 +37,7 @@ set(LIBRARY_SOURCE_FILES
 set(TEST_SOURCE_FILES
     tests/main.cpp
     tests/AES.cpp
-    tests/RijndaelKeySchedule.cpp)
+    tests/RijndaelKeySchedule.cpp src/services/Crypto/Ciphers/ACipher.cpp src/services/Crypto/Ciphers/ACipher.h)
 
 add_library(hcl SHARED ${LIBRARY_SOURCE_FILES})
 
