@@ -6,6 +6,7 @@
 #define HCL_SRC_SERVICES_CRYPTO_CIPHERS_ACIPHER_H_
 
 #include <string>
+#include <memory>
 
 namespace HCL::Crypto {
 
@@ -14,6 +15,7 @@ class ACipher {
   virtual std::string Encrypt(const std::string &password, const std::string &content) = 0;
   virtual std::string Decrypt(const std::string &password, const std::string &content) = 0;
 };
+
 }
 
 #endif //HCL_SRC_SERVICES_CRYPTO_CIPHERS_ACIPHER_H_

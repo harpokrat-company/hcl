@@ -32,12 +32,22 @@ set(LIBRARY_SOURCE_FILES
     src/services/Crypto/RijndaelSubstitutionBox.cpp
     src/services/Crypto/RijndaelSubstitutionBox.h
     src/services/Crypto/CryptoHelper.cpp
-    src/services/Crypto/CryptoHelper.h)
+    src/services/Crypto/CryptoHelper.h
+    src/services/Crypto/Ciphers/ACipher.cpp
+    src/services/Crypto/Ciphers/ACipher.h
+    src/services/Crypto/EncryptedBlob.cpp
+    src/services/Crypto/EncryptedBlob.h
+    src/services/Crypto/Factory.cpp
+    src/services/Crypto/Factory.h
+    src/services/Crypto/AutoRegisterer.cpp
+    src/services/Crypto/AutoRegisterer.h
+    src/services/Crypto/Ciphers/BlockCipherScheme.cpp
+    src/services/Crypto/Ciphers/BlockCipherScheme.h)
 
 set(TEST_SOURCE_FILES
     tests/main.cpp
     tests/AES.cpp
-    tests/RijndaelKeySchedule.cpp src/services/Crypto/Ciphers/ACipher.cpp src/services/Crypto/Ciphers/ACipher.h)
+    tests/RijndaelKeySchedule.cpp)
 
 add_library(hcl SHARED ${LIBRARY_SOURCE_FILES})
 
