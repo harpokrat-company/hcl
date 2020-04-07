@@ -40,8 +40,8 @@ static int SHA256Test() {
       std::cout << "Success!" << std::endl;
     } else {
       std::cout << "Error :(" << std::endl;
-      std::cout << "Expected: " << expected_hashes[i] << std::endl;
-      std::cout << "But got: " << hex_hash.str() << std::endl;
+      std::cout << "Expected:\t" << expected_hashes[i] << std::endl;
+      std::cout << "But got:\t" << hex_hash.str() << std::endl;
     }
   }
   return 0;

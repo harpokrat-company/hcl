@@ -13,7 +13,8 @@ namespace HCL::Crypto {
 
 class AES192 : public AutoRegisterer<ABlockCipher, AES192>, public Rijndael<24, 12> {
  public:
-  AES192(const std::string &header, size_t &header_length) : Rijndael(header, header_length) {
+  AES192(const std::string &header, size_t &header_length) : Rijndael(header, header_length),
+                                                             ABlockCipher(header, header_length) {
     is_registered_;
   };
   static const uint16_t Id = 2;
