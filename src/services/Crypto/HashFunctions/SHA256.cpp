@@ -65,11 +65,11 @@ std::string HCL::Crypto::SHA256::HashData(const std::string &data) {
     }
   }
 
-  for (unsigned int hash_value : hash_values) {
-    hash += (char) (hash_value >> 24) & 0xFF;
-    hash += (char) (hash_value >> 16) & 0xFF;
-    hash += (char) (hash_value >> 8) & 0xFF;
-    hash += (char) hash_value & 0xFF;
+  for (uint8_t i = 0; i < 8; ++i) {
+    hash += (uint8_t) ((hash_values[i] >> 24) & 0xFF);
+    hash += (uint8_t) ((hash_values[i] >> 16) & 0xFF);
+    hash += (uint8_t) ((hash_values[i] >> 8) & 0xFF);
+    hash += (uint8_t) (hash_values[i] & 0xFF);
   }
 
   return hash;
@@ -80,20 +80,20 @@ size_t HCL::Crypto::SHA256::GetBlocSize() {
 }
 
 std::string HCL::Crypto::SHA256::PadData(const std::string &data) {
-  std::string padded_data = data + (char) 0x80;
+  std::string padded_data = data + (char) (0x01 << 7);
   uint64_t data_length = data.length();
 
   while ((padded_data.length() + 8) % 64 != 0) {
     padded_data += (char) 0x00;
   }
-  padded_data += (char) (data_length >> 56) & 0xFF;
-  padded_data += (char) (data_length >> 48) & 0xFF;
-  padded_data += (char) (data_length >> 40) & 0xFF;
-  padded_data += (char) (data_length >> 32) & 0xFF;
-  padded_data += (char) (data_length >> 24) & 0xFF;
-  padded_data += (char) (data_length >> 16) & 0xFF;
-  padded_data += (char) (data_length >> 8) & 0xFF;
-  padded_data += (char) data_length & 0xFF;
+  padded_data += (uint8_t) ((data_length >> 56) & 0xFF);
+  padded_data += (uint8_t) ((data_length >> 48) & 0xFF);
+  padded_data += (uint8_t) ((data_length >> 40) & 0xFF);
+  padded_data += (uint8_t) ((data_length >> 32) & 0xFF);
+  padded_data += (uint8_t) ((data_length >> 24) & 0xFF);
+  padded_data += (uint8_t) ((data_length >> 16) & 0xFF);
+  padded_data += (uint8_t) ((data_length >> 8) & 0xFF);
+  padded_data += (uint8_t) (data_length & 0xFF);
 
   return padded_data;
 }

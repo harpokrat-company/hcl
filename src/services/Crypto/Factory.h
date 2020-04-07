@@ -30,7 +30,8 @@ template<typename AbstractClass>
 bool Factory<AbstractClass>::Register(uint16_t identifier, Instantiator<AbstractClass> instantiator) {
   std::pair<typename std::map<uint16_t, Instantiator<AbstractClass>>::iterator, bool> registered_pair =
       Factory<AbstractClass>::registered_classes_.insert(std::make_pair(identifier, instantiator));
-  std::cout << "Registered new " << typeid(AbstractClass).name() << " with id " << identifier << std::endl;
+  // TODO Remove
+  //  std::cout << "Registered new " << typeid(AbstractClass).name() << " with id " << identifier << std::endl;
   return registered_pair.second;
 }
 
