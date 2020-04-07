@@ -3,10 +3,13 @@
 //
 
 #include "tests.h"
+#include "../src/services/Crypto/AutoRegisterer.h"
+#include "../src/services/Crypto/HashFunctions/AHashFunction.h"
+#include "../src/services/Crypto/HashFunctions/SHA256.h"
 
 static int (*test_functions[])() = {
-    RijndaelKeyScheduleTests,
-    AESTests,
+//    RijndaelKeyScheduleTests,
+    SHATests,
     nullptr
 };
 

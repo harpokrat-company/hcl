@@ -15,6 +15,7 @@ class HMAC : public AutoRegisterer<AMessageAuthenticationCode, HMAC> {
  public:
   HMAC(const std::string &header, size_t &header_length);
   std::string SignMessage(const std::string &key, const std::string &message);
+  static const uint16_t Id = 1;
  private:
   std::unique_ptr<AHashFunction> hash_function_;
 };

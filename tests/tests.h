@@ -7,5 +7,6 @@
 
 int RijndaelKeyScheduleTests();
 int AESTests();
+int SHATests();
 
 #endif //HCL_TESTS_TESTS_H_

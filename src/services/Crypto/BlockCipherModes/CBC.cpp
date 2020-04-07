@@ -9,6 +9,7 @@ HCL::Crypto::CBC::CBC(const std::string &header, size_t &header_length) :
     ABlockCipherMode(header, header_length),
     APaddedCipher(header, header_length),
     AInitializationVectorBlockCipherMode(header, header_length) {
+  is_registered_;
 }
 
 std::string HCL::Crypto::CBC::Encrypt(const std::string &key, const std::string &content) {

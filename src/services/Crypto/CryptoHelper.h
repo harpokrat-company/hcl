@@ -11,6 +11,7 @@
 namespace HCL::Crypto {
 
 class CryptoHelper {
+  // TODO Optimize
  public:
   template<uint8_t BytesNumber>
   static void CopyBytes(const uint8_t [BytesNumber], uint8_t [BytesNumber]);
@@ -26,6 +27,7 @@ class CryptoHelper {
   static void XorWords(const uint8_t a[4], const uint8_t b[4], uint8_t destination[4]);
   static std::string XorStrings(const std::string &, const std::string &);
 };
+
 }
 
 #endif //HCL_SRC_SERVICES_CRYPTO_CRYPTOHELPER_H_

@@ -54,7 +54,6 @@ set(LIBRARY_SOURCE_FILES
     src/services/Crypto/Padding/APaddedCipher.h
     src/services/Crypto/Padding/APadding.h
     src/services/Crypto/KeyStretching/AKeyStretching.h
-    src/services/Crypto/HashFunctions/AHashFunction.cpp
     src/services/Crypto/HashFunctions/AHashFunction.h
     src/services/Crypto/RandomGenerators/ARandomGenerator.cpp
     src/services/Crypto/RandomGenerators/ARandomGenerator.h
@@ -69,11 +68,14 @@ set(LIBRARY_SOURCE_FILES
     src/services/Crypto/MessageAuthenticationCodes/AMessageAuthenticationCode.cpp
     src/services/Crypto/MessageAuthenticationCodes/AMessageAuthenticationCode.h
     src/services/Crypto/MessageAuthenticationCodes/HMAC.cpp
-    src/services/Crypto/MessageAuthenticationCodes/HMAC.h)
+    src/services/Crypto/MessageAuthenticationCodes/HMAC.h
+    src/services/Crypto/HashFunctions/SHA256.cpp
+    src/services/Crypto/HashFunctions/SHA256.h)
 
 set(TEST_SOURCE_FILES
     tests/main.cpp
     tests/AES.cpp
+    tests/SHA.cpp
     tests/RijndaelKeySchedule.cpp)
 
 add_library(hcl SHARED ${LIBRARY_SOURCE_FILES})

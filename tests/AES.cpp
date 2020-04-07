@@ -64,10 +64,6 @@ static void ShowDataError(const uint8_t key[KeySize],
 //              << std::flush;
 //    HCL::Crypto::Rijndael::AES128Encrypt(test_keys[i], test_data[i]);
 //    if (CompareData(test_data[i], expected_ciphered_data[i]) != 0) {
-//      std::cerr << "Error:" << std::endl;
-//      ShowDataError<16>(test_keys[i], expected_ciphered_data[i], test_data[i]);
-//      return 1;
-//    } else {
 //      std::cout << "Success!" << std::endl;
 //    }
 //  }
