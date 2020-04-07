@@ -18,7 +18,6 @@ const uint32_t HCL::Crypto::SHA256::round_constants_[64] = {
     0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
     0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2
 };
-
 std::string HCL::Crypto::SHA256::HashData(const std::string &data) {
   uint32_t hash_values[8] = {
       0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a, 0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19
@@ -33,10 +32,10 @@ std::string HCL::Crypto::SHA256::HashData(const std::string &data) {
   for (size_t i = 0; i < padded_data.length(); i += 64) {
     data_chunk = padded_data.substr(i, 64);
     for (uint8_t j = 0; j < 16; ++j) {
-      words[j] = ((uint32_t) data_chunk[j * 4] << 24)
-          | ((uint32_t) data_chunk[j * 4 + 1] << 16)
-          | ((uint32_t) data_chunk[j * 4 + 2] << 8)
-          | ((uint32_t) data_chunk[j * 4 + 3]);
+      words[j] = ((uint32_t) (uint8_t) data_chunk[j * 4] << 24)
+          | ((uint32_t) (uint8_t) data_chunk[j * 4 + 1] << 16)
+          | ((uint32_t) (uint8_t) data_chunk[j * 4 + 2] << 8)
+          | ((uint32_t) (uint8_t) data_chunk[j * 4 + 3]);
     }
     for (uint8_t j = 16; j < 64; ++j) {
       words[j] = words[j - 16] + SHA256_s0(words[j - 15]) + words[j - 7] + SHA256_s1(words[j - 2]);
@@ -81,7 +80,7 @@ size_t HCL::Crypto::SHA256::GetBlocSize() {
 
 std::string HCL::Crypto::SHA256::PadData(const std::string &data) {
   std::string padded_data = data + (char) (0x01 << 7);
-  uint64_t data_length = data.length();
+  uint64_t data_length = data.length() * 8;
 
   while ((padded_data.length() + 8) % 64 != 0) {
     padded_data += (char) 0x00;

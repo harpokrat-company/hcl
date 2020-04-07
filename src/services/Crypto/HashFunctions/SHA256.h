@@ -12,7 +12,7 @@ namespace HCL::Crypto {
 
 #define RIGHT_SHIFT(x, n)   ((x) >> (n))
 #define RIGHT_ROTATE(x, n)  (((x) >> (n)) | ((x) << ((sizeof(x) << 3) - (n))))
-#define CH(x)               (((x)[4] & (x)[5]) ^ ((~(x)[4]) & (x)[6]))
+#define CH(x)               (((x)[4] & (x)[5]) ^ ((~((x)[4])) & (x)[6]))
 #define MAJ(x)              (((x)[0] & (x)[1]) ^ ((x)[0] & (x)[2]) ^ ((x)[1] & (x)[2]))
 #define SHA256_s0(x)        (RIGHT_ROTATE(x,  7) ^ RIGHT_ROTATE(x, 18) ^ RIGHT_SHIFT(x,  3))
 #define SHA256_s1(x)        (RIGHT_ROTATE(x, 17) ^ RIGHT_ROTATE(x, 19) ^ RIGHT_SHIFT(x, 10))

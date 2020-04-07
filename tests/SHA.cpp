@@ -13,13 +13,15 @@
 
 static int SHA256Test() {
   const char sha256_identifier[2] = {0x00, 0x01};
-  const std::array<std::string, 3> test_data = {
+  const std::array<std::string, 4> test_data = {
       "",
+      "a",
       "Aled oskour",
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In venenatis lectus quis cursus suscipit. Curabitur vitae varius turpis. Nunc vitae quam et justo placerat tempus. Nunc vestibulum ante eu risus elementum mattis. Suspendisse in varius elit, in consectetur ante. Ut vestibulum diam nec urna iaculis, dignissim elementum magna consectetur. Integer dapibus sem ullamcorper, ullamcorper nisl non, tempus risus. Sed nec congue justo. Nullam enim lorem, posuere id ipsum eget, scelerisque congue enim. Phasellus vel nulla libero. Aliquam libero quam, tincidunt eu feugiat quis, dictum et ipsum. Nulla pellentesque sagittis lectus, eu euismod massa vulputate id."
   };
-  const std::array<std::string, 3> expected_hashes = {
+  const std::array<std::string, 4> expected_hashes = {
       "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
       "f4732ffd0084c702f7ffd3136ccc1c2cc4d45dbffb32c41138e3034fb840c299",
       "26fc8520f6e70b602e4c33bc70f7147bcf3af208e2d570563e83fef6b52ed0cd"
   };
@@ -34,7 +36,7 @@ static int SHA256Test() {
     std::string hash = sha512->HashData(test_data[i]);
     std::stringstream hex_hash;
     for (auto c : hash) {
-      hex_hash << std::hex << std::setfill('0') << std::setw(2) << (int)(uint8_t) c;
+      hex_hash << std::hex << std::setfill('0') << std::setw(2) << (int) (uint8_t) c;
     }
     if (hex_hash.str() == expected_hashes[i]) {
       std::cout << "Success!" << std::endl;
