@@ -61,7 +61,9 @@ set(LIBRARY_SOURCE_FILES
     src/services/Crypto/BlockCipherModes/AInitializationVectorBlockCipherMode.cpp
     src/services/Crypto/BlockCipherModes/AInitializationVectorBlockCipherMode.h
     src/services/Crypto/Padding/PKCS7.cpp
-    src/services/Crypto/Padding/PKCS7.h)
+    src/services/Crypto/Padding/PKCS7.h
+    src/services/Crypto/RandomGenerators/MT19937Generator.cpp
+    src/services/Crypto/RandomGenerators/MT19937Generator.h)
 
 set(TEST_SOURCE_FILES
     tests/main.cpp
