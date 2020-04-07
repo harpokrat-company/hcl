@@ -18,6 +18,11 @@ class AutoRegisterer : virtual public AbstractClass {
   uint16_t GetId() {
     return RegisteredClass::Id;
   }
+  std::string GetIdBytes() {
+    const char id[2] = {RegisteredClass::Id & 0xFF, RegisteredClass::Id >> 8};
+
+    return std::string(id, 2);
+  }
  protected:
   static const bool is_registered_;
 };

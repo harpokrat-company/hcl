@@ -96,5 +96,8 @@ std::string HCL::Crypto::SHA256::PadData(const std::string &data) {
 
   return padded_data;
 }
+std::string HCL::Crypto::SHA256::GetHeader() {
+  return GetIdBytes();
+}
 
 #pragma clang diagnostic pop

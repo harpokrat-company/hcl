@@ -3,3 +3,7 @@
 //
 
 #include "AES192.h"
+
+std::string HCL::Crypto::AES192::GetHeader() {
+  return GetIdBytes() + key_stretching_->GetHeader();
+}

@@ -16,6 +16,7 @@ class AES256 : public AutoRegisterer<ABlockCipher, AES256>, public Rijndael<32, 
   AES256(const std::string &header, size_t &header_length) : Rijndael<32, 14>(header, header_length) {
     is_registered_;
   };
+  std::string GetHeader() override;
   static const uint16_t Id = 3;
 };
 }

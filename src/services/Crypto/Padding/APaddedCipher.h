@@ -14,6 +14,7 @@ namespace HCL::Crypto {
 class APaddedCipher {
  public:
   APaddedCipher(const std::string &header, size_t &header_length);
+  virtual std::string GetHeader();
  protected:
   std::unique_ptr<APadding> padding_;
 };

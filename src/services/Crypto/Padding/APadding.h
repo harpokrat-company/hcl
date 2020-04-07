@@ -11,6 +11,7 @@ class APadding {
  public:
   virtual std::string PadDataToSize(const std::string &data, size_t size) = 0;
   virtual std::string RemovePadding(const std::string &data) = 0;
+  virtual std::string GetHeader() = 0;
 };
 }
 

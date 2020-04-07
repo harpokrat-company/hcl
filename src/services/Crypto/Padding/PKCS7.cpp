@@ -21,3 +21,6 @@ std::string HCL::Crypto::PKCS7::RemovePadding(const std::string &data) {
   }
   return data.substr(0, data.length() - offset);
 }
+std::string HCL::Crypto::PKCS7::GetHeader() {
+  return GetIdBytes();
+}

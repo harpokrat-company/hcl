@@ -14,6 +14,7 @@ class ARandomGenerator {
  public:
   virtual uint8_t GenerateRandomByte() = 0;
   virtual std::string GenerateRandomByteSequence(size_t sequence_length) = 0;
+  virtual std::string GetHeader() = 0;
 };
 }
 

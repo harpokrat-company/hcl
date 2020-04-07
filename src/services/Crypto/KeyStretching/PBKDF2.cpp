@@ -62,3 +62,6 @@ void HCL::Crypto::PBKDF2::ParseIterations(const std::string &header, size_t &hea
                              | (uint8_t) header[header_length + 3]);
   header_length += 4;
 }
+std::string HCL::Crypto::PBKDF2::GetHeader() {
+  return GetIdBytes() + message_authentication_code_->GetHeader();
+}

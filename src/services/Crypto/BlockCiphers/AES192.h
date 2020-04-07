@@ -16,6 +16,7 @@ class AES192 : public AutoRegisterer<ABlockCipher, AES192>, public Rijndael<24, 
   AES192(const std::string &header, size_t &header_length) : Rijndael<24, 12>(header, header_length) {
     is_registered_;
   };
+  std::string GetHeader() override;
   static const uint16_t Id = 2;
 };
 }

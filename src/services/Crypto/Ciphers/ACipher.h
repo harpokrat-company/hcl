@@ -14,6 +14,7 @@ class ACipher {
  public:
   virtual std::string Encrypt(const std::string &key, const std::string &content) = 0;
   virtual std::string Decrypt(const std::string &key, const std::string &content) = 0;
+  virtual std::string GetHeader() = 0;
 };
 
 }

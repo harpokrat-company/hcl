@@ -26,3 +26,6 @@ std::string HCL::Crypto::HMAC::SignMessage(const std::string &key, const std::st
   inner_key = CryptoHelper::XorStrings(prepared_key, std::string(bloc_size, 0x36));
   return hash_function_->HashData(outer_key + hash_function_->HashData(inner_key + message));
 }
+std::string HCL::Crypto::HMAC::GetHeader() {
+  return GetIdBytes() + hash_function_->GetHeader();
+}

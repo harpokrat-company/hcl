@@ -17,3 +17,7 @@ std::string HCL::Crypto::AInitializationVectorBlockCipherMode::GetInitialization
 ) {
   return random_generator_->GenerateRandomByteSequence(initialization_vector_length);
 }
+
+std::string HCL::Crypto::AInitializationVectorBlockCipherMode::GetHeader() {
+  return random_generator_->GetHeader();
+}

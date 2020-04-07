@@ -16,3 +16,6 @@ std::string HCL::Crypto::BlockCipherScheme::Encrypt(const std::string &password,
 std::string HCL::Crypto::BlockCipherScheme::Decrypt(const std::string &password, const std::string &content) {
   return block_cipher_mode_->Decrypt(password, content);
 }
+std::string HCL::Crypto::BlockCipherScheme::GetHeader() {
+  return GetIdBytes() + block_cipher_mode_->GetHeader();
+}

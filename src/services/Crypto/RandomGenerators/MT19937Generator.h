@@ -16,6 +16,8 @@ class MT19937Generator : AutoRegisterer<ARandomGenerator, MT19937Generator> {
   MT19937Generator(const std::string &header, size_t &header_length);
   uint8_t GenerateRandomByte() override;
   std::string GenerateRandomByteSequence(size_t sequence_length) override;
+  std::string GetHeader() override;
+  static const uint16_t Id = 1;
  private:
   std::random_device random_device_;
   std::mt19937 generator_;
