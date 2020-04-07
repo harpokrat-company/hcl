@@ -67,7 +67,9 @@ set(LIBRARY_SOURCE_FILES
     src/services/Crypto/KeyStretching/PBKDF2.cpp
     src/services/Crypto/KeyStretching/PBKDF2.h
     src/services/Crypto/MessageAuthenticationCodes/AMessageAuthenticationCode.cpp
-    src/services/Crypto/MessageAuthenticationCodes/AMessageAuthenticationCode.h)
+    src/services/Crypto/MessageAuthenticationCodes/AMessageAuthenticationCode.h
+    src/services/Crypto/MessageAuthenticationCodes/HMAC.cpp
+    src/services/Crypto/MessageAuthenticationCodes/HMAC.h)
 
 set(TEST_SOURCE_FILES
     tests/main.cpp
