@@ -59,3 +59,19 @@ void HCL::Crypto::CryptoHelper::InvRotWord(const uint8_t word[4], uint8_t destin
 void HCL::Crypto::CryptoHelper::XorWords(const uint8_t a[4], const uint8_t b[4], uint8_t destination[4]) {
   XorBytes<4>(a, b, destination);
 }
+
+std::string HCL::Crypto::CryptoHelper::XorStrings(const std::string &a, const std::string &b) {
+  size_t i;
+  std::string destination;
+
+  for (i = 0; i < a.length(); ++i) {
+    if (i < b.length()) {
+      destination += a[i] ^ b[i];
+    }
+  }
+  for (; i < b.length(); ++i) {
+    destination += b[i];
+  }
+
+  return destination;
+}

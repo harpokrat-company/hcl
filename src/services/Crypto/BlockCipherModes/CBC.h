@@ -17,6 +17,8 @@ class CBC : public AutoRegisterer<ABlockCipherMode, CBC>,
             public AInitializationVectorBlockCipherMode {
  public:
   CBC(const std::string &header, size_t &header_length);
+  std::string Encrypt(const std::string &key, const std::string &content) override;
+  std::string Decrypt(const std::string &key, const std::string &content) override;
   static const uint16_t Id = 1;
 };
 }

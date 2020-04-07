@@ -6,6 +6,8 @@
 #define HCL_SRC_SERVICES_CRYPTO_CRYPTOHELPER_H_
 
 #include <cstdint>
+#include <string>
+
 namespace HCL::Crypto {
 
 class CryptoHelper {
@@ -22,6 +24,7 @@ class CryptoHelper {
   static void RotWord(const uint8_t word[4], uint8_t destination[4]);
   static void InvRotWord(const uint8_t word[4], uint8_t destination[4]);
   static void XorWords(const uint8_t a[4], const uint8_t b[4], uint8_t destination[4]);
+  static std::string XorStrings(const std::string &, const std::string &);
 };
 }
 
