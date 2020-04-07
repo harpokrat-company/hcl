@@ -7,6 +7,7 @@
 
 #include <cstdint>
 #include <cstring>
+#include <iomanip>
 
 #include "../RijndaelSubstitutionBox.h"
 #include "../CryptoHelper.h"
@@ -252,7 +253,9 @@ template<uint8_t KeySize, uint8_t Rounds>
 std::string Rijndael<KeySize, Rounds>::EncryptBloc(const std::string &key, const std::string &bloc) {
   char data[16];
 
-  std::strcpy(data, bloc.c_str());
+  for (int i = 0; i < 16; ++i) {
+    data[i] = bloc[i];
+  }
   EncryptArrayBloc((uint8_t *) key.c_str(), (uint8_t *) data);
   return std::string(data, 16);
 }
@@ -261,7 +264,9 @@ template<uint8_t KeySize, uint8_t Rounds>
 std::string Rijndael<KeySize, Rounds>::DecryptBloc(const std::string &key, const std::string &bloc) {
   char data[16];
 
-  std::strcpy(data, bloc.c_str());
+  for (int i = 0; i < 16; ++i) {
+    data[i] = bloc[i];
+  }
   DecryptArrayBloc((uint8_t *) key.c_str(), (uint8_t *) data);
   return std::string(data, 16);
 }
