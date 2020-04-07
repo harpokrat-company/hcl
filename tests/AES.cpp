@@ -11,6 +11,7 @@
 #include <chrono>
 
 #include "../src/services/Crypto/BlockCiphers/Rijndael.h"
+#include "../src/services/Crypto/Factory.h"
 
 static int CompareData(const uint8_t a[16], const uint8_t b[16]) {
   for (int i = 0; i < 16; ++i) {
@@ -41,6 +42,50 @@ static void ShowDataError(const uint8_t key[KeySize],
   }
   std::cerr << std::endl;
 }
+
+static int AES128EncryptTest() {
+  const char aes128_identifier[2] = {0x00, 0x01};
+  const size_t tests_number = 3;
+  const uint8_t test_keys[][16] = {
+      {0xf6, 0x95, 0xb9, 0x7f, 0x88, 0xcd, 0x9a, 0xb0, 0x8c, 0x8c, 0x03, 0xb3, 0x84, 0xd6, 0x69, 0x84},
+      {0x90, 0x8d, 0x44, 0x12, 0xef, 0xc1, 0xe7, 0x29, 0xf1, 0x04, 0xfc, 0x4f, 0x66, 0xae, 0xe6, 0x79},
+      {0xd8, 0xee, 0xde, 0xe4, 0x8d, 0x68, 0x01, 0xac, 0xb7, 0xf0, 0x22, 0xe4, 0x5b, 0x1f, 0xe0, 0x24}
+  };
+  uint8_t test_data[][16] = {
+      {0xe8, 0xf2, 0x92, 0x22, 0xda, 0xc9, 0x98, 0x29, 0x38, 0xcd, 0x21, 0xed, 0x3b, 0x04, 0x33, 0x27},
+      {0x5e, 0x71, 0x77, 0xb4, 0xde, 0x48, 0x50, 0xfc, 0x74, 0x92, 0xdd, 0xb9, 0xe3, 0xee, 0x56, 0x2a},
+      {0x70, 0x6c, 0x36, 0x73, 0x47, 0xe9, 0x6d, 0x63, 0x06, 0x0f, 0x25, 0xec, 0x0a, 0x4b, 0xc9, 0xa2}
+  };
+  const std::array<std::string, 3> expected_ciphered_data = {
+      "8a5a0b7217a7c60a3ebbc859f2953844",
+      "0b11d26405c3c978a32dceb26a803cfd",
+      "04d483c3933f07e7f8f060a6a272d518"
+  };
+  size_t header_length = 0;
+  auto aes128 = HCL::Crypto::Factory<HCL::Crypto::ABlockCipher>::GetInstanceFromHeader(
+      std::string(aes128_identifier, 2),
+      header_length
+  );
+  for (int i = 0; i < tests_number; ++i) {
+    std::cout << "Running test data " << i + 1 << "/" << tests_number
+              << " of Rijndael 128 block cipher encryption test... "
+              << std::flush;
+    std::string ciphered_data = aes128->EncryptBloc(std::string((char*)test_keys[i], 16), std::string((char*)test_data[i], 16));
+    std::stringstream hex_ciphered_data;
+    for (auto c : ciphered_data) {
+      hex_ciphered_data << std::hex << std::setfill('0') << std::setw(2) << (int) (uint8_t) c;
+    }
+    if (hex_ciphered_data.str() == expected_ciphered_data[i]) {
+      std::cout << "Success!" << std::endl;
+    } else {
+      std::cout << "Error :(" << std::endl;
+      std::cout << "Expected:\t" << expected_ciphered_data[i] << std::endl;
+      std::cout << "But got:\t" << hex_ciphered_data.str() << std::endl;
+    }
+  }
+  return 0;
+}
+
 //
 //static int AES128EncryptTest() {
 //  const size_t tests_number = 3;
@@ -369,7 +414,7 @@ static void ShowDataError(const uint8_t key[KeySize],
 //}
 
 static int (*aes_test_functions[])() = {
-//    AES128EncryptTest,
+    AES128EncryptTest,
 //    AES192EncryptTest,
 //    AES256EncryptTest,
 //    AES128DecryptTest,

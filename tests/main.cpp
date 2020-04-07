@@ -9,6 +9,7 @@
 
 static int (*test_functions[])() = {
 //    RijndaelKeyScheduleTests,
+    AESTests,
     SHATests,
     nullptr
 };
