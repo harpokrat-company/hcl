@@ -3,5 +3,3 @@
 //
 
 #include "AHashFunction.h"
-
-const std::string HCL::Crypto::AHashFunction::type_name = "hash-function";

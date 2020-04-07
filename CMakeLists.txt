@@ -37,13 +37,15 @@ set(LIBRARY_SOURCE_FILES
     src/services/Crypto/EncryptedBlob.cpp
     src/services/Crypto/EncryptedBlob.h
     src/services/Crypto/Factory.h
-    src/services/Crypto/AutoRegisterer.h
     src/services/Crypto/Ciphers/BlockCipherScheme.cpp
     src/services/Crypto/Ciphers/BlockCipherScheme.h
     src/services/Crypto/BlockCiphers/ABlockCipher.cpp
     src/services/Crypto/BlockCiphers/ABlockCipher.h
+    src/services/Crypto/BlockCiphers/AES128.cpp
     src/services/Crypto/BlockCiphers/AES128.h
+    src/services/Crypto/BlockCiphers/AES192.cpp
     src/services/Crypto/BlockCiphers/AES192.h
+    src/services/Crypto/BlockCiphers/AES256.cpp
     src/services/Crypto/BlockCiphers/AES256.h
     src/services/Crypto/BlockCipherModes/ABlockCipherMode.cpp
     src/services/Crypto/BlockCipherModes/ABlockCipherMode.h
@@ -73,9 +75,7 @@ set(LIBRARY_SOURCE_FILES
     src/services/Crypto/MessageAuthenticationCodes/HMAC.h
     src/services/Crypto/HashFunctions/SHA256.cpp
     src/services/Crypto/HashFunctions/SHA256.h
-    src/services/Crypto/BlockCiphers/AES128.cpp
-    src/services/Crypto/BlockCiphers/AES192.cpp
-    src/services/Crypto/BlockCiphers/AES256.cpp)
+    src/services/Crypto/AutoRegisterer.h)
 
 set(TEST_SOURCE_FILES
     tests/main.cpp

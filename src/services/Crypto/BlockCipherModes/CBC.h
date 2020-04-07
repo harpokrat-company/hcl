@@ -20,7 +20,10 @@ class CBC : public AutoRegisterer<ABlockCipherMode, CBC>,
   std::string Encrypt(const std::string &key, const std::string &content) override;
   std::string Decrypt(const std::string &key, const std::string &content) override;
   static const uint16_t id = 1;
-  static const std::string name;
+  static const std::string &GetName() {
+    static std::string name = "cbc";
+    return name;
+  };
   std::string GetHeader() override;
 };
 }

@@ -15,7 +15,10 @@ class ARandomGenerator {
   virtual uint8_t GenerateRandomByte() = 0;
   virtual std::string GenerateRandomByteSequence(size_t sequence_length) = 0;
   virtual std::string GetHeader() = 0;
-  static const std::string type_name;
+  static const std::string &GetName() {
+    static std::string name = "random-generator";
+    return name;
+  };
 };
 }
 

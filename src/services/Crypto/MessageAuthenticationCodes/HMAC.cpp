@@ -5,8 +5,6 @@
 #include "HMAC.h"
 #include "../CryptoHelper.h"
 
-const std::string HCL::Crypto::HMAC::name = "hmac";
-
 HCL::Crypto::HMAC::HMAC(const std::string &header, size_t &header_length) {
   is_registered_;
   hash_function_ = Factory<AHashFunction>::GetInstanceFromHeader(header, header_length);

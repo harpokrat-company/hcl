@@ -3,5 +3,3 @@
 //
 
 #include "ARandomGenerator.h"
-
-const std::string HCL::Crypto::ARandomGenerator::type_name = "key-stretching-function";

@@ -5,8 +5,6 @@
 #include "PBKDF2.h"
 #include "../Factory.h"
 
-const std::string HCL::Crypto::PBKDF2::name = "pbkdf2";
-
 HCL::Crypto::PBKDF2::PBKDF2(const std::string &header, size_t &header_length) {
   ParseSalt(header, header_length);
   ParseIterations(header, header_length);

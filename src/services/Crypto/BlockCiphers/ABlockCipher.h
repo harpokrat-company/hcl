@@ -19,7 +19,10 @@ class ABlockCipher {
   virtual size_t GetBlockSize() __attribute__((const)) = 0;
   virtual std::string PrepareKey(const std::string &key) __attribute__((const)) = 0;
   virtual std::string GetHeader() = 0;
-  static const std::string type_name;
+  static const std::string &GetName() {
+    static std::string name = "block-cipher";
+    return name;
+  };
 };
 }
 

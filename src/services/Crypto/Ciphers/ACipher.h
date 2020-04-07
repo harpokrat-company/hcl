@@ -15,7 +15,10 @@ class ACipher {
   virtual std::string Encrypt(const std::string &key, const std::string &content) = 0;
   virtual std::string Decrypt(const std::string &key, const std::string &content) = 0;
   virtual std::string GetHeader() = 0;
-  static const std::string type_name;
+  static const std::string &GetName() {
+    static std::string name = "cipher";
+    return name;
+  };
 };
 }
 

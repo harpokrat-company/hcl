@@ -5,4 +5,3 @@
 
 #include "APadding.h"
 
-const std::string HCL::Crypto::APadding::type_name = "padding";

@@ -3,5 +3,3 @@
 //
 
 #include "ACipher.h"
-
-const std::string HCL::Crypto::ACipher::type_name = "cipher";

@@ -18,7 +18,10 @@ class BlockCipherScheme : public AutoRegisterer<ACipher, BlockCipherScheme> {
   std::string Decrypt(const std::string &key, const std::string &content) override;
   std::string GetHeader() override;
   static const uint16_t id = 1;
-  static const std::string name;
+  static const std::string &GetName() {
+    static std::string name = "block-cipher-scheme";
+    return name;
+  };
  private:
   std::unique_ptr<ABlockCipherMode> block_cipher_mode_;
 };

@@ -15,14 +15,14 @@ class AutoRegisterer : virtual public AbstractClass {
   static std::unique_ptr<AbstractClass> InstantiateFromHeader(const std::string &header, size_t &header_length) {
     return std::make_unique<RegisteredClass>(header, header_length);
   }
-  uint16_t GetId() {
+  static uint16_t GetId() {
     return RegisteredClass::id;
   }
-  std::string GetName() {
-    return RegisteredClass::name;
+  static const std::string &GetRegisteredName() {
+    return RegisteredClass::GetName();
   }
-  std::string GetTypeName() {
-    return AbstractClass::type_name;
+  static const std::string &GetTypeName() {
+    return AbstractClass::GetName();
   }
   std::string GetIdBytes() {
     const char id[2] = {RegisteredClass::id & 0xFF, RegisteredClass::id >> 8};
@@ -36,7 +36,8 @@ class AutoRegisterer : virtual public AbstractClass {
 template<typename AbstractClass, typename RegisteredClass>
 const bool HCL::Crypto::AutoRegisterer<AbstractClass, RegisteredClass>::is_registered_ =
     Factory<AbstractClass>::Register(RegisteredClass::id,
-                                     &AutoRegisterer<AbstractClass, RegisteredClass>::InstantiateFromHeader);
+                                     &AutoRegisterer<AbstractClass, RegisteredClass>::InstantiateFromHeader,
+                                     GetRegisteredName());
 }
 
 #endif //HCL_SRC_SERVICES_CRYPTO_CIPHERS_AUTOREGISTERER_H_

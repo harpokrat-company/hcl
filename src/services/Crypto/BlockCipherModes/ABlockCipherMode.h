@@ -18,7 +18,10 @@ class ABlockCipherMode {
   virtual std::string Encrypt(const std::string &key, const std::string &content) = 0;
   virtual std::string Decrypt(const std::string &key, const std::string &content) = 0;
   virtual std::string GetHeader();
-  static const std::string type_name;
+  static const std::string &GetName() {
+    static std::string name = "block-cipher-mode";
+    return name;
+  };
  protected:
   std::unique_ptr<ABlockCipher> cipher_;
 };

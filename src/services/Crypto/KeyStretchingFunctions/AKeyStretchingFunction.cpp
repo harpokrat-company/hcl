@@ -3,5 +3,3 @@
 //
 
 #include "AKeyStretchingFunction.h"
-
-const std::string HCL::Crypto::AKeyStretchingFunction::type_name = "key-stretching-function";

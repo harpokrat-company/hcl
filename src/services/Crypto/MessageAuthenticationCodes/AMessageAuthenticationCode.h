@@ -13,7 +13,10 @@ class AMessageAuthenticationCode {
  public:
   virtual std::string SignMessage(const std::string &key, const std::string &message) = 0;
   virtual std::string GetHeader() = 0;
-  static const std::string type_name;
+  static const std::string &GetName() {
+    static std::string name = "message-authentication-code";
+    return name;
+  };
 };
 }
 

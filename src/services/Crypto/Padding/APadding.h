@@ -14,7 +14,10 @@ class APadding {
   virtual std::string PadDataToSize(const std::string &data, size_t size) = 0;
   virtual std::string RemovePadding(const std::string &data) = 0;
   virtual std::string GetHeader() = 0;
-  static const std::string type_name;
+  static const std::string &GetName() {
+    static std::string name = "padding";
+    return name;
+  };
 };
 }
 

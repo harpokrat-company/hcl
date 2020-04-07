@@ -3,5 +3,3 @@
 //
 
 #include "ABlockCipher.h"
-
-const std::string HCL::Crypto::ABlockCipher::type_name = "block-cipher";

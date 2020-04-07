@@ -18,7 +18,10 @@ class AES192 : public AutoRegisterer<ABlockCipher, AES192>, public Rijndael<24, 
   };
   std::string GetHeader() override;
   static const uint16_t id = 2;
-  static const std::string name;
+  static const std::string &GetName() {
+    static std::string name = "aes192";
+    return name;
+  };
 };
 }
 

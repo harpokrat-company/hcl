@@ -18,7 +18,10 @@ class PBKDF2 : AutoRegisterer<AKeyStretchingFunction, PBKDF2> {
   std::string StretchKey(const std::string &key, size_t derived_key_length) override;
   std::string GetHeader() override;
   static const uint16_t id = 1;
-  static const std::string name;
+  static const std::string &GetName() {
+    static std::string name = "pbkdf2";
+    return name;
+  };
  private:
   std::string GetPBKDF2Bloc(const std::string &key, uint32_t bloc_index);
   void ParseSalt(const std::string &header, size_t &header_length);

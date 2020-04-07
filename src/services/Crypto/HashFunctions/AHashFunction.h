@@ -14,7 +14,10 @@ class AHashFunction {
   virtual std::string HashData(const std::string &data) = 0;
   virtual size_t GetBlocSize() __attribute__((const)) = 0;
   virtual std::string GetHeader() = 0;
-  static const std::string type_name;
+  static const std::string &GetName() {
+    static std::string name = "hash-function";
+    return name;
+  };
 };
 }
 
