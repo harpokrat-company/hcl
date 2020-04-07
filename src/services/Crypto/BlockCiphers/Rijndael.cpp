@@ -223,3 +223,8 @@ template<uint8_t KeySize, uint8_t Rounds>
 size_t HCL::Crypto::Rijndael<KeySize, Rounds>::GetBlockSize() {
   return 16;
 }
+
+template<uint8_t KeySize, uint8_t Rounds>
+std::string HCL::Crypto::Rijndael<KeySize, Rounds>::PrepareKey(const std::string &key) {
+  return key_stretching_->StretchKey(key, KeySize);
+}

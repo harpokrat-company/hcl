@@ -38,12 +38,13 @@ std::unique_ptr<AbstractClass> Factory<AbstractClass>::GetInstanceFromHeader(con
   uint16_t id = 0;
 
   if (header.length() < header_length + 2) {
-    return std::unique_ptr<AbstractClass>{};
+    throw std::runtime_error("Crypto object factory: Incorrect blob header: Too short");
   }
   id = uint16_t(((uint8_t) header[header_length]) << 8 | (uint8_t) header[header_length + 1]);
   typename std::map<uint16_t, Instantiator<AbstractClass>>::iterator registered_pair = registered_classes_.find(id);
   if (registered_pair == registered_classes_.end()) {
-    return std::unique_ptr<AbstractClass>{};
+    throw std::runtime_error(
+        "Crypto object factory: Incorrect blob header: Unknown Id (HCL Library may not be up to date)");
   }
   header_length += 2;
   return registered_pair->second(header, header_length);

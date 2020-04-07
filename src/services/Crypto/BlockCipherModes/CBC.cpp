@@ -4,6 +4,8 @@
 
 #include "CBC.h"
 
-HCL::Crypto::CBC::CBC(const std::string &header, size_t &header_length)
-    : ABlockCipherMode(header, header_length), PaddedCipher(header, header_length) {
+HCL::Crypto::CBC::CBC(const std::string &header, size_t &header_length) :
+    ABlockCipherMode(header, header_length),
+    APaddedCipher(header, header_length),
+    AInitializationVectorBlockCipherMode(header, header_length) {
 }

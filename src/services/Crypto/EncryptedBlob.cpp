@@ -9,9 +9,6 @@ HCL::Crypto::EncryptedBlob::EncryptedBlob(const std::string &key, const std::str
   size_t header_length = 0;
 
   this->SetCipher(Factory<ACipher>::GetInstanceFromHeader(blob, header_length));
-  if (!this->cipher_) {
-    throw std::runtime_error("EncryptedBlob: Error while parsing blob header");
-  }
   this->SetContent(this->cipher_->Decrypt(key, blob.substr(header_length)));
 }
 
@@ -34,4 +31,3 @@ std::string HCL::Crypto::EncryptedBlob::GetEncryptedContent(const std::string &k
     throw std::runtime_error("EncryptedBlob: Cannot encrypt content: No cipher is set");
   return this->cipher_->Encrypt(key, this->content_);
 }
-

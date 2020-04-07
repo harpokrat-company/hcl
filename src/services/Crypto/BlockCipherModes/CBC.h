@@ -7,11 +7,14 @@
 
 #include "ABlockCipherMode.h"
 #include "../AutoRegisterer.h"
-#include "../Paddings/PaddedCipher.h"
+#include "../Padding/APaddedCipher.h"
+#include "AInitializationVectorBlockCipherMode.h"
 
 namespace HCL::Crypto {
 
-class CBC : public AutoRegisterer<ABlockCipherMode, CBC>, public PaddedCipher {
+class CBC : public AutoRegisterer<ABlockCipherMode, CBC>,
+            public APaddedCipher,
+            public AInitializationVectorBlockCipherMode {
  public:
   CBC(const std::string &header, size_t &header_length);
   static const uint16_t Id = 1;

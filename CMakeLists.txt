@@ -50,12 +50,18 @@ set(LIBRARY_SOURCE_FILES
     src/services/Crypto/BlockCipherModes/ABlockCipherMode.h
     src/services/Crypto/BlockCipherModes/CBC.cpp
     src/services/Crypto/BlockCipherModes/CBC.h
-    src/services/Crypto/Paddings/PaddedCipher.cpp
-    src/services/Crypto/Paddings/PaddedCipher.h
-    src/services/Crypto/Paddings/APadding.h
+    src/services/Crypto/Padding/APaddedCipher.cpp
+    src/services/Crypto/Padding/APaddedCipher.h
+    src/services/Crypto/Padding/APadding.h
     src/services/Crypto/KeyStretching/AKeyStretching.h
     src/services/Crypto/HashFunctions/AHashFunction.cpp
-    src/services/Crypto/HashFunctions/AHashFunction.h)
+    src/services/Crypto/HashFunctions/AHashFunction.h
+    src/services/Crypto/RandomGenerators/ARandomGenerator.cpp
+    src/services/Crypto/RandomGenerators/ARandomGenerator.h
+    src/services/Crypto/BlockCipherModes/AInitializationVectorBlockCipherMode.cpp
+    src/services/Crypto/BlockCipherModes/AInitializationVectorBlockCipherMode.h
+    src/services/Crypto/Padding/PKCS7.cpp
+    src/services/Crypto/Padding/PKCS7.h)
 
 set(TEST_SOURCE_FILES
     tests/main.cpp
