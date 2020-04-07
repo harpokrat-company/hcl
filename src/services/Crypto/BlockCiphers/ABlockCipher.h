@@ -8,7 +8,7 @@
 #include <cstddef>
 #include <string>
 #include <memory>
-#include "../KeyStretching/AKeyStretching.h"
+#include "../KeyStretchingFunctions/AKeyStretchingFunction.h"
 
 namespace HCL::Crypto {
 
@@ -19,6 +19,7 @@ class ABlockCipher {
   virtual size_t GetBlockSize() __attribute__((const)) = 0;
   virtual std::string PrepareKey(const std::string &key) __attribute__((const)) = 0;
   virtual std::string GetHeader() = 0;
+  static const std::string type_name;
 };
 }
 

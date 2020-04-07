@@ -32,6 +32,7 @@ set(LIBRARY_SOURCE_FILES
     src/services/Crypto/RijndaelSubstitutionBox.h
     src/services/Crypto/CryptoHelper.cpp
     src/services/Crypto/CryptoHelper.h
+    src/services/Crypto/Ciphers/ACipher.cpp
     src/services/Crypto/Ciphers/ACipher.h
     src/services/Crypto/EncryptedBlob.cpp
     src/services/Crypto/EncryptedBlob.h
@@ -39,6 +40,7 @@ set(LIBRARY_SOURCE_FILES
     src/services/Crypto/AutoRegisterer.h
     src/services/Crypto/Ciphers/BlockCipherScheme.cpp
     src/services/Crypto/Ciphers/BlockCipherScheme.h
+    src/services/Crypto/BlockCiphers/ABlockCipher.cpp
     src/services/Crypto/BlockCiphers/ABlockCipher.h
     src/services/Crypto/BlockCiphers/AES128.h
     src/services/Crypto/BlockCiphers/AES192.h
@@ -49,8 +51,11 @@ set(LIBRARY_SOURCE_FILES
     src/services/Crypto/BlockCipherModes/CBC.h
     src/services/Crypto/Padding/APaddedCipher.cpp
     src/services/Crypto/Padding/APaddedCipher.h
+    src/services/Crypto/Padding/APadding.cpp
     src/services/Crypto/Padding/APadding.h
-    src/services/Crypto/KeyStretching/AKeyStretching.h
+    src/services/Crypto/KeyStretchingFunctions/AKeyStretchingFunction.cpp
+    src/services/Crypto/KeyStretchingFunctions/AKeyStretchingFunction.h
+    src/services/Crypto/HashFunctions/AHashFunction.cpp
     src/services/Crypto/HashFunctions/AHashFunction.h
     src/services/Crypto/RandomGenerators/ARandomGenerator.cpp
     src/services/Crypto/RandomGenerators/ARandomGenerator.h
@@ -60,8 +65,8 @@ set(LIBRARY_SOURCE_FILES
     src/services/Crypto/Padding/PKCS7.h
     src/services/Crypto/RandomGenerators/MT19937Generator.cpp
     src/services/Crypto/RandomGenerators/MT19937Generator.h
-    src/services/Crypto/KeyStretching/PBKDF2.cpp
-    src/services/Crypto/KeyStretching/PBKDF2.h
+    src/services/Crypto/KeyStretchingFunctions/PBKDF2.cpp
+    src/services/Crypto/KeyStretchingFunctions/PBKDF2.h
     src/services/Crypto/MessageAuthenticationCodes/AMessageAuthenticationCode.cpp
     src/services/Crypto/MessageAuthenticationCodes/AMessageAuthenticationCode.h
     src/services/Crypto/MessageAuthenticationCodes/HMAC.cpp

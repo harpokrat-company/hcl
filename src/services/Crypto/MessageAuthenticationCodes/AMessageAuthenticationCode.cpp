@@ -3,3 +3,5 @@
 //
 
 #include "AMessageAuthenticationCode.h"
+
+const std::string HCL::Crypto::AMessageAuthenticationCode::type_name = "message-authentication-code";

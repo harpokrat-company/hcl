@@ -17,7 +17,8 @@ class PKCS7 : public AutoRegisterer<APadding, PKCS7> {
   std::string PadDataToSize(const std::string &data, size_t size) override;
   std::string RemovePadding(const std::string &data) override;
   std::string GetHeader() override;
-  static const uint16_t Id = 1;
+  static const uint16_t id = 1;
+  static const std::string name;
 };
 }
 

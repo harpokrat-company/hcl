@@ -22,7 +22,7 @@ class Rijndael : virtual public ABlockCipher {
  public:
   Rijndael(const std::string &header, size_t &header_length) {
     try {
-      key_stretching_ = Factory<AKeyStretching>::GetInstanceFromHeader(header, header_length);
+      key_stretching_ = Factory<AKeyStretchingFunction>::GetInstanceFromHeader(header, header_length);
     } catch (std::runtime_error error) {
       // TODO Log ?
     }
@@ -34,7 +34,7 @@ class Rijndael : virtual public ABlockCipher {
   std::string PrepareKey(const std::string &key) override
   __attribute__((const));
  protected:
-  std::unique_ptr<AKeyStretching> key_stretching_;
+  std::unique_ptr<AKeyStretchingFunction> key_stretching_;
  private:
   static void EncryptArrayBloc(const uint8_t[KeySize], uint8_t [16]);
   static void DecryptArrayBloc(const uint8_t[KeySize], uint8_t [16]);

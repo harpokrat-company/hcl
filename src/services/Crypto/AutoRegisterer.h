@@ -16,10 +16,16 @@ class AutoRegisterer : virtual public AbstractClass {
     return std::make_unique<RegisteredClass>(header, header_length);
   }
   uint16_t GetId() {
-    return RegisteredClass::Id;
+    return RegisteredClass::id;
+  }
+  std::string GetName() {
+    return RegisteredClass::name;
+  }
+  std::string GetTypeName() {
+    return AbstractClass::type_name;
   }
   std::string GetIdBytes() {
-    const char id[2] = {RegisteredClass::Id & 0xFF, RegisteredClass::Id >> 8};
+    const char id[2] = {RegisteredClass::id & 0xFF, RegisteredClass::id >> 8};
 
     return std::string(id, 2);
   }
@@ -29,7 +35,7 @@ class AutoRegisterer : virtual public AbstractClass {
 
 template<typename AbstractClass, typename RegisteredClass>
 const bool HCL::Crypto::AutoRegisterer<AbstractClass, RegisteredClass>::is_registered_ =
-    Factory<AbstractClass>::Register(RegisteredClass::Id,
+    Factory<AbstractClass>::Register(RegisteredClass::id,
                                      &AutoRegisterer<AbstractClass, RegisteredClass>::InstantiateFromHeader);
 }
 

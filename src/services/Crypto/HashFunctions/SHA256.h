@@ -28,7 +28,8 @@ class SHA256 : public AutoRegisterer<AHashFunction, SHA256> {
   virtual std::string HashData(const std::string &data);
   virtual size_t GetBlocSize() __attribute__((const));
   std::string GetHeader() override;
-  static const uint16_t Id = 1;
+  static const uint16_t id = 1;
+  static const std::string name;
  private:
   std::string PadData(const std::string &data);
   static const uint32_t round_constants_[64];

@@ -7,17 +7,18 @@
 
 #include <algorithm>
 #include "../AutoRegisterer.h"
-#include "AKeyStretching.h"
+#include "AKeyStretchingFunction.h"
 #include "../MessageAuthenticationCodes/AMessageAuthenticationCode.h"
 
 namespace HCL::Crypto {
 
-class PBKDF2 : AutoRegisterer<AKeyStretching, PBKDF2> {
+class PBKDF2 : AutoRegisterer<AKeyStretchingFunction, PBKDF2> {
  public:
   PBKDF2(const std::string &header, size_t &header_length);
   std::string StretchKey(const std::string &key, size_t derived_key_length) override;
   std::string GetHeader() override;
-  static const uint16_t Id = 1;
+  static const uint16_t id = 1;
+  static const std::string name;
  private:
   std::string GetPBKDF2Bloc(const std::string &key, uint32_t bloc_index);
   void ParseSalt(const std::string &header, size_t &header_length);

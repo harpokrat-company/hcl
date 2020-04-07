@@ -15,8 +15,8 @@ class ACipher {
   virtual std::string Encrypt(const std::string &key, const std::string &content) = 0;
   virtual std::string Decrypt(const std::string &key, const std::string &content) = 0;
   virtual std::string GetHeader() = 0;
+  static const std::string type_name;
 };
-
 }
 
 #endif //HCL_SRC_SERVICES_CRYPTO_CIPHERS_ACIPHER_H_

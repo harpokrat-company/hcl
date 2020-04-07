@@ -5,6 +5,8 @@
 #include "CBC.h"
 #include "../CryptoHelper.h"
 
+const std::string HCL::Crypto::CBC::name = "cbc";
+
 HCL::Crypto::CBC::CBC(const std::string &header, size_t &header_length) :
     ABlockCipherMode(header, header_length),
     APaddedCipher(header, header_length),

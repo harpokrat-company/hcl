@@ -4,6 +4,8 @@
 
 #include "PKCS7.h"
 
+const std::string HCL::Crypto::PKCS7::name = "pkcs7";
+
 std::string HCL::Crypto::PKCS7::PadDataToSize(const std::string &data, size_t size) {
   uint8_t offset = size - data.length();
 

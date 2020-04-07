@@ -4,6 +4,8 @@
 
 #include "BlockCipherScheme.h"
 
+const std::string HCL::Crypto::BlockCipherScheme::name = "block-cipher-scheme";
+
 HCL::Crypto::BlockCipherScheme::BlockCipherScheme(const std::string &header, size_t &header_length) {
   is_registered_;
   this->block_cipher_mode_ = Factory<ABlockCipherMode>::GetInstanceFromHeader(header, header_length);

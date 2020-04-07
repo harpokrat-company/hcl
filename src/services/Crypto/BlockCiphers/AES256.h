@@ -17,7 +17,8 @@ class AES256 : public AutoRegisterer<ABlockCipher, AES256>, public Rijndael<32, 
     is_registered_;
   };
   std::string GetHeader() override;
-  static const uint16_t Id = 3;
+  static const uint16_t id = 3;
+  static const std::string name;
 };
 }
 
