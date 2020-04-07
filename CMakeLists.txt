@@ -63,7 +63,11 @@ set(LIBRARY_SOURCE_FILES
     src/services/Crypto/Padding/PKCS7.cpp
     src/services/Crypto/Padding/PKCS7.h
     src/services/Crypto/RandomGenerators/MT19937Generator.cpp
-    src/services/Crypto/RandomGenerators/MT19937Generator.h)
+    src/services/Crypto/RandomGenerators/MT19937Generator.h
+    src/services/Crypto/KeyStretching/PBKDF2.cpp
+    src/services/Crypto/KeyStretching/PBKDF2.h
+    src/services/Crypto/MessageAuthenticationCodes/AMessageAuthenticationCode.cpp
+    src/services/Crypto/MessageAuthenticationCodes/AMessageAuthenticationCode.h)
 
 set(TEST_SOURCE_FILES
     tests/main.cpp

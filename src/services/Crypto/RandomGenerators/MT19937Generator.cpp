@@ -5,7 +5,7 @@
 #include "MT19937Generator.h"
 
 HCL::Crypto::MT19937Generator::MT19937Generator(const std::string &header, size_t &header_length) :
-  generator_(random_device_),
+  generator_(random_device_()),
   distribution_(0, 255) {
 }
 
