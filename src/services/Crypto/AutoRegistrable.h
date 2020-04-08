@@ -14,20 +14,12 @@ namespace HCL::Crypto {
 
 class AutoRegistrable {
  public:
-  virtual const std::vector<std::string> &GetDependencies() = 0;
-  void SetDependency(std::unique_ptr<AutoRegistrable> dependency, size_t index) {
-    auto registered_pair = GetDependencySetters().find(index);
-    if (registered_pair == GetDependencySetters().end()) {
-      throw std::runtime_error("AutoRegistrable error: Cannot set dependency: Incorrect dependency index");
-    }
-    GetDependencySetters().at(index)(std::move(dependency));
-  }
+  virtual const std::vector<std::string> &GetRequiredDependencies() = 0;
+  virtual void SetDependency(std::unique_ptr<AutoRegistrable> dependency, size_t index) = 0;
   template <typename DerivedClass>
   static std::unique_ptr<DerivedClass> UniqueTo(std::unique_ptr<AutoRegistrable> auto_registrable) {
     return std::unique_ptr<DerivedClass>(dynamic_cast<DerivedClass *>(auto_registrable.release()));
   }
- protected:
-  virtual const std::map<size_t, void (*)(std::unique_ptr<AutoRegistrable>)> &GetDependencySetters() = 0;
 };
 }
 

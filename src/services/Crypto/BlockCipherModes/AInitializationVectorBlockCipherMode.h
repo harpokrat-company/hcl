@@ -11,7 +11,7 @@
 
 namespace HCL::Crypto {
 
-class AInitializationVectorBlockCipherMode {
+class AInitializationVectorBlockCipherMode : public AutoRegistrable {
  public:
   AInitializationVectorBlockCipherMode(const std::string &header, size_t &header_length);
   virtual std::string GetHeader();

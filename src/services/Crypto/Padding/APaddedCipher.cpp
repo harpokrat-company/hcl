@@ -11,3 +11,7 @@ HCL::Crypto::APaddedCipher::APaddedCipher(const std::string &header, size_t &hea
 std::string HCL::Crypto::APaddedCipher::GetHeader() {
   return padding_->GetHeader();
 }
+
+void HCL::Crypto::APaddedCipher::SetPadding(std::unique_ptr<AutoRegistrable> padding) {
+  padding_ = AutoRegistrable::UniqueTo<APadding>(std::move(padding));
+}

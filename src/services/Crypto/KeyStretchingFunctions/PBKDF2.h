@@ -15,19 +15,22 @@ namespace HCL::Crypto {
 class PBKDF2 : AutoRegisterer<AKeyStretchingFunction, PBKDF2> {
  public:
   PBKDF2(const std::string &header, size_t &header_length);
-  const std::vector<std::string> &GetDependencies() override {
+  const std::vector<std::string> &GetRequiredDependencies() override {
     static const std::vector<std::string> dependencies(
         {
             AMessageAuthenticationCode::GetName(),
         });
     return dependencies;
   }
-  const std::map<size_t, void (*)(std::unique_ptr<AutoRegistrable>)> &GetDependencySetters() override {
-    static const std::map<size_t, void (*)(std::unique_ptr<AutoRegistrable>)> dependency_setters = {
-        {0, nullptr},
-    };
-    // TODO
-    return dependency_setters;
+  void SetDependency(std::unique_ptr<AutoRegistrable> dependency, size_t index) override {
+    if (index >= 1) {
+      throw std::runtime_error("PBKDF2 error: Cannot set dependency: Incorrect dependency index");
+    }
+    switch (index) {
+      case 0:
+      default:
+        SetMessageAuthenticationCode(std::move(dependency));
+    }
   }
   std::string StretchKey(const std::string &key, size_t derived_key_length) override;
   std::string GetHeader() override;

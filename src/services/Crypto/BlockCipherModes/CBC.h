@@ -17,7 +17,7 @@ class CBC : public AutoRegisterer<ABlockCipherMode, CBC>,
             public AInitializationVectorBlockCipherMode {
  public:
   CBC(const std::string &header, size_t &header_length);
-  const std::vector<std::string> &GetDependencies() override {
+  const std::vector<std::string> &GetRequiredDependencies() override {
     static const std::vector<std::string> dependencies(
         {
             ACipher::GetName(),
@@ -26,12 +26,21 @@ class CBC : public AutoRegisterer<ABlockCipherMode, CBC>,
         });
     return dependencies;
   }
-  const std::map<size_t, void (*)(std::unique_ptr<AutoRegistrable>)> &GetDependencySetters() override {
-    static const std::map<size_t, void (*)(std::unique_ptr<AutoRegistrable>)> dependency_setters = {
-        {0, nullptr},
-    };
-    // TODO
-    return dependency_setters;
+  void SetDependency(std::unique_ptr<AutoRegistrable> dependency, size_t index) override {
+    if (index >= 3) {
+      throw std::runtime_error("CBC error: Cannot set dependency: Incorrect dependency index");
+    }
+    switch (index) {
+      case 0:
+        SetCipher(std::move(dependency));
+        break;
+      case 1:
+        SetPadding(std::move(dependency));
+        break;
+      case 2:
+      default:
+        SetRandomGenerator(std::move(dependency));
+    }
   }
   std::string Encrypt(const std::string &key, const std::string &content) override;
   std::string Decrypt(const std::string &key, const std::string &content) override;

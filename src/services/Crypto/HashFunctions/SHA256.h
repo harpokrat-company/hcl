@@ -25,16 +25,12 @@ class SHA256 : public AutoRegisterer<AHashFunction, SHA256> {
   SHA256(const std::string &header, size_t &header_length) {
     is_registered_;
   };
-  const std::vector<std::string> &GetDependencies() override {
+  const std::vector<std::string> &GetRequiredDependencies() override {
     static const std::vector<std::string> dependencies({});
     return dependencies;
   }
-  const std::map<size_t, void (*)(std::unique_ptr<AutoRegistrable>)> &GetDependencySetters() override {
-    static const std::map<size_t, void (*)(std::unique_ptr<AutoRegistrable>)> dependency_setters = {
-        {0, nullptr},
-    };
-    // TODO
-    return dependency_setters;
+  void SetDependency(std::unique_ptr<AutoRegistrable> dependency, size_t index) override {
+      throw std::runtime_error("SHA256 error: Cannot set dependency: Incorrect dependency index");
   }
   virtual std::string HashData(const std::string &data);
   virtual size_t GetBlocSize() __attribute__((const));

@@ -27,12 +27,22 @@ class Rijndael : virtual public ABlockCipher {
       // TODO Log ?
     }
   };
-  const std::vector<std::string> &GetDependencies() override {
+  const std::vector<std::string> &GetRequiredDependencies() override {
     static const std::vector<std::string> dependencies(
         {
             AKeyStretchingFunction::GetName(),
         });
     return dependencies;
+  }
+  void SetDependency(std::unique_ptr<AutoRegistrable> dependency, size_t index) override {
+    if (index >= 1) {
+      throw std::runtime_error("Rijndael error: Cannot set dependency: Incorrect dependency index");
+    }
+    switch (index) {
+      case 0:
+      default:
+        SetKeyStretchingFunction(std::move(dependency));
+    }
   }
   std::string EncryptBloc(const std::string &key, const std::string &bloc) override;
   std::string DecryptBloc(const std::string &key, const std::string &bloc) override;

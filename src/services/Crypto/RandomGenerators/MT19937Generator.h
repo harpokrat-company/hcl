@@ -14,16 +14,12 @@ namespace HCL::Crypto {
 class MT19937Generator : AutoRegisterer<ARandomGenerator, MT19937Generator> {
  public:
   MT19937Generator(const std::string &header, size_t &header_length);
-  const std::vector<std::string> &GetDependencies() override {
+  const std::vector<std::string> &GetRequiredDependencies() override {
     static const std::vector<std::string> dependencies({});
     return dependencies;
   }
-  const std::map<size_t, void (*)(std::unique_ptr<AutoRegistrable>)> &GetDependencySetters() override {
-    static const std::map<size_t, void (*)(std::unique_ptr<AutoRegistrable>)> dependency_setters = {
-        {0, nullptr},
-    };
-    // TODO
-    return dependency_setters;
+  void SetDependency(std::unique_ptr<AutoRegistrable> dependency, size_t index) override {
+    throw std::runtime_error("MT19937Generator error: Cannot set dependency: Incorrect dependency index");
   }
   uint8_t GenerateRandomByte() override;
   std::string GenerateRandomByteSequence(size_t sequence_length) override;
