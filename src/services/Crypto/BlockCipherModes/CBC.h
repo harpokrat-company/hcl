@@ -18,8 +18,12 @@ class CBC : public AutoRegisterer<ABlockCipherMode, CBC>,
  public:
   CBC(const std::string &header, size_t &header_length);
   const std::vector<std::string> &GetDependencies() override {
-    static const std::vector<std::string> dependencies({"Aled", "Oskour"});
-    // TODO
+    static const std::vector<std::string> dependencies(
+        {
+            ACipher::GetName(),
+            APadding::GetName(),
+            ARandomGenerator::GetName(),
+        });
     return dependencies;
   }
   const std::map<size_t, void (*)(std::unique_ptr<AutoRegistrable>)> &GetDependencySetters() override {

@@ -27,6 +27,13 @@ class Rijndael : virtual public ABlockCipher {
       // TODO Log ?
     }
   };
+  const std::vector<std::string> &GetDependencies() override {
+    static const std::vector<std::string> dependencies(
+        {
+            AKeyStretchingFunction::GetName(),
+        });
+    return dependencies;
+  }
   std::string EncryptBloc(const std::string &key, const std::string &bloc) override;
   std::string DecryptBloc(const std::string &key, const std::string &bloc) override;
   size_t GetBlockSize() override

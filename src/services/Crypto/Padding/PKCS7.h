@@ -15,8 +15,7 @@ class PKCS7 : public AutoRegisterer<APadding, PKCS7> {
     is_registered_;
   };
   const std::vector<std::string> &GetDependencies() override {
-    static const std::vector<std::string> dependencies({"Aled", "Oskour"});
-    // TODO
+    static const std::vector<std::string> dependencies({});
     return dependencies;
   }
   const std::map<size_t, void (*)(std::unique_ptr<AutoRegistrable>)> &GetDependencySetters() override {
