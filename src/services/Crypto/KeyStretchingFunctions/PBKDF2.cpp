@@ -5,6 +5,9 @@
 #include "PBKDF2.h"
 #include "../Factory.h"
 
+HCL::Crypto::PBKDF2::PBKDF2() : iterations_(PBKDF2_DEFAULT_ITERATIONS) {
+}
+
 HCL::Crypto::PBKDF2::PBKDF2(const std::string &header, size_t &header_length) {
   ParseSalt(header, header_length);
   ParseIterations(header, header_length);
@@ -24,6 +27,13 @@ std::string HCL::Crypto::PBKDF2::StretchKey(const std::string &key, size_t deriv
 std::string HCL::Crypto::PBKDF2::GetPBKDF2Bloc(const std::string &key, uint32_t bloc_index) {
   if (!message_authentication_code_) {
     throw std::runtime_error("PBKDF2 error: Message authentication code is not set");
+  }
+  if (!is_salt_set_) {
+    if (!random_generator_) {
+      throw std::runtime_error("PBKDF2 error: Random generator is not set");
+    }
+    salt_ = random_generator_->GenerateRandomByteSequence(PBKDF2_DEFAULT_SALT_LENGTH);
+    is_salt_set_ = true;
   }
   char serialized_bloc_index[4] = {
       static_cast<char>((bloc_index >> 24) & 0xFF),
@@ -52,6 +62,7 @@ void HCL::Crypto::PBKDF2::ParseSalt(const std::string &header, size_t &header_le
     throw std::runtime_error("PBKDF2: Impossible to parse salt value: Incorrect blob header: Too short");
   }
   salt_ = header.substr(header_length, salt_length);
+  is_salt_set_ = true;
   header_length += salt_length;
 }
 
@@ -82,7 +93,18 @@ void HCL::Crypto::PBKDF2::SetMessageAuthenticationCode(std::unique_ptr<AutoRegis
       AutoRegistrable::UniqueTo<AMessageAuthenticationCode>(std::move(message_authentication_code));
 }
 
+void HCL::Crypto::PBKDF2::SetRandomGenerator(std::unique_ptr<AutoRegistrable> random_generator) {
+  random_generator_ = AutoRegistrable::UniqueTo<ARandomGenerator>(std::move(random_generator));
+}
+
 std::string HCL::Crypto::PBKDF2::SerializeSalt() {
+  if (!is_salt_set_) {
+    if (!random_generator_) {
+      throw std::runtime_error("PBKDF2 error: Random generator is not set");
+    }
+    salt_ = random_generator_->GenerateRandomByteSequence(PBKDF2_DEFAULT_SALT_LENGTH);
+    is_salt_set_ = true;
+  }
   std::string serialized;
 
   serialized += (uint8_t) ((salt_.length() >> 8) & 0xFF);

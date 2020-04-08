@@ -9,33 +9,43 @@
 #include "../AutoRegisterer.h"
 #include "AKeyStretchingFunction.h"
 #include "../MessageAuthenticationCodes/AMessageAuthenticationCode.h"
+#include "../RandomGenerators/ARandomGenerator.h"
 
 namespace HCL::Crypto {
 
+// TODO Find a way to set salt_len & iterations
+#define PBKDF2_DEFAULT_SALT_LENGTH  64
+#define PBKDF2_DEFAULT_ITERATIONS   100000
+
 class PBKDF2 : AutoRegisterer<AKeyStretchingFunction, PBKDF2> {
  public:
-  PBKDF2() = default; // TODO Add RandomGenerator for salt && Find a way to set salt_len & iterations
+  PBKDF2();
   PBKDF2(const std::string &header, size_t &header_length);
   const std::vector<std::string> &GetRequiredDependencies() override {
     static const std::vector<std::string> dependencies(
         {
             AMessageAuthenticationCode::GetName(),
+            ARandomGenerator::GetName(),
         });
     return dependencies;
   }
   void SetDependency(std::unique_ptr<AutoRegistrable> dependency, size_t index) override {
-    if (index >= 1) {
+    if (index >= 2) {
       throw std::runtime_error("PBKDF2 error: Cannot set dependency: Incorrect dependency index");
     }
     switch (index) {
       case 0:
-      default:
         SetMessageAuthenticationCode(std::move(dependency));
+        break;
+      case 1:
+      default:
+        SetRandomGenerator(std::move(dependency));
     }
   }
   std::string StretchKey(const std::string &key, size_t derived_key_length) override;
   std::string GetHeader() override;
   void SetMessageAuthenticationCode(std::unique_ptr<AutoRegistrable> message_authentication_code);
+  void SetRandomGenerator(std::unique_ptr<AutoRegistrable> random_generator);
   static const uint16_t id = 1;
   static const std::string &GetName() {
     static std::string name = "pbkdf2";
@@ -48,7 +58,9 @@ class PBKDF2 : AutoRegisterer<AKeyStretchingFunction, PBKDF2> {
   std::string SerializeSalt();
   std::string SerializeIterations();
   std::unique_ptr<AMessageAuthenticationCode> message_authentication_code_;
+  std::unique_ptr<ARandomGenerator> random_generator_;
   std::string salt_;
+  bool is_salt_set_ = false;
   std::uint32_t iterations_;
 };
 }
