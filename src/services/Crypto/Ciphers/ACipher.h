@@ -13,6 +13,7 @@ namespace HCL::Crypto {
 
 class ACipher : public ACryptoElement {
  public:
+  virtual ~ACipher() = default;
   virtual std::string Encrypt(const std::string &key, const std::string &content) = 0;
   virtual std::string Decrypt(const std::string &key, const std::string &content) = 0;
   virtual std::string GetHeader() = 0;

@@ -17,6 +17,7 @@ class ABlockCipher : public ACryptoElement {
  public:
   virtual std::string EncryptBloc(const std::string &key, const std::string &bloc) = 0;
   virtual std::string DecryptBloc(const std::string &key, const std::string &bloc) = 0;
+  virtual ~ABlockCipher() = default;
   virtual size_t GetBlockSize() __attribute__((const)) = 0;
   virtual std::string PrepareKey(const std::string &key) __attribute__((const)) = 0;
   virtual std::string GetHeader() = 0;

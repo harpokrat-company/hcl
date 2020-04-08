@@ -81,13 +81,13 @@ set(LIBRARY_SOURCE_FILES
     src/services/Crypto/AFactory.h
     src/services/Crypto/ACryptoElement.h)
 
-set(TEST_SOURCE_FILES
-    tests/main.cpp
-    tests/AES.cpp
-    tests/SHA.cpp
-    tests/FullWorkflow.cpp
-    tests/RijndaelKeySchedule.cpp)
+#set(TEST_SOURCE_FILES
+#    tests/main.cpp
+#    tests/AES.cpp
+#    tests/SHA.cpp
+#    tests/FullWorkflow.cpp
+#    tests/RijndaelKeySchedule.cpp)
 
 add_library(hcl SHARED ${LIBRARY_SOURCE_FILES})
 
-add_executable(hcl_test_suite ${LIBRARY_SOURCE_FILES} ${TEST_SOURCE_FILES})
+#add_executable(hcl_test_suite ${LIBRARY_SOURCE_FILES} ${TEST_SOURCE_FILES})

@@ -12,6 +12,7 @@ namespace HCL::Crypto {
 
 class AKeyStretchingFunction : public ACryptoElement {
  public:
+  virtual ~AKeyStretchingFunction() = default;
   virtual std::string StretchKey(const std::string &key, size_t derived_key_length) = 0;
   virtual std::string GetHeader() = 0;
   static const std::string &GetName() {

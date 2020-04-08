@@ -5,7 +5,10 @@
 #include "BlockCipherScheme.h"
 
 HCL::Crypto::BlockCipherScheme::BlockCipherScheme(const std::string &header, size_t &header_length) {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-value"
   is_registered_;
+#pragma GCC diagnostic pop
   this->block_cipher_mode_ = Factory<ABlockCipherMode>::BuildTypedFromHeader(header, header_length);
 }
 

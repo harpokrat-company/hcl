@@ -24,6 +24,7 @@ class Rijndael : virtual public ABlockCipher {
   Rijndael(const std::string &header, size_t &header_length) {
     key_stretching_function_ = Factory<AKeyStretchingFunction>::BuildTypedFromHeader(header, header_length);
   };
+  virtual ~Rijndael() = default;
   const std::vector<std::string> &GetRequiredDependencies() override {
     static const std::vector<std::string> dependencies(
         {

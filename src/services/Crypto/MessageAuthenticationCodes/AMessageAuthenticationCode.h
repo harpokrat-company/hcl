@@ -12,6 +12,7 @@ namespace HCL::Crypto {
 
 class AMessageAuthenticationCode : public ACryptoElement {
  public:
+  virtual ~AMessageAuthenticationCode() = default;
   virtual std::string SignMessage(const std::string &key, const std::string &message) = 0;
   virtual std::string GetHeader() = 0;
   static const std::string &GetName() {

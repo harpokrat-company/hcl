@@ -34,7 +34,7 @@ class HMAC : public AutoRegisterer<AMessageAuthenticationCode, HMAC> {
         SetHashFunction(std::move(dependency));
     }
   }
-  std::string SignMessage(const std::string &key, const std::string &message);
+  std::string SignMessage(const std::string &key, const std::string &message) override;
   std::string GetHeader() override;
   void SetHashFunction(std::unique_ptr<ACryptoElement> hash_function);
   const std::string &GetElementName() override { return GetName(); };

@@ -14,6 +14,7 @@ namespace HCL::Crypto {
 
 class ACryptoElement {
  public:
+  virtual ~ACryptoElement() = default;
   // TODO Clean runtime errors
   virtual const std::vector<std::string> &GetRequiredDependencies() = 0;
   // TODO SetDependency via name of element (& call to factory)

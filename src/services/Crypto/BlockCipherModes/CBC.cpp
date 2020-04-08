@@ -9,7 +9,11 @@ HCL::Crypto::CBC::CBC(const std::string &header, size_t &header_length) :
     ABlockCipherMode(header, header_length),
     APaddedCipher(header, header_length),
     AInitializationVectorBlockCipherMode(header, header_length) {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-value"
   is_registered_;
+#pragma GCC diagnostic pop
+
 }
 
 std::string HCL::Crypto::CBC::Encrypt(const std::string &key, const std::string &content) {

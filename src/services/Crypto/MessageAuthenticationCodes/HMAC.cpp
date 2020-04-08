@@ -6,7 +6,10 @@
 #include "../CryptoHelper.h"
 
 HCL::Crypto::HMAC::HMAC(const std::string &header, size_t &header_length) {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-value"
   is_registered_;
+#pragma GCC diagnostic pop
   hash_function_ = Factory<AHashFunction>::BuildTypedFromHeader(header, header_length);
 }
 

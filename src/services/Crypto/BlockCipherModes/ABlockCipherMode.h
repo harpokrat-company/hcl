@@ -17,6 +17,7 @@ class ABlockCipherMode : public ACryptoElement {
  public:
   ABlockCipherMode() = default;
   ABlockCipherMode(const std::string &header, size_t &header_length);
+  virtual ~ABlockCipherMode() = default;
   virtual std::string Encrypt(const std::string &key, const std::string &content) = 0;
   virtual std::string Decrypt(const std::string &key, const std::string &content) = 0;
   virtual std::string GetHeader();

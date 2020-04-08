@@ -13,6 +13,7 @@ namespace HCL::Crypto {
 
 class ARandomGenerator : public ACryptoElement {
  public:
+  virtual ~ARandomGenerator() = default;
   virtual uint8_t GenerateRandomByte() = 0;
   virtual std::string GenerateRandomByteSequence(size_t sequence_length) = 0;
   virtual std::string GetHeader() = 0;

@@ -13,7 +13,10 @@ class PKCS7 : public AutoRegisterer<APadding, PKCS7> {
  public:
   PKCS7() = default;
   PKCS7(const std::string &header, size_t &header_length) {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-value"
     is_registered_;
+#pragma GCC diagnostic pop
   };
   const std::vector<std::string> &GetRequiredDependencies() override {
     static const std::vector<std::string> dependencies({});
