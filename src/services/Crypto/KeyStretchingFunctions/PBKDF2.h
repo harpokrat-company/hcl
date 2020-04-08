@@ -31,6 +31,7 @@ class PBKDF2 : AutoRegisterer<AKeyStretchingFunction, PBKDF2> {
   }
   std::string StretchKey(const std::string &key, size_t derived_key_length) override;
   std::string GetHeader() override;
+  void SetMessageAuthenticationCode(std::unique_ptr<AutoRegistrable> message_authentication_code);
   static const uint16_t id = 1;
   static const std::string &GetName() {
     static std::string name = "pbkdf2";

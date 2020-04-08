@@ -21,3 +21,8 @@ std::string HCL::Crypto::AInitializationVectorBlockCipherMode::GetInitialization
 std::string HCL::Crypto::AInitializationVectorBlockCipherMode::GetHeader() {
   return random_generator_->GetHeader();
 }
+
+void HCL::Crypto::AInitializationVectorBlockCipherMode::SetRandomGenerator(
+    std::unique_ptr<AutoRegistrable> random_generator) {
+  random_generator_ = AutoRegistrable::UniqueTo<ARandomGenerator>(std::move(random_generator));
+}

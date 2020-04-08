@@ -22,7 +22,7 @@ class Rijndael : virtual public ABlockCipher {
  public:
   Rijndael(const std::string &header, size_t &header_length) {
     try {
-      key_stretching_ = Factory<AKeyStretchingFunction>::BuildTypedFromHeader(header, header_length);
+      key_stretching_function_ = Factory<AKeyStretchingFunction>::BuildTypedFromHeader(header, header_length);
     } catch (std::runtime_error error) {
       // TODO Log ?
     }
@@ -40,8 +40,9 @@ class Rijndael : virtual public ABlockCipher {
   __attribute__((const));
   std::string PrepareKey(const std::string &key) override
   __attribute__((const));
+  void SetKeyStretchingFunction(std::unique_ptr<AutoRegistrable> key_stretching_function);
  protected:
-  std::unique_ptr<AKeyStretchingFunction> key_stretching_;
+  std::unique_ptr<AKeyStretchingFunction> key_stretching_function_;
  private:
   static void EncryptArrayBloc(const uint8_t[KeySize], uint8_t [16]);
   static void DecryptArrayBloc(const uint8_t[KeySize], uint8_t [16]);
@@ -285,10 +286,15 @@ size_t Rijndael<KeySize, Rounds>::GetBlockSize() {
 
 template<uint8_t KeySize, uint8_t Rounds>
 std::string Rijndael<KeySize, Rounds>::PrepareKey(const std::string &key) {
-  if (!key_stretching_) {
+  if (!key_stretching_function_) {
     throw std::runtime_error("Rijndael block cipher: Cannot prepare key: Key stretching function is not defined");
   }
-  return key_stretching_->StretchKey(key, KeySize);
+  return key_stretching_function_->StretchKey(key, KeySize);
+}
+
+template<uint8_t KeySize, uint8_t Rounds>
+void Rijndael<KeySize, Rounds>::SetKeyStretchingFunction(std::unique_ptr<AutoRegistrable> key_stretching_function) {
+  key_stretching_function_ = AutoRegistrable::UniqueTo<AKeyStretchingFunction>(std::move(key_stretching_function));
 }
 }
 #endif //HCL_SRC_SERVICES_CRYPTO_AES_H_

@@ -5,5 +5,5 @@
 #include "AES128.h"
 
 std::string HCL::Crypto::AES128::GetHeader() {
-  return GetIdBytes() + key_stretching_->GetHeader();
+  return GetIdBytes() + key_stretching_function_->GetHeader();
 }

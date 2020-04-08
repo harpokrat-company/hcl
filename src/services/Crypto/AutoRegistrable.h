@@ -22,6 +22,10 @@ class AutoRegistrable {
     }
     GetDependencySetters().at(index)(std::move(dependency));
   }
+  template <typename DerivedClass>
+  static std::unique_ptr<DerivedClass> UniqueTo(std::unique_ptr<AutoRegistrable> auto_registrable) {
+    return std::unique_ptr<DerivedClass>(dynamic_cast<DerivedClass *>(auto_registrable.release()));
+  }
  protected:
   virtual const std::map<size_t, void (*)(std::unique_ptr<AutoRegistrable>)> &GetDependencySetters() = 0;
 };
