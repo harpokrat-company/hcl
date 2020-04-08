@@ -13,6 +13,7 @@ namespace HCL::Crypto {
 
 class BlockCipherScheme : public AutoRegisterer<ACipher, BlockCipherScheme> {
  public:
+  BlockCipherScheme() = default;
   BlockCipherScheme(const std::string &header, size_t &header_length);
   const std::vector<std::string> &GetRequiredDependencies() override {
     static const std::vector<std::string> dependencies(

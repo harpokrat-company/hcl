@@ -14,6 +14,7 @@ namespace HCL::Crypto {
 
 class PBKDF2 : AutoRegisterer<AKeyStretchingFunction, PBKDF2> {
  public:
+  PBKDF2() = default; // TODO Add RandomGenerator for salt && Find a way to set salt_len & iterations
   PBKDF2(const std::string &header, size_t &header_length);
   const std::vector<std::string> &GetRequiredDependencies() override {
     static const std::vector<std::string> dependencies(

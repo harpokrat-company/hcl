@@ -11,6 +11,7 @@ namespace HCL::Crypto {
 
 class PKCS7 : public AutoRegisterer<APadding, PKCS7> {
  public:
+  PKCS7() = default;
   PKCS7(const std::string &header, size_t &header_length) {
     is_registered_;
   };

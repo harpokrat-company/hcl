@@ -15,6 +15,7 @@ namespace HCL::Crypto {
 
 class ABlockCipherMode : public AutoRegistrable {
  public:
+  ABlockCipherMode() = default;
   ABlockCipherMode(const std::string &header, size_t &header_length);
   virtual std::string Encrypt(const std::string &key, const std::string &content) = 0;
   virtual std::string Decrypt(const std::string &key, const std::string &content) = 0;

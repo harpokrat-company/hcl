@@ -6,45 +6,11 @@
 #include <cstdint>
 #include <iostream>
 #include <iomanip>
-#include <vector>
-#include <random>
-#include <chrono>
 
 #include "../src/services/Crypto/BlockCiphers/Rijndael.h"
 #include "../src/services/Crypto/Factory.h"
 
-static int CompareData(const uint8_t a[16], const uint8_t b[16]) {
-  for (int i = 0; i < 16; ++i) {
-    if (a[i] != b[i]) {
-      return 1;
-    }
-  }
-  return 0;
-}
-
-template<uint8_t KeySize>
-static void ShowDataError(const uint8_t key[KeySize],
-                          const uint8_t expected[16],
-                          const uint8_t result[16]) {
-  // TODO Clean display of hex (in separate test output dedicated file)
-  std::cerr << "For key: ";
-  for (int i = 0; i < KeySize; ++i) {
-    std::cerr << std::hex << std::setfill('0') << std::setw(2) << (int) key[i] << " ";
-  }
-  std::cerr << std::endl << "Got data:" << std::endl;
-  for (int i = 0; i < 16; ++i) {
-    std::cerr << std::hex << std::setfill('0') << std::setw(2) << (int) result[i] << " ";
-  }
-  std::cerr << std::endl;
-  std::cerr << "Instead of correct:" << std::endl;
-  for (int i = 0; i < 16; ++i) {
-    std::cerr << std::hex << std::setfill('0') << std::setw(2) << (int) expected[i] << " ";
-  }
-  std::cerr << std::endl;
-}
-
 static int AES128EncryptTest() {
-  const char aes128_identifier[2] = {0x00, 0x01};
   const size_t tests_number = 3;
   const uint8_t test_keys[][16] = {
       {0xf6, 0x95, 0xb9, 0x7f, 0x88, 0xcd, 0x9a, 0xb0, 0x8c, 0x8c, 0x03, 0xb3, 0x84, 0xd6, 0x69, 0x84},
@@ -61,11 +27,7 @@ static int AES128EncryptTest() {
       "0b11d26405c3c978a32dceb26a803cfd",
       "04d483c3933f07e7f8f060a6a272d518"
   };
-  size_t header_length = 0;
-  auto aes128 = HCL::Crypto::Factory<HCL::Crypto::ABlockCipher>::BuildTypedFromHeader(
-      std::string(aes128_identifier, 2),
-      header_length
-  );
+  auto aes128 = HCL::Crypto::Factory<HCL::Crypto::ABlockCipher>::BuildTypedFromName("aes128");
   for (int i = 0; i < tests_number; ++i) {
     std::cout << "Running test data " << i + 1 << "/" << tests_number
               << " of Rijndael AES 128 block cipher encryption test... "
@@ -88,7 +50,6 @@ static int AES128EncryptTest() {
 }
 
 static int AES192EncryptTest() {
-  const char aes192_identifier[2] = {0x00, 0x02};
   const size_t tests_number = 3;
   const uint8_t test_keys[][24] = {
       {
@@ -114,11 +75,7 @@ static int AES192EncryptTest() {
       "e73bc2ffe97e92b332b530f59b0a9776",
       "7f5524fc02d0129f40eadfead147b19c"
   };
-  size_t header_length = 0;
-  auto aes192 = HCL::Crypto::Factory<HCL::Crypto::ABlockCipher>::BuildTypedFromHeader(
-      std::string(aes192_identifier, 2),
-      header_length
-  );
+  auto aes192 = HCL::Crypto::Factory<HCL::Crypto::ABlockCipher>::BuildTypedFromName("aes192");
   for (int i = 0; i < tests_number; ++i) {
     std::cout << "Running test data " << i + 1 << "/" << tests_number
               << " of Rijndael AES 192 block cipher encryption test... "
@@ -141,7 +98,6 @@ static int AES192EncryptTest() {
 }
 
 static int AES256EncryptTest() {
-  const char aes256_identifier[2] = {0x00, 0x03};
   const size_t tests_number = 3;
   const uint8_t test_keys[][32] = {
       {
@@ -167,11 +123,7 @@ static int AES256EncryptTest() {
       "6d04ccd2c2a4861ed29c58174a4e74e2",
       "641a0b128d6bd3c94f5ff1302f90f16a"
   };
-  size_t header_length = 0;
-  auto aes256 = HCL::Crypto::Factory<HCL::Crypto::ABlockCipher>::BuildTypedFromHeader(
-      std::string(aes256_identifier, 2),
-      header_length
-  );
+  auto aes256 = HCL::Crypto::Factory<HCL::Crypto::ABlockCipher>::BuildTypedFromName("aes256");
   for (int i = 0; i < tests_number; ++i) {
     std::cout << "Running test data " << i + 1 << "/" << tests_number
               << " of Rijndael AES 256 block cipher encryption test... "
@@ -194,7 +146,6 @@ static int AES256EncryptTest() {
 }
 
 static int AES128DecryptTest() {
-  const char aes128_identifier[2] = {0x00, 0x01};
   const size_t tests_number = 3;
   const uint8_t test_keys[][16] = {
       {0xf6, 0x95, 0xb9, 0x7f, 0x88, 0xcd, 0x9a, 0xb0, 0x8c, 0x8c, 0x03, 0xb3, 0x84, 0xd6, 0x69, 0x84},
@@ -211,11 +162,7 @@ static int AES128DecryptTest() {
       "5e7177b4de4850fc7492ddb9e3ee562a",
       "706c367347e96d63060f25ec0a4bc9a2"
   };
-  size_t header_length = 0;
-  auto aes128 = HCL::Crypto::Factory<HCL::Crypto::ABlockCipher>::BuildTypedFromHeader(
-      std::string(aes128_identifier, 2),
-      header_length
-  );
+  auto aes128 = HCL::Crypto::Factory<HCL::Crypto::ABlockCipher>::BuildTypedFromName("aes128");
   for (int i = 0; i < tests_number; ++i) {
     std::cout << "Running test data " << i + 1 << "/" << tests_number
               << " of Rijndael AES 128 block cipher decryption test... "
@@ -238,7 +185,6 @@ static int AES128DecryptTest() {
 }
 
 static int AES192DecryptTest() {
-  const char aes192_identifier[2] = {0x00, 0x02};
   const size_t tests_number = 3;
   const uint8_t test_keys[][24] = {
       {
@@ -264,11 +210,7 @@ static int AES192DecryptTest() {
       "994405e25e58f890e13a5da1f1ec487b",
       "cb3aa132b41ed0e5b06fb5375a0b97c6"
   };
-  size_t header_length = 0;
-  auto aes192 = HCL::Crypto::Factory<HCL::Crypto::ABlockCipher>::BuildTypedFromHeader(
-      std::string(aes192_identifier, 2),
-      header_length
-  );
+  auto aes192 = HCL::Crypto::Factory<HCL::Crypto::ABlockCipher>::BuildTypedFromName("aes192");
   for (int i = 0; i < tests_number; ++i) {
     std::cout << "Running test data " << i + 1 << "/" << tests_number
               << " of Rijndael AES 192 block cipher decryption test... "
@@ -291,7 +233,6 @@ static int AES192DecryptTest() {
 }
 
 static int AES256DecryptTest() {
-  const char aes256_identifier[2] = {0x00, 0x03};
   const size_t tests_number = 3;
   const uint8_t test_keys[][32] = {
       {
@@ -317,11 +258,7 @@ static int AES256DecryptTest() {
       "b5e5c191a96daa319ba7d860fc865d9d",
       "ae91b09c3ba79545176b1c8ce7f3990e"
   };
-  size_t header_length = 0;
-  auto aes256 = HCL::Crypto::Factory<HCL::Crypto::ABlockCipher>::BuildTypedFromHeader(
-      std::string(aes256_identifier, 2),
-      header_length
-  );
+  auto aes256 = HCL::Crypto::Factory<HCL::Crypto::ABlockCipher>::BuildTypedFromName("aes256");
   for (int i = 0; i < tests_number; ++i) {
     std::cout << "Running test data " << i + 1 << "/" << tests_number
               << " of Rijndael AES 256 block cipher decryption test... "

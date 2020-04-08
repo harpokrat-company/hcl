@@ -13,6 +13,7 @@ namespace HCL::Crypto {
 
 class AInitializationVectorBlockCipherMode : public AutoRegistrable {
  public:
+  AInitializationVectorBlockCipherMode() = default;
   AInitializationVectorBlockCipherMode(const std::string &header, size_t &header_length);
   virtual std::string GetHeader();
   void SetRandomGenerator(std::unique_ptr<AutoRegistrable> random_generator);

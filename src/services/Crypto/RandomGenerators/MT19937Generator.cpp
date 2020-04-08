@@ -4,9 +4,12 @@
 
 #include "MT19937Generator.h"
 
-HCL::Crypto::MT19937Generator::MT19937Generator(const std::string &header, size_t &header_length) :
-  generator_(random_device_()),
-  distribution_(0, 255) {
+HCL::Crypto::MT19937Generator::MT19937Generator():
+    generator_(random_device_()),
+    distribution_(0, 255) {
+}
+
+HCL::Crypto::MT19937Generator::MT19937Generator(const std::string &header, size_t &header_length) : MT19937Generator() {
 }
 
 uint8_t HCL::Crypto::MT19937Generator::GenerateRandomByte() {

@@ -70,6 +70,7 @@ std::string HCL::Crypto::PBKDF2::GetHeader() {
   if (!message_authentication_code_) {
     throw std::runtime_error("PBKDF2 error: Message authentication code is not set");
   }
+  // TODO Add salt + iterations !!!
   return GetIdBytes() + message_authentication_code_->GetHeader();
 }
 

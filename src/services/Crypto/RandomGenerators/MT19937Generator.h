@@ -13,6 +13,7 @@ namespace HCL::Crypto {
 
 class MT19937Generator : AutoRegisterer<ARandomGenerator, MT19937Generator> {
  public:
+  MT19937Generator();
   MT19937Generator(const std::string &header, size_t &header_length);
   const std::vector<std::string> &GetRequiredDependencies() override {
     static const std::vector<std::string> dependencies({});

@@ -15,6 +15,9 @@ class AutoRegisterer : virtual public AbstractClass {
   static std::unique_ptr<AbstractClass> InstantiateFromHeader(const std::string &header, size_t &header_length) {
     return std::make_unique<RegisteredClass>(header, header_length);
   }
+  static std::unique_ptr<AbstractClass> Instantiate() {
+    return std::make_unique<RegisteredClass>();
+  }
   static uint16_t GetId() {
     return RegisteredClass::id;
   }
@@ -37,6 +40,7 @@ template<typename AbstractClass, typename RegisteredClass>
 const bool AutoRegisterer<AbstractClass, RegisteredClass>::is_registered_ =
     Factory<AbstractClass>::Register(RegisteredClass::id,
                                      &AutoRegisterer<AbstractClass, RegisteredClass>::InstantiateFromHeader,
+                                     &AutoRegisterer<AbstractClass, RegisteredClass>::Instantiate,
                                      GetRegisteredName());
 }
 

@@ -20,12 +20,9 @@ namespace HCL::Crypto {
 template<uint8_t KeySize, uint8_t Rounds>
 class Rijndael : virtual public ABlockCipher {
  public:
+  Rijndael() = default;
   Rijndael(const std::string &header, size_t &header_length) {
-    try {
-      key_stretching_function_ = Factory<AKeyStretchingFunction>::BuildTypedFromHeader(header, header_length);
-    } catch (std::runtime_error error) {
-      // TODO Log ?
-    }
+    key_stretching_function_ = Factory<AKeyStretchingFunction>::BuildTypedFromHeader(header, header_length);
   };
   const std::vector<std::string> &GetRequiredDependencies() override {
     static const std::vector<std::string> dependencies(

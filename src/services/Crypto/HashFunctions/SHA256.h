@@ -22,6 +22,7 @@ namespace HCL::Crypto {
 class SHA256 : public AutoRegisterer<AHashFunction, SHA256> {
   // TODO Make changes for re-use in different SHA2
  public:
+  SHA256() = default;
   SHA256(const std::string &header, size_t &header_length) {
     is_registered_;
   };
