@@ -6,10 +6,11 @@
 #define HCL_SRC_SERVICES_CRYPTO_HASHFUNCTIONS_AHASHFUNCTION_H_
 
 #include <string>
+#include "../AutoRegistrable.h"
 
 namespace HCL::Crypto {
 
-class AHashFunction {
+class AHashFunction : public AutoRegistrable {
  public:
   virtual std::string HashData(const std::string &data) = 0;
   virtual size_t GetBlocSize() __attribute__((const)) = 0;

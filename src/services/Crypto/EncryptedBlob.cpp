@@ -8,7 +8,7 @@
 HCL::Crypto::EncryptedBlob::EncryptedBlob(const std::string &key, const std::string &blob) {
   size_t header_length = 0;
 
-  this->SetCipher(Factory<ACipher>::GetInstanceFromHeader(blob, header_length));
+  this->SetCipher(Factory<ACipher>::BuildTypedFromHeader(blob, header_length));
   this->SetContent(this->cipher_->Decrypt(key, blob.substr(header_length)));
 }
 

@@ -7,7 +7,7 @@
 
 HCL::Crypto::HMAC::HMAC(const std::string &header, size_t &header_length) {
   is_registered_;
-  hash_function_ = Factory<AHashFunction>::GetInstanceFromHeader(header, header_length);
+  hash_function_ = Factory<AHashFunction>::BuildTypedFromHeader(header, header_length);
 }
 
 std::string HCL::Crypto::HMAC::SignMessage(const std::string &key, const std::string &message) {

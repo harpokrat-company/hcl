@@ -36,6 +36,8 @@ set(LIBRARY_SOURCE_FILES
     src/services/Crypto/Ciphers/ACipher.h
     src/services/Crypto/EncryptedBlob.cpp
     src/services/Crypto/EncryptedBlob.h
+    src/services/Crypto/SuperFactory.cpp
+    src/services/Crypto/SuperFactory.h
     src/services/Crypto/Factory.h
     src/services/Crypto/Ciphers/BlockCipherScheme.cpp
     src/services/Crypto/Ciphers/BlockCipherScheme.h
@@ -75,7 +77,11 @@ set(LIBRARY_SOURCE_FILES
     src/services/Crypto/MessageAuthenticationCodes/HMAC.h
     src/services/Crypto/HashFunctions/SHA256.cpp
     src/services/Crypto/HashFunctions/SHA256.h
-    src/services/Crypto/AutoRegisterer.h)
+    src/services/Crypto/AutoRegisterer.h
+    src/services/Crypto/AFactory.cpp
+    src/services/Crypto/AFactory.h
+    src/services/Crypto/AutoRegistrable.cpp
+    src/services/Crypto/AutoRegistrable.h)
 
 set(TEST_SOURCE_FILES
     tests/main.cpp

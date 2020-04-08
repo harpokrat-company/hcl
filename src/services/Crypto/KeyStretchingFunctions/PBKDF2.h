@@ -15,6 +15,18 @@ namespace HCL::Crypto {
 class PBKDF2 : AutoRegisterer<AKeyStretchingFunction, PBKDF2> {
  public:
   PBKDF2(const std::string &header, size_t &header_length);
+  const std::vector<std::string> &GetDependencies() override {
+    static const std::vector<std::string> dependencies({"Aled", "Oskour"});
+    // TODO
+    return dependencies;
+  }
+  const std::map<size_t, void (*)(std::unique_ptr<AutoRegistrable>)> &GetDependencySetters() override {
+    static const std::map<size_t, void (*)(std::unique_ptr<AutoRegistrable>)> dependency_setters = {
+        {0, nullptr},
+    };
+    // TODO
+    return dependency_setters;
+  }
   std::string StretchKey(const std::string &key, size_t derived_key_length) override;
   std::string GetHeader() override;
   static const uint16_t id = 1;

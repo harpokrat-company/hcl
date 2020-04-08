@@ -34,7 +34,7 @@ class AutoRegisterer : virtual public AbstractClass {
 };
 
 template<typename AbstractClass, typename RegisteredClass>
-const bool HCL::Crypto::AutoRegisterer<AbstractClass, RegisteredClass>::is_registered_ =
+const bool AutoRegisterer<AbstractClass, RegisteredClass>::is_registered_ =
     Factory<AbstractClass>::Register(RegisteredClass::id,
                                      &AutoRegisterer<AbstractClass, RegisteredClass>::InstantiateFromHeader,
                                      GetRegisteredName());

@@ -9,7 +9,7 @@ HCL::Crypto::AInitializationVectorBlockCipherMode::AInitializationVectorBlockCip
     const std::string &header,
     size_t &header_length
 ) {
-  this->random_generator_ = Factory<ARandomGenerator>::GetInstanceFromHeader(header, header_length);
+  this->random_generator_ = Factory<ARandomGenerator>::BuildTypedFromHeader(header, header_length);
 }
 
 std::string HCL::Crypto::AInitializationVectorBlockCipherMode::GetInitializationVector(

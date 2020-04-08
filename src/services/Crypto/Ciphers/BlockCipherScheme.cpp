@@ -6,7 +6,7 @@
 
 HCL::Crypto::BlockCipherScheme::BlockCipherScheme(const std::string &header, size_t &header_length) {
   is_registered_;
-  this->block_cipher_mode_ = Factory<ABlockCipherMode>::GetInstanceFromHeader(header, header_length);
+  this->block_cipher_mode_ = Factory<ABlockCipherMode>::BuildTypedFromHeader(header, header_length);
 }
 
 std::string HCL::Crypto::BlockCipherScheme::Encrypt(const std::string &password, const std::string &content) {

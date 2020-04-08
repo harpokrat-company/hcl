@@ -6,10 +6,11 @@
 #define HCL_SRC_SERVICES_CRYPTO_KEYSTRETCHINGFUNCTIONS_AKEYSTRETCHINGFUNCTION_H_
 
 #include <string>
+#include "../AutoRegistrable.h"
 
 namespace HCL::Crypto {
 
-class AKeyStretchingFunction {
+class AKeyStretchingFunction : public AutoRegistrable {
  public:
   virtual std::string StretchKey(const std::string &key, size_t derived_key_length) = 0;
   virtual std::string GetHeader() = 0;

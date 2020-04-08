@@ -8,7 +8,7 @@
 HCL::Crypto::PBKDF2::PBKDF2(const std::string &header, size_t &header_length) {
   ParseSalt(header, header_length);
   ParseIterations(header, header_length);
-  message_authentication_code_ = Factory<AMessageAuthenticationCode>::GetInstanceFromHeader(header, header_length);
+  message_authentication_code_ = Factory<AMessageAuthenticationCode>::BuildTypedFromHeader(header, header_length);
 }
 
 std::string HCL::Crypto::PBKDF2::StretchKey(const std::string &key, size_t derived_key_length) {

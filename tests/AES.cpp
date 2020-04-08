@@ -62,7 +62,7 @@ static int AES128EncryptTest() {
       "04d483c3933f07e7f8f060a6a272d518"
   };
   size_t header_length = 0;
-  auto aes128 = HCL::Crypto::Factory<HCL::Crypto::ABlockCipher>::GetInstanceFromHeader(
+  auto aes128 = HCL::Crypto::Factory<HCL::Crypto::ABlockCipher>::BuildTypedFromHeader(
       std::string(aes128_identifier, 2),
       header_length
   );
@@ -115,7 +115,7 @@ static int AES192EncryptTest() {
       "7f5524fc02d0129f40eadfead147b19c"
   };
   size_t header_length = 0;
-  auto aes192 = HCL::Crypto::Factory<HCL::Crypto::ABlockCipher>::GetInstanceFromHeader(
+  auto aes192 = HCL::Crypto::Factory<HCL::Crypto::ABlockCipher>::BuildTypedFromHeader(
       std::string(aes192_identifier, 2),
       header_length
   );
@@ -168,7 +168,7 @@ static int AES256EncryptTest() {
       "641a0b128d6bd3c94f5ff1302f90f16a"
   };
   size_t header_length = 0;
-  auto aes256 = HCL::Crypto::Factory<HCL::Crypto::ABlockCipher>::GetInstanceFromHeader(
+  auto aes256 = HCL::Crypto::Factory<HCL::Crypto::ABlockCipher>::BuildTypedFromHeader(
       std::string(aes256_identifier, 2),
       header_length
   );
@@ -212,7 +212,7 @@ static int AES128DecryptTest() {
       "706c367347e96d63060f25ec0a4bc9a2"
   };
   size_t header_length = 0;
-  auto aes128 = HCL::Crypto::Factory<HCL::Crypto::ABlockCipher>::GetInstanceFromHeader(
+  auto aes128 = HCL::Crypto::Factory<HCL::Crypto::ABlockCipher>::BuildTypedFromHeader(
       std::string(aes128_identifier, 2),
       header_length
   );
@@ -265,7 +265,7 @@ static int AES192DecryptTest() {
       "cb3aa132b41ed0e5b06fb5375a0b97c6"
   };
   size_t header_length = 0;
-  auto aes192 = HCL::Crypto::Factory<HCL::Crypto::ABlockCipher>::GetInstanceFromHeader(
+  auto aes192 = HCL::Crypto::Factory<HCL::Crypto::ABlockCipher>::BuildTypedFromHeader(
       std::string(aes192_identifier, 2),
       header_length
   );
@@ -318,7 +318,7 @@ static int AES256DecryptTest() {
       "ae91b09c3ba79545176b1c8ce7f3990e"
   };
   size_t header_length = 0;
-  auto aes256 = HCL::Crypto::Factory<HCL::Crypto::ABlockCipher>::GetInstanceFromHeader(
+  auto aes256 = HCL::Crypto::Factory<HCL::Crypto::ABlockCipher>::BuildTypedFromHeader(
       std::string(aes256_identifier, 2),
       header_length
   );

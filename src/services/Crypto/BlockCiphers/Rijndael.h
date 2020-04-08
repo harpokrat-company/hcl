@@ -22,7 +22,7 @@ class Rijndael : virtual public ABlockCipher {
  public:
   Rijndael(const std::string &header, size_t &header_length) {
     try {
-      key_stretching_ = Factory<AKeyStretchingFunction>::GetInstanceFromHeader(header, header_length);
+      key_stretching_ = Factory<AKeyStretchingFunction>::BuildTypedFromHeader(header, header_length);
     } catch (std::runtime_error error) {
       // TODO Log ?
     }

@@ -26,7 +26,7 @@ static int SHA256Test() {
       "26fc8520f6e70b602e4c33bc70f7147bcf3af208e2d570563e83fef6b52ed0cd"
   };
   size_t header_length = 0;
-  auto sha512 = HCL::Crypto::Factory<HCL::Crypto::AHashFunction>::GetInstanceFromHeader(
+  auto sha512 = HCL::Crypto::Factory<HCL::Crypto::AHashFunction>::BuildTypedFromHeader(
       std::string(sha256_identifier, 2),
       header_length
   );

@@ -7,10 +7,11 @@
 
 #include <cstdint>
 #include <string>
+#include "../AutoRegistrable.h"
 
 namespace HCL::Crypto {
 
-class ARandomGenerator {
+class ARandomGenerator : public AutoRegistrable {
  public:
   virtual uint8_t GenerateRandomByte() = 0;
   virtual std::string GenerateRandomByteSequence(size_t sequence_length) = 0;

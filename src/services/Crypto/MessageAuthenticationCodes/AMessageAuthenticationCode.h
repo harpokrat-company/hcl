@@ -6,10 +6,11 @@
 #define HCL_SRC_SERVICES_CRYPTO_MESSAGEAUTHENTICATIONCODES_AMESSAGEAUTHENTICATIONCODE_H_
 
 #include <string>
+#include "../AutoRegistrable.h"
 
 namespace HCL::Crypto {
 
-class AMessageAuthenticationCode {
+class AMessageAuthenticationCode : public AutoRegistrable {
  public:
   virtual std::string SignMessage(const std::string &key, const std::string &message) = 0;
   virtual std::string GetHeader() = 0;
