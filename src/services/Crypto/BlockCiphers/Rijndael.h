@@ -297,7 +297,7 @@ size_t Rijndael<KeySize, Rounds>::GetBlockSize() {
 template<uint8_t KeySize, uint8_t Rounds>
 std::string Rijndael<KeySize, Rounds>::PrepareKey(const std::string &key) {
   if (!key_stretching_function_) {
-    throw std::runtime_error("Rijndael block cipher: Cannot prepare key: Key stretching function is not defined");
+    throw std::runtime_error("Rijndael error: Key stretching function is not set");
   }
   return key_stretching_function_->StretchKey(key, KeySize);
 }

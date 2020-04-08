@@ -14,6 +14,8 @@ namespace HCL::Crypto {
 
 class AutoRegistrable {
  public:
+  // TODO virtual get Name / Type name ?
+  // TODO Clean runtime errors
   virtual const std::vector<std::string> &GetRequiredDependencies() = 0;
   virtual void SetDependency(std::unique_ptr<AutoRegistrable> dependency, size_t index) = 0;
   template <typename DerivedClass>

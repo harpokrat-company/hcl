@@ -11,6 +11,9 @@ HCL::Crypto::HMAC::HMAC(const std::string &header, size_t &header_length) {
 }
 
 std::string HCL::Crypto::HMAC::SignMessage(const std::string &key, const std::string &message) {
+  if (!hash_function_) {
+    throw std::runtime_error("HMAC error: Hash function is not set");
+  }
   std::string prepared_key = key;
   size_t bloc_size = hash_function_->GetBlocSize();
   std::string outer_key;
@@ -28,6 +31,9 @@ std::string HCL::Crypto::HMAC::SignMessage(const std::string &key, const std::st
 }
 
 std::string HCL::Crypto::HMAC::GetHeader() {
+  if (!hash_function_) {
+    throw std::runtime_error("HMAC error: Hash function is not set");
+  }
   return GetIdBytes() + hash_function_->GetHeader();
 }
 

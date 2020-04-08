@@ -22,6 +22,9 @@ std::string HCL::Crypto::PBKDF2::StretchKey(const std::string &key, size_t deriv
 }
 
 std::string HCL::Crypto::PBKDF2::GetPBKDF2Bloc(const std::string &key, uint32_t bloc_index) {
+  if (!message_authentication_code_) {
+    throw std::runtime_error("PBKDF2 error: Message authentication code is not set");
+  }
   char serialized_bloc_index[4] = {
       static_cast<char>((bloc_index >> 24) & 0xFF),
       static_cast<char>((bloc_index >> 16) & 0xFF),
@@ -64,6 +67,9 @@ void HCL::Crypto::PBKDF2::ParseIterations(const std::string &header, size_t &hea
 }
 
 std::string HCL::Crypto::PBKDF2::GetHeader() {
+  if (!message_authentication_code_) {
+    throw std::runtime_error("PBKDF2 error: Message authentication code is not set");
+  }
   return GetIdBytes() + message_authentication_code_->GetHeader();
 }
 

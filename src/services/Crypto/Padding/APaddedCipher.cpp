@@ -9,6 +9,9 @@ HCL::Crypto::APaddedCipher::APaddedCipher(const std::string &header, size_t &hea
   this->padding_ = Factory<APadding>::BuildTypedFromHeader(header, header_length);
 }
 std::string HCL::Crypto::APaddedCipher::GetHeader() {
+  if (!padding_) {
+    throw std::runtime_error("APaddedCipher error: Padding is not set");
+  }
   return padding_->GetHeader();
 }
 

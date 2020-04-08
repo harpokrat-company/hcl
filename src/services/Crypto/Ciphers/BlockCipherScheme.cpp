@@ -10,13 +10,22 @@ HCL::Crypto::BlockCipherScheme::BlockCipherScheme(const std::string &header, siz
 }
 
 std::string HCL::Crypto::BlockCipherScheme::Encrypt(const std::string &password, const std::string &content) {
+  if (!block_cipher_mode_) {
+    throw std::runtime_error("BlockCipherScheme error: Block cipher mode is not set");
+  }
   return block_cipher_mode_->Encrypt(password, content);
 }
 
 std::string HCL::Crypto::BlockCipherScheme::Decrypt(const std::string &password, const std::string &content) {
+  if (!block_cipher_mode_) {
+    throw std::runtime_error("BlockCipherScheme error: Block cipher mode is not set");
+  }
   return block_cipher_mode_->Decrypt(password, content);
 }
 std::string HCL::Crypto::BlockCipherScheme::GetHeader() {
+  if (!block_cipher_mode_) {
+    throw std::runtime_error("BlockCipherScheme error: Block cipher mode is not set");
+  }
   return GetIdBytes() + block_cipher_mode_->GetHeader();
 }
 

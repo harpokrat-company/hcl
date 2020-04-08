@@ -15,10 +15,16 @@ HCL::Crypto::AInitializationVectorBlockCipherMode::AInitializationVectorBlockCip
 std::string HCL::Crypto::AInitializationVectorBlockCipherMode::GetInitializationVector(
     size_t initialization_vector_length
 ) {
+  if (!random_generator_) {
+    throw std::runtime_error("AInitializationVectorBlockCipherMode error: Random generator is not set");
+  }
   return random_generator_->GenerateRandomByteSequence(initialization_vector_length);
 }
 
 std::string HCL::Crypto::AInitializationVectorBlockCipherMode::GetHeader() {
+  if (!random_generator_) {
+    throw std::runtime_error("AInitializationVectorBlockCipherMode error: Random generator is not set");
+  }
   return random_generator_->GetHeader();
 }
 

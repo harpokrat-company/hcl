@@ -10,6 +10,9 @@ HCL::Crypto::ABlockCipherMode::ABlockCipherMode(const std::string &header, size_
 }
 
 std::string HCL::Crypto::ABlockCipherMode::GetHeader() {
+  if (!cipher_) {
+    throw std::runtime_error("ABlockCipherMode error: Cipher is not set");
+  }
   return cipher_->GetHeader();
 }
 

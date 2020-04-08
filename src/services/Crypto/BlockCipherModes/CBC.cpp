@@ -13,6 +13,12 @@ HCL::Crypto::CBC::CBC(const std::string &header, size_t &header_length) :
 }
 
 std::string HCL::Crypto::CBC::Encrypt(const std::string &key, const std::string &content) {
+  if (!cipher_) {
+    throw std::runtime_error("CBC error: Cipher is not set");
+  }
+  if (!padding_) {
+    throw std::runtime_error("CBC error: Padding is not set");
+  }
   size_t block_size = cipher_->GetBlockSize();
   size_t content_size = content.length();
   std::string prepared_key = cipher_->PrepareKey(key);
@@ -33,6 +39,12 @@ std::string HCL::Crypto::CBC::Encrypt(const std::string &key, const std::string 
 }
 
 std::string HCL::Crypto::CBC::Decrypt(const std::string &key, const std::string &content) {
+  if (!cipher_) {
+    throw std::runtime_error("CBC error: Cipher is not set");
+  }
+  if (!padding_) {
+    throw std::runtime_error("CBC error: Padding is not set");
+  }
   size_t block_size = cipher_->GetBlockSize();
   std::string prepared_key = cipher_->PrepareKey(key);
   std::string next_plain_bloc;
