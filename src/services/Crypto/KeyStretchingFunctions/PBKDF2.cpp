@@ -70,11 +70,32 @@ std::string HCL::Crypto::PBKDF2::GetHeader() {
   if (!message_authentication_code_) {
     throw std::runtime_error("PBKDF2 error: Message authentication code is not set");
   }
-  // TODO Add salt + iterations !!!
-  return GetIdBytes() + message_authentication_code_->GetHeader();
+  std::string header = GetIdBytes();
+
+  header += SerializeSalt();
+  header += SerializeIterations();
+  return header + message_authentication_code_->GetHeader();
 }
 
 void HCL::Crypto::PBKDF2::SetMessageAuthenticationCode(std::unique_ptr<AutoRegistrable> message_authentication_code) {
   message_authentication_code_ =
       AutoRegistrable::UniqueTo<AMessageAuthenticationCode>(std::move(message_authentication_code));
+}
+
+std::string HCL::Crypto::PBKDF2::SerializeSalt() {
+  std::string serialized;
+
+  serialized += (uint8_t) ((salt_.length() >> 8) & 0xFF);
+  serialized += (uint8_t) (salt_.length() & 0xFF);
+  return serialized + salt_;
+}
+
+std::string HCL::Crypto::PBKDF2::SerializeIterations() {
+  std::string serialized;
+
+  serialized += (uint8_t) ((iterations_ >> 24) & 0xFF);
+  serialized += (uint8_t) ((iterations_ >> 16) & 0xFF);
+  serialized += (uint8_t) ((iterations_ >> 8) & 0xFF);
+  serialized += (uint8_t) (iterations_ & 0xFF);
+  return serialized;
 }

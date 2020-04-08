@@ -45,6 +45,8 @@ class PBKDF2 : AutoRegisterer<AKeyStretchingFunction, PBKDF2> {
   std::string GetPBKDF2Bloc(const std::string &key, uint32_t bloc_index);
   void ParseSalt(const std::string &header, size_t &header_length);
   void ParseIterations(const std::string &header, size_t &header_length);
+  std::string SerializeSalt();
+  std::string SerializeIterations();
   std::unique_ptr<AMessageAuthenticationCode> message_authentication_code_;
   std::string salt_;
   std::uint32_t iterations_;
