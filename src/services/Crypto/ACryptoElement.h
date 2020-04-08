@@ -16,8 +16,9 @@ class ACryptoElement {
  public:
   // TODO Clean runtime errors
   virtual const std::vector<std::string> &GetRequiredDependencies() = 0;
+  // TODO SetDependency via name of element (& call to factory)
   virtual void SetDependency(std::unique_ptr<ACryptoElement> dependency, size_t index) = 0;
-  // TODO ? virtual const std::string &GetDependency(size_t index) = 0;
+  // TODO ! virtual ACryptoElement &GetDependency(size_t index) = 0;
   virtual const std::string &GetElementName() = 0;
   virtual const std::string &GetElementTypeName() = 0;
   template <typename DerivedClass>

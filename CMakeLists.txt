@@ -67,8 +67,8 @@ set(LIBRARY_SOURCE_FILES
     src/services/Crypto/BlockCipherModes/AInitializationVectorBlockCipherMode.h
     src/services/Crypto/Padding/PKCS7.cpp
     src/services/Crypto/Padding/PKCS7.h
-    src/services/Crypto/RandomGenerators/MT19937Generator.cpp
-    src/services/Crypto/RandomGenerators/MT19937Generator.h
+    src/services/Crypto/RandomGenerators/MT19937.cpp
+    src/services/Crypto/RandomGenerators/MT19937.h
     src/services/Crypto/KeyStretchingFunctions/PBKDF2.cpp
     src/services/Crypto/KeyStretchingFunctions/PBKDF2.h
     src/services/Crypto/MessageAuthenticationCodes/AMessageAuthenticationCode.cpp
@@ -85,6 +85,7 @@ set(TEST_SOURCE_FILES
     tests/main.cpp
     tests/AES.cpp
     tests/SHA.cpp
+    tests/FullWorkflow.cpp
     tests/RijndaelKeySchedule.cpp)
 
 add_library(hcl SHARED ${LIBRARY_SOURCE_FILES})

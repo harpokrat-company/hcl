@@ -17,7 +17,7 @@ namespace HCL::Crypto {
 #define PBKDF2_DEFAULT_SALT_LENGTH  64
 #define PBKDF2_DEFAULT_ITERATIONS   100000
 
-class PBKDF2 : AutoRegisterer<AKeyStretchingFunction, PBKDF2> {
+class PBKDF2 : public AutoRegisterer<AKeyStretchingFunction, PBKDF2> {
  public:
   PBKDF2();
   PBKDF2(const std::string &header, size_t &header_length);

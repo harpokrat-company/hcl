@@ -2,8 +2,8 @@
 // Created by neodar on 07/04/2020.
 //
 
-#ifndef HCL_SRC_SERVICES_CRYPTO_RANDOMGENERATORS_MT19937GENERATOR_H_
-#define HCL_SRC_SERVICES_CRYPTO_RANDOMGENERATORS_MT19937GENERATOR_H_
+#ifndef HCL_SRC_SERVICES_CRYPTO_RANDOMGENERATORS_MT19937_H_
+#define HCL_SRC_SERVICES_CRYPTO_RANDOMGENERATORS_MT19937_H_
 
 #include <random>
 #include "../AutoRegisterer.h"
@@ -11,16 +11,16 @@
 
 namespace HCL::Crypto {
 
-class MT19937Generator : AutoRegisterer<ARandomGenerator, MT19937Generator> {
+class MT19937 : public AutoRegisterer<ARandomGenerator, MT19937> {
  public:
-  MT19937Generator();
-  MT19937Generator(const std::string &header, size_t &header_length);
+  MT19937();
+  MT19937(const std::string &header, size_t &header_length);
   const std::vector<std::string> &GetRequiredDependencies() override {
     static const std::vector<std::string> dependencies({});
     return dependencies;
   }
   void SetDependency(std::unique_ptr<ACryptoElement> dependency, size_t index) override {
-    throw std::runtime_error("MT19937Generator error: Cannot set dependency: Incorrect dependency index");
+    throw std::runtime_error("MT19937 error: Cannot set dependency: Incorrect dependency index");
   }
   uint8_t GenerateRandomByte() override;
   std::string GenerateRandomByteSequence(size_t sequence_length) override;
@@ -29,7 +29,7 @@ class MT19937Generator : AutoRegisterer<ARandomGenerator, MT19937Generator> {
   const std::string &GetElementTypeName() override { return GetTypeName(); };
   static const uint16_t id = 1;
   static const std::string &GetName() {
-    static std::string name = "mt19937-generator";
+    static std::string name = "mt19937";
     return name;
   };
  private:
@@ -39,4 +39,4 @@ class MT19937Generator : AutoRegisterer<ARandomGenerator, MT19937Generator> {
 };
 }
 
-#endif //HCL_SRC_SERVICES_CRYPTO_RANDOMGENERATORS_MT19937GENERATOR_H_
+#endif //HCL_SRC_SERVICES_CRYPTO_RANDOMGENERATORS_MT19937_H_

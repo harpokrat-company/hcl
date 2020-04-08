@@ -21,7 +21,7 @@ class CBC : public AutoRegisterer<ABlockCipherMode, CBC>,
   const std::vector<std::string> &GetRequiredDependencies() override {
     static const std::vector<std::string> dependencies(
         {
-            ACipher::GetName(),
+            ABlockCipher::GetName(),
             APadding::GetName(),
             ARandomGenerator::GetName(),
         });

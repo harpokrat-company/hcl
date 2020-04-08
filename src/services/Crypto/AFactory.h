@@ -12,6 +12,7 @@
 namespace HCL::Crypto {
 
 class AFactory {
+ public:
   virtual std::unique_ptr<ACryptoElement> BuildFromHeader(const std::string &header, size_t &header_length) = 0;
   virtual std::unique_ptr<ACryptoElement> BuildFromId(uint16_t id) = 0;
   virtual std::unique_ptr<ACryptoElement> BuildFromName(const std::string &name) = 0;
