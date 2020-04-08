@@ -19,6 +19,8 @@ namespace HCL::Crypto {
 #define SHA256_S0(x)        (RIGHT_ROTATE(x,  2) ^ RIGHT_ROTATE(x, 13) ^ RIGHT_ROTATE(x, 22))
 #define SHA256_S1(x)        (RIGHT_ROTATE(x,  6) ^ RIGHT_ROTATE(x, 11) ^ RIGHT_ROTATE(x, 25))
 
+// TODO Optimize everything
+
 class SHA256 : public AutoRegisterer<AHashFunction, SHA256> {
   // TODO Make changes for re-use in different SHA2
  public:

@@ -5,16 +5,20 @@
 #include "secret.h"
 
 extern "C" {
-HCL::Secret *EXPORT_FUNCTION GetSecretFromContent(const char *raw_content) {
-    return new HCL::Secret(raw_content);
+HCL::Secret *EXPORT_FUNCTION GetSecretFromContent(const char *key, const char *raw_content) {
+    return new HCL::Secret(key, raw_content);
 }
 
 HCL::Secret *EXPORT_FUNCTION CreateSecret() {
     return new HCL::Secret();
 }
 
+bool EXPORT_FUNCTION CorrectSecretDecryption(HCL::Secret *secret) {
+  return secret->CorrectDecryption();
+}
+
 const char *EXPORT_FUNCTION GetNameFromSecret(HCL::Secret *secret) {
-    return secret->GetName().c_str();
+  return secret->GetName().c_str();
 }
 
 const char *EXPORT_FUNCTION GetLoginFromSecret(HCL::Secret *secret) {
@@ -45,8 +49,8 @@ void EXPORT_FUNCTION UpdateSecretDomain(HCL::Secret *secret, const char *domain)
     secret->SetDomain(domain);
 }
 
-std::string *EXPORT_FUNCTION GetContentStringFromSecret(HCL::Secret *secret) {
-    return new std::string(secret->Serialize());
+std::string *EXPORT_FUNCTION GetContentStringFromSecret(HCL::Secret *secret, const char *key) {
+    return new std::string(secret->Serialize(key));
 }
 
 void EXPORT_FUNCTION DeleteSecret(HCL::Secret *secret) {

@@ -14,8 +14,9 @@
 namespace HCL::Crypto {
 
 // TODO Find a way to set salt_len & iterations
+// TODO Optimize everything
 #define PBKDF2_DEFAULT_SALT_LENGTH  64
-#define PBKDF2_DEFAULT_ITERATIONS   100000
+#define PBKDF2_DEFAULT_ITERATIONS   10000
 
 class PBKDF2 : public AutoRegisterer<AKeyStretchingFunction, PBKDF2> {
  public:

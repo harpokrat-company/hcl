@@ -66,6 +66,7 @@ std::string HCL::Crypto::CBC::Decrypt(const std::string &key, const std::string 
   }
   return plain_text;
 }
+
 std::string HCL::Crypto::CBC::GetHeader() {
   return GetIdBytes()
       + ABlockCipherMode::GetHeader()

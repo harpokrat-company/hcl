@@ -12,12 +12,14 @@
 
 namespace HCL::Crypto {
 
+// TODO Change working principle to be always encrypted and decrypt when needed only
 class EncryptedBlob {
  public:
   EncryptedBlob() = default;
   EncryptedBlob(const std::string &key, const std::string &blob);
   void SetCipher(std::unique_ptr<ACipher>);
-  void SetContent(const std::string &);
+  void SetContent(const std::string &content);
+  void SetEncryptedContent(const std::string &key, const std::string &content);
   std::string GetContent();
   std::string GetEncryptedContent(const std::string &key);
  private:

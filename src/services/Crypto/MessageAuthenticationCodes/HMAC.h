@@ -11,6 +11,8 @@
 
 namespace HCL::Crypto {
 
+// TODO Optimize everything
+
 class HMAC : public AutoRegisterer<AMessageAuthenticationCode, HMAC> {
  public:
   HMAC() = default;

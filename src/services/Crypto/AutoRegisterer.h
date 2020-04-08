@@ -28,7 +28,7 @@ class AutoRegisterer : virtual public AbstractClass {
     return AbstractClass::GetName();
   }
   std::string GetIdBytes() {
-    const char id[2] = {RegisteredClass::id & 0xFF, RegisteredClass::id >> 8};
+    const char id[2] = {RegisteredClass::id >> 8, RegisteredClass::id & 0xFF};
 
     return std::string(id, 2);
   }
