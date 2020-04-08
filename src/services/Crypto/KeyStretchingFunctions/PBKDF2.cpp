@@ -88,13 +88,13 @@ std::string HCL::Crypto::PBKDF2::GetHeader() {
   return header + message_authentication_code_->GetHeader();
 }
 
-void HCL::Crypto::PBKDF2::SetMessageAuthenticationCode(std::unique_ptr<AutoRegistrable> message_authentication_code) {
+void HCL::Crypto::PBKDF2::SetMessageAuthenticationCode(std::unique_ptr<ACryptoElement> message_authentication_code) {
   message_authentication_code_ =
-      AutoRegistrable::UniqueTo<AMessageAuthenticationCode>(std::move(message_authentication_code));
+      ACryptoElement::UniqueTo<AMessageAuthenticationCode>(std::move(message_authentication_code));
 }
 
-void HCL::Crypto::PBKDF2::SetRandomGenerator(std::unique_ptr<AutoRegistrable> random_generator) {
-  random_generator_ = AutoRegistrable::UniqueTo<ARandomGenerator>(std::move(random_generator));
+void HCL::Crypto::PBKDF2::SetRandomGenerator(std::unique_ptr<ACryptoElement> random_generator) {
+  random_generator_ = ACryptoElement::UniqueTo<ARandomGenerator>(std::move(random_generator));
 }
 
 std::string HCL::Crypto::PBKDF2::SerializeSalt() {

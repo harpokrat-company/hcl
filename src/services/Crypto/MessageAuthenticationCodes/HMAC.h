@@ -22,7 +22,7 @@ class HMAC : public AutoRegisterer<AMessageAuthenticationCode, HMAC> {
         });
     return dependencies;
   }
-  void SetDependency(std::unique_ptr<AutoRegistrable> dependency, size_t index) override {
+  void SetDependency(std::unique_ptr<ACryptoElement> dependency, size_t index) override {
     if (index >= 1) {
       throw std::runtime_error("HMAC error: Cannot set dependency: Incorrect dependency index");
     }
@@ -34,7 +34,9 @@ class HMAC : public AutoRegisterer<AMessageAuthenticationCode, HMAC> {
   }
   std::string SignMessage(const std::string &key, const std::string &message);
   std::string GetHeader() override;
-  void SetHashFunction(std::unique_ptr<AutoRegistrable> hash_function);
+  void SetHashFunction(std::unique_ptr<ACryptoElement> hash_function);
+  const std::string &GetElementName() override { return GetName(); };
+  const std::string &GetElementTypeName() override { return GetTypeName(); };
   static const uint16_t id = 1;
   static const std::string &GetName() {
     static std::string name = "hmac";

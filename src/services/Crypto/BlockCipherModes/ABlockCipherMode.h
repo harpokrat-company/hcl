@@ -9,18 +9,18 @@
 #include <string>
 #include <memory>
 #include "../BlockCiphers/ABlockCipher.h"
-#include "../AutoRegistrable.h"
+#include "../ACryptoElement.h"
 
 namespace HCL::Crypto {
 
-class ABlockCipherMode : public AutoRegistrable {
+class ABlockCipherMode : public ACryptoElement {
  public:
   ABlockCipherMode() = default;
   ABlockCipherMode(const std::string &header, size_t &header_length);
   virtual std::string Encrypt(const std::string &key, const std::string &content) = 0;
   virtual std::string Decrypt(const std::string &key, const std::string &content) = 0;
   virtual std::string GetHeader();
-  void SetCipher(std::unique_ptr<AutoRegistrable> cipher);
+  void SetCipher(std::unique_ptr<ACryptoElement> cipher);
   static const std::string &GetName() {
     static std::string name = "block-cipher-mode";
     return name;

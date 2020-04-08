@@ -6,11 +6,11 @@
 #define HCL_SRC_SERVICES_CRYPTO_PADDING_APADDING_H_
 
 #include <string>
-#include "../AutoRegistrable.h"
+#include "../ACryptoElement.h"
 
 namespace HCL::Crypto {
 
-class APadding : public AutoRegistrable {
+class APadding : public ACryptoElement {
  public:
   virtual std::string PadDataToSize(const std::string &data, size_t size) = 0;
   virtual std::string RemovePadding(const std::string &data) = 0;

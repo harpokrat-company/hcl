@@ -79,8 +79,7 @@ set(LIBRARY_SOURCE_FILES
     src/services/Crypto/HashFunctions/SHA256.h
     src/services/Crypto/AutoRegisterer.h
     src/services/Crypto/AFactory.h
-    src/services/Crypto/AutoRegistrable.cpp
-    src/services/Crypto/AutoRegistrable.h)
+    src/services/Crypto/ACryptoElement.h)
 
 set(TEST_SOURCE_FILES
     tests/main.cpp

@@ -16,6 +16,6 @@ std::string HCL::Crypto::ABlockCipherMode::GetHeader() {
   return cipher_->GetHeader();
 }
 
-void HCL::Crypto::ABlockCipherMode::SetCipher(std::unique_ptr<AutoRegistrable> cipher) {
-  cipher_ = AutoRegistrable::UniqueTo<ABlockCipher>(std::move(cipher));
+void HCL::Crypto::ABlockCipherMode::SetCipher(std::unique_ptr<ACryptoElement> cipher) {
+  cipher_ = ACryptoElement::UniqueTo<ABlockCipher>(std::move(cipher));
 }

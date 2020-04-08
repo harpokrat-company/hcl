@@ -31,7 +31,7 @@ class Rijndael : virtual public ABlockCipher {
         });
     return dependencies;
   }
-  void SetDependency(std::unique_ptr<AutoRegistrable> dependency, size_t index) override {
+  void SetDependency(std::unique_ptr<ACryptoElement> dependency, size_t index) override {
     if (index >= 1) {
       throw std::runtime_error("Rijndael error: Cannot set dependency: Incorrect dependency index");
     }
@@ -47,7 +47,7 @@ class Rijndael : virtual public ABlockCipher {
   __attribute__((const));
   std::string PrepareKey(const std::string &key) override
   __attribute__((const));
-  void SetKeyStretchingFunction(std::unique_ptr<AutoRegistrable> key_stretching_function);
+  void SetKeyStretchingFunction(std::unique_ptr<ACryptoElement> key_stretching_function);
  protected:
   std::unique_ptr<AKeyStretchingFunction> key_stretching_function_;
  private:
@@ -300,8 +300,8 @@ std::string Rijndael<KeySize, Rounds>::PrepareKey(const std::string &key) {
 }
 
 template<uint8_t KeySize, uint8_t Rounds>
-void Rijndael<KeySize, Rounds>::SetKeyStretchingFunction(std::unique_ptr<AutoRegistrable> key_stretching_function) {
-  key_stretching_function_ = AutoRegistrable::UniqueTo<AKeyStretchingFunction>(std::move(key_stretching_function));
+void Rijndael<KeySize, Rounds>::SetKeyStretchingFunction(std::unique_ptr<ACryptoElement> key_stretching_function) {
+  key_stretching_function_ = ACryptoElement::UniqueTo<AKeyStretchingFunction>(std::move(key_stretching_function));
 }
 }
 #endif //HCL_SRC_SERVICES_CRYPTO_AES_H_

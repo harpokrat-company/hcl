@@ -11,12 +11,12 @@
 
 namespace HCL::Crypto {
 
-class APaddedCipher : public AutoRegistrable {
+class APaddedCipher : public ACryptoElement {
  public:
   APaddedCipher() = default;
   APaddedCipher(const std::string &header, size_t &header_length);
   virtual std::string GetHeader();
-  void SetPadding(std::unique_ptr<AutoRegistrable> padding);
+  void SetPadding(std::unique_ptr<ACryptoElement> padding);
  protected:
   std::unique_ptr<APadding> padding_;
 };

@@ -29,7 +29,7 @@ class PBKDF2 : AutoRegisterer<AKeyStretchingFunction, PBKDF2> {
         });
     return dependencies;
   }
-  void SetDependency(std::unique_ptr<AutoRegistrable> dependency, size_t index) override {
+  void SetDependency(std::unique_ptr<ACryptoElement> dependency, size_t index) override {
     if (index >= 2) {
       throw std::runtime_error("PBKDF2 error: Cannot set dependency: Incorrect dependency index");
     }
@@ -44,8 +44,10 @@ class PBKDF2 : AutoRegisterer<AKeyStretchingFunction, PBKDF2> {
   }
   std::string StretchKey(const std::string &key, size_t derived_key_length) override;
   std::string GetHeader() override;
-  void SetMessageAuthenticationCode(std::unique_ptr<AutoRegistrable> message_authentication_code);
-  void SetRandomGenerator(std::unique_ptr<AutoRegistrable> random_generator);
+  void SetMessageAuthenticationCode(std::unique_ptr<ACryptoElement> message_authentication_code);
+  void SetRandomGenerator(std::unique_ptr<ACryptoElement> random_generator);
+  const std::string &GetElementName() override { return GetName(); };
+  const std::string &GetElementTypeName() override { return GetTypeName(); };
   static const uint16_t id = 1;
   static const std::string &GetName() {
     static std::string name = "pbkdf2";

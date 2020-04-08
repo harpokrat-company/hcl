@@ -7,14 +7,14 @@
 
 #include <memory>
 #include <string>
-#include "AutoRegistrable.h"
+#include "ACryptoElement.h"
 
 namespace HCL::Crypto {
 
 class AFactory {
-  virtual std::unique_ptr<AutoRegistrable> BuildFromHeader(const std::string &header, size_t &header_length) = 0;
-  virtual std::unique_ptr<AutoRegistrable> BuildFromId(uint16_t id) = 0;
-  virtual std::unique_ptr<AutoRegistrable> BuildFromName(const std::string &name) = 0;
+  virtual std::unique_ptr<ACryptoElement> BuildFromHeader(const std::string &header, size_t &header_length) = 0;
+  virtual std::unique_ptr<ACryptoElement> BuildFromId(uint16_t id) = 0;
+  virtual std::unique_ptr<ACryptoElement> BuildFromName(const std::string &name) = 0;
   virtual const std::string &GetFactoryType() __attribute__((const)) = 0;
 };
 

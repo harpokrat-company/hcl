@@ -9,11 +9,11 @@
 #include <string>
 #include <memory>
 #include "../KeyStretchingFunctions/AKeyStretchingFunction.h"
-#include "../AutoRegistrable.h"
+#include "../ACryptoElement.h"
 
 namespace HCL::Crypto {
 
-class ABlockCipher : public AutoRegistrable {
+class ABlockCipher : public ACryptoElement {
  public:
   virtual std::string EncryptBloc(const std::string &key, const std::string &bloc) = 0;
   virtual std::string DecryptBloc(const std::string &key, const std::string &bloc) = 0;

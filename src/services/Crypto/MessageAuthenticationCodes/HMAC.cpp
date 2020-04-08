@@ -37,6 +37,6 @@ std::string HCL::Crypto::HMAC::GetHeader() {
   return GetIdBytes() + hash_function_->GetHeader();
 }
 
-void HCL::Crypto::HMAC::SetHashFunction(std::unique_ptr<AutoRegistrable> hash_function) {
-  hash_function_ = AutoRegistrable::UniqueTo<AHashFunction>(std::move(hash_function));
+void HCL::Crypto::HMAC::SetHashFunction(std::unique_ptr<ACryptoElement> hash_function) {
+  hash_function_ = ACryptoElement::UniqueTo<AHashFunction>(std::move(hash_function));
 }

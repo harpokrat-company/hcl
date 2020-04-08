@@ -15,6 +15,6 @@ std::string HCL::Crypto::APaddedCipher::GetHeader() {
   return padding_->GetHeader();
 }
 
-void HCL::Crypto::APaddedCipher::SetPadding(std::unique_ptr<AutoRegistrable> padding) {
-  padding_ = AutoRegistrable::UniqueTo<APadding>(std::move(padding));
+void HCL::Crypto::APaddedCipher::SetPadding(std::unique_ptr<ACryptoElement> padding) {
+  padding_ = ACryptoElement::UniqueTo<APadding>(std::move(padding));
 }

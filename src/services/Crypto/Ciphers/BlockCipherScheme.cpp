@@ -29,6 +29,6 @@ std::string HCL::Crypto::BlockCipherScheme::GetHeader() {
   return GetIdBytes() + block_cipher_mode_->GetHeader();
 }
 
-void HCL::Crypto::BlockCipherScheme::SetBlockCipherMode(std::unique_ptr<AutoRegistrable> block_cipher_mode) {
-  block_cipher_mode_ = AutoRegistrable::UniqueTo<ABlockCipherMode>(std::move(block_cipher_mode));
+void HCL::Crypto::BlockCipherScheme::SetBlockCipherMode(std::unique_ptr<ACryptoElement> block_cipher_mode) {
+  block_cipher_mode_ = ACryptoElement::UniqueTo<ABlockCipherMode>(std::move(block_cipher_mode));
 }

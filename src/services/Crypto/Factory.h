@@ -23,9 +23,9 @@ using Instantiator = std::unique_ptr<AbstractClass> (*)();
 template<typename AbstractClass>
 class Factory : public AFactory {
  public:
-  std::unique_ptr<AutoRegistrable> BuildFromHeader(const std::string &header, size_t &header_length) override;
-  std::unique_ptr<AutoRegistrable> BuildFromId(uint16_t id) override;
-  std::unique_ptr<AutoRegistrable> BuildFromName(const std::string &name) override;
+  std::unique_ptr<ACryptoElement> BuildFromHeader(const std::string &header, size_t &header_length) override;
+  std::unique_ptr<ACryptoElement> BuildFromId(uint16_t id) override;
+  std::unique_ptr<ACryptoElement> BuildFromName(const std::string &name) override;
   const std::string &GetFactoryType() override
   __attribute__((const));
   static bool Register(uint16_t identifier,
@@ -113,18 +113,18 @@ std::unique_ptr<AbstractClass> Factory<AbstractClass>::BuildTypedFromName(const 
 }
 
 template<typename AbstractClass>
-std::unique_ptr<AutoRegistrable> Factory<AbstractClass>::BuildFromHeader(const std::string &header,
+std::unique_ptr<ACryptoElement> Factory<AbstractClass>::BuildFromHeader(const std::string &header,
                                                                          size_t &header_length) {
   return std::move(Factory<AbstractClass>::BuildTypedFromHeader(header, header_length));
 }
 
 template<typename AbstractClass>
-std::unique_ptr<AutoRegistrable> Factory<AbstractClass>::BuildFromId(uint16_t id) {
+std::unique_ptr<ACryptoElement> Factory<AbstractClass>::BuildFromId(uint16_t id) {
   return std::move(Factory<AbstractClass>::BuildTypedFromId(id));
 }
 
 template<typename AbstractClass>
-std::unique_ptr<AutoRegistrable> Factory<AbstractClass>::BuildFromName(const std::string &name) {
+std::unique_ptr<ACryptoElement> Factory<AbstractClass>::BuildFromName(const std::string &name) {
   return std::move(Factory<AbstractClass>::BuildTypedFromName(name));
 }
 

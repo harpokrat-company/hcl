@@ -7,11 +7,11 @@
 
 #include <string>
 #include <memory>
-#include "../AutoRegistrable.h"
+#include "../ACryptoElement.h"
 
 namespace HCL::Crypto {
 
-class ACipher : public AutoRegistrable {
+class ACipher : public ACryptoElement {
  public:
   virtual std::string Encrypt(const std::string &key, const std::string &content) = 0;
   virtual std::string Decrypt(const std::string &key, const std::string &content) = 0;

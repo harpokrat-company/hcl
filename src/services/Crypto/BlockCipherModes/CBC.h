@@ -27,24 +27,23 @@ class CBC : public AutoRegisterer<ABlockCipherMode, CBC>,
         });
     return dependencies;
   }
-  void SetDependency(std::unique_ptr<AutoRegistrable> dependency, size_t index) override {
+  void SetDependency(std::unique_ptr<ACryptoElement> dependency, size_t index) override {
     if (index >= 3) {
       throw std::runtime_error("CBC error: Cannot set dependency: Incorrect dependency index");
     }
     switch (index) {
-      case 0:
-        SetCipher(std::move(dependency));
+      case 0:SetCipher(std::move(dependency));
         break;
-      case 1:
-        SetPadding(std::move(dependency));
+      case 1:SetPadding(std::move(dependency));
         break;
       case 2:
-      default:
-        SetRandomGenerator(std::move(dependency));
+      default:SetRandomGenerator(std::move(dependency));
     }
   }
   std::string Encrypt(const std::string &key, const std::string &content) override;
   std::string Decrypt(const std::string &key, const std::string &content) override;
+  const std::string &GetElementName() override { return GetName(); };
+  const std::string &GetElementTypeName() override { return GetTypeName(); };
   static const uint16_t id = 1;
   static const std::string &GetName() {
     static std::string name = "cbc";
