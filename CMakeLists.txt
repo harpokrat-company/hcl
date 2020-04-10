@@ -75,8 +75,12 @@ set(LIBRARY_SOURCE_FILES
     src/services/Crypto/MessageAuthenticationCodes/AMessageAuthenticationCode.h
     src/services/Crypto/MessageAuthenticationCodes/HMAC.cpp
     src/services/Crypto/MessageAuthenticationCodes/HMAC.h
+    src/services/Crypto/HashFunctions/SHA2.cpp
+    src/services/Crypto/HashFunctions/SHA2.h
     src/services/Crypto/HashFunctions/SHA256.cpp
     src/services/Crypto/HashFunctions/SHA256.h
+    src/services/Crypto/HashFunctions/SHA512.cpp
+    src/services/Crypto/HashFunctions/SHA512.h
     src/services/Crypto/AutoRegisterer.h
     src/services/Crypto/AFactory.h
     src/services/Crypto/ACryptoElement.h)

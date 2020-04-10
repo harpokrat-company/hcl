@@ -9,10 +9,6 @@ HCL::Crypto::PBKDF2::PBKDF2() : iterations_(PBKDF2_DEFAULT_ITERATIONS) {
 }
 
 HCL::Crypto::PBKDF2::PBKDF2(const std::string &header, size_t &header_length) {
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-value"
-  is_registered_;
-#pragma GCC diagnostic pop
   ParseSalt(header, header_length);
   ParseIterations(header, header_length);
   message_authentication_code_ = Factory<AMessageAuthenticationCode>::BuildTypedFromHeader(header, header_length);

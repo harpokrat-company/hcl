@@ -9,12 +9,7 @@ HCL::Crypto::MT19937::MT19937():
     distribution_(0, 255) {
 }
 
-HCL::Crypto::MT19937::MT19937(const std::string &header, size_t &header_length) : MT19937() {
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-value"
-  is_registered_;
-#pragma GCC diagnostic pop
-}
+HCL::Crypto::MT19937::MT19937(const std::string &header, size_t &header_length) : MT19937() {}
 
 uint8_t HCL::Crypto::MT19937::GenerateRandomByte() {
   return distribution_(generator_);

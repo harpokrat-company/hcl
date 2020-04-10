@@ -14,12 +14,7 @@ namespace HCL::Crypto {
 class AES128 : public AutoRegisterer<ABlockCipher, AES128>, public Rijndael<16, 10> {
  public:
   AES128() = default;
-  AES128(const std::string &header, size_t &header_length) : Rijndael<16, 10>(header, header_length) {
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-value"
-    is_registered_;
-#pragma GCC diagnostic pop
-  };
+  AES128(const std::string &header, size_t &header_length) : Rijndael<16, 10>(header, header_length) {};
   std::string GetHeader() override;
   const std::string &GetElementName() override { return GetName(); };
   const std::string &GetElementTypeName() override { return GetTypeName(); };

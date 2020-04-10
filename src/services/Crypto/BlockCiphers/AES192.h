@@ -14,12 +14,7 @@ namespace HCL::Crypto {
 class AES192 : public AutoRegisterer<ABlockCipher, AES192>, public Rijndael<24, 12> {
  public:
   AES192() = default;
-  AES192(const std::string &header, size_t &header_length) : Rijndael<24, 12>(header, header_length) {
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-value"
-    is_registered_;
-#pragma GCC diagnostic pop
-  };
+  AES192(const std::string &header, size_t &header_length) : Rijndael<24, 12>(header, header_length) {};
   std::string GetHeader() override;
   const std::string &GetElementName() override { return GetName(); };
   const std::string &GetElementTypeName() override { return GetTypeName(); };
