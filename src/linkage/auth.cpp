@@ -4,12 +4,16 @@
 
 #include "auth.h"
 #include "../services/Crypto/Base64.h"
+#include "../services/Crypto/Factory.h"
+#include "../services/Crypto/HashFunctions/AHashFunction.h"
 
 extern "C" {
 std::string *EXPORT_FUNCTION GetBasicAuthString(const char *raw_email, const char *raw_password) {
-    std::string email(raw_email);
-    std::string password(raw_password); // TODO password derivation
+  auto sha512 = HCL::Crypto::Factory<HCL::Crypto::AHashFunction>::BuildTypedFromName("sha512");
+  std::string email(raw_email);
+  std::string password(sha512->HashData(raw_password));
 
-    return new std::string("Basic " + HCL::Crypto::Base64::Encode(email + ":" + password));
+  // TODO Clean format with signature ?
+  return new std::string("Basic " + HCL::Crypto::Base64::Encode(email + ":" + password));
 }
 }
