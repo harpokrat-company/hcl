@@ -26,11 +26,11 @@ static int SHA256Test() {
       "f4732ffd0084c702f7ffd3136ccc1c2cc4d45dbffb32c41138e3034fb840c299",
       "26fc8520f6e70b602e4c33bc70f7147bcf3af208e2d570563e83fef6b52ed0cd"
   };
-  auto sha512 = HCL::Crypto::Factory<HCL::Crypto::AHashFunction>::BuildTypedFromName("sha256");
+  auto sha256 = HCL::Crypto::Factory<HCL::Crypto::AHashFunction>::BuildTypedFromName("sha256");
   for (size_t i = 0; i < test_data.size(); i++) {
     std::cout << "Running test data " << i + 1 << "/" << test_data.size() << " of SHA256 hash function test... "
               << std::flush;
-    std::string hash = sha512->HashData(test_data[i]);
+    std::string hash = sha256->HashData(test_data[i]);
     std::stringstream hex_hash;
     for (auto c : hash) {
       hex_hash << std::hex << std::setfill('0') << std::setw(2) << (int) (uint8_t) c;
@@ -92,11 +92,44 @@ static int SHA224Test() {
       "8d784bff5465b017e8a17c3fdfa6f7ca47eb094bc7f4d8cfcfe3bc32",
       "cd8ce4f4eac4f5b67b12c8d4ad0040f2c87eadc6a1d317e945a138d1"
   };
-  auto sha512 = HCL::Crypto::Factory<HCL::Crypto::AHashFunction>::BuildTypedFromName("sha224");
+  auto sha224 = HCL::Crypto::Factory<HCL::Crypto::AHashFunction>::BuildTypedFromName("sha224");
   for (size_t i = 0; i < test_data.size(); i++) {
     std::cout << "Running test data " << i + 1 << "/" << test_data.size() << " of SHA224 hash function test... "
               << std::flush;
-    std::string hash = sha512->HashData(test_data[i]);
+    std::string hash = sha224->HashData(test_data[i]);
+    std::stringstream hex_hash;
+    for (auto c : hash) {
+      hex_hash << std::hex << std::setfill('0') << std::setw(2) << (int) (uint8_t) c;
+    }
+    if (hex_hash.str() == expected_hashes[i]) {
+      std::cout << "Success!" << std::endl;
+    } else {
+      std::cout << "Error :(" << std::endl;
+      std::cout << "Expected:\t" << expected_hashes[i] << std::endl;
+      std::cout << "But got:\t" << hex_hash.str() << std::endl;
+    }
+  }
+  return 0;
+}
+
+static int SHA384Test() {
+  const std::array<std::string, 4> test_data = {
+      "",
+      "a",
+      "Aled oskour",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In venenatis lectus quis cursus suscipit. Curabitur vitae varius turpis. Nunc vitae quam et justo placerat tempus. Nunc vestibulum ante eu risus elementum mattis. Suspendisse in varius elit, in consectetur ante. Ut vestibulum diam nec urna iaculis, dignissim elementum magna consectetur. Integer dapibus sem ullamcorper, ullamcorper nisl non, tempus risus. Sed nec congue justo. Nullam enim lorem, posuere id ipsum eget, scelerisque congue enim. Phasellus vel nulla libero. Aliquam libero quam, tincidunt eu feugiat quis, dictum et ipsum. Nulla pellentesque sagittis lectus, eu euismod massa vulputate id."
+  };
+  const std::array<std::string, 4> expected_hashes = {
+      "38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95b",
+      "54a59b9f22b0b80880d8427e548b7c23abd873486e1f035dce9cd697e85175033caa88e6d57bc35efae0b5afd3145f31",
+      "ab2ac9a5f9103011aae4ed820dc7481824778bb97a12128b9e5fc51a00d655d7b6bf5ffcadbb377de0e372f6c82f9cda",
+      "9e2d4c4230ff0fb7c27f113728be0e967bd72ef757bba0d889d6cc3a822fb4db9d8ab462f64bc9203e832eeddafe4f39"
+  };
+  auto sha384 = HCL::Crypto::Factory<HCL::Crypto::AHashFunction>::BuildTypedFromName("sha384");
+  for (size_t i = 0; i < test_data.size(); i++) {
+    std::cout << "Running test data " << i + 1 << "/" << test_data.size() << " of SHA384 hash function test... "
+              << std::flush;
+    std::string hash = sha384->HashData(test_data[i]);
     std::stringstream hex_hash;
     for (auto c : hash) {
       hex_hash << std::hex << std::setfill('0') << std::setw(2) << (int) (uint8_t) c;
@@ -116,6 +149,7 @@ static int (*sha_test_functions[])() = {
     SHA256Test,
     SHA512Test,
     SHA224Test,
+    SHA384Test,
     nullptr
 };
 

@@ -81,6 +81,8 @@ set(LIBRARY_SOURCE_FILES
     src/services/Crypto/HashFunctions/SHA224.h
     src/services/Crypto/HashFunctions/SHA256.cpp
     src/services/Crypto/HashFunctions/SHA256.h
+    src/services/Crypto/HashFunctions/SHA384.cpp
+    src/services/Crypto/HashFunctions/SHA384.h
     src/services/Crypto/HashFunctions/SHA512.cpp
     src/services/Crypto/HashFunctions/SHA512.h
     src/services/Crypto/AutoRegisterer.h
