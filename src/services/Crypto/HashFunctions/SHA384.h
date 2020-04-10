@@ -33,8 +33,8 @@ class SHA384 : public AutoRegisterer<AHashFunction, SHA384>, public SHA512 {
     };
     return hash_values[index];
   }
-  uint8_t GetMaxOutputHash() const override {
-    return 6;
+  uint8_t GetOutputSize() const override {
+    return 48;
   };
 };
 }

@@ -32,8 +32,8 @@ class SHA224 : public AutoRegisterer<AHashFunction, SHA224>, public SHA256 {
     };
     return hash_values[index];
   }
-  uint8_t GetMaxOutputHash() const override {
-    return 7;
+  uint8_t GetOutputSize() const override {
+    return 28;
   };
 };
 }

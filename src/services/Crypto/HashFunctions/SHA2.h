@@ -85,7 +85,7 @@ class SHA2 : virtual public AHashFunction {
  protected:
   virtual WordType GetHashValue(size_t index) const = 0;
   virtual WordType GetRoundConstant(size_t index) const = 0;
-  virtual uint8_t GetMaxOutputHash() const = 0;
+  virtual uint8_t GetOutputSize() const = 0;
   virtual uint8_t GetRoundsNbr() const = 0;
  private:
   std::string PadData(const std::string &data);
@@ -137,11 +137,11 @@ std::string HCL::Crypto::SHA2<WordType>::HashData(const std::string &data) {
     }
   }
 
-  for (j = 0; j < GetMaxOutputHash(); ++j) {
+  for (j = 0; j < 8; ++j) {
     SERIALIZE(hash, hash_values[j])
   }
 
-  return hash;
+  return hash.substr(0, GetOutputSize());
 }
 
 template <typename WordType>

@@ -56,8 +56,8 @@ class SHA256 : public AutoRegisterer<AHashFunction, SHA256>, public SHA2<uint32_
     };
     return round_constants[index];
   }
-  uint8_t GetMaxOutputHash() const override {
-    return 8;
+  uint8_t GetOutputSize() const override {
+    return 32;
   };
   uint8_t GetRoundsNbr() const override {
     return 64;
