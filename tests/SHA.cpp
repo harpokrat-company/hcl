@@ -11,6 +11,8 @@
 #include "../src/services/Crypto/HashFunctions/AHashFunction.h"
 #include "../src/services/Crypto/Factory.h"
 
+// TODO Clean tests using only one function & factory constructor
+
 static int SHA256Test() {
   const std::array<std::string, 4> test_data = {
       "",
@@ -77,9 +79,43 @@ static int SHA512Test() {
   return 0;
 }
 
+static int SHA224Test() {
+  const std::array<std::string, 4> test_data = {
+      "",
+      "a",
+      "Aled oskour",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In venenatis lectus quis cursus suscipit. Curabitur vitae varius turpis. Nunc vitae quam et justo placerat tempus. Nunc vestibulum ante eu risus elementum mattis. Suspendisse in varius elit, in consectetur ante. Ut vestibulum diam nec urna iaculis, dignissim elementum magna consectetur. Integer dapibus sem ullamcorper, ullamcorper nisl non, tempus risus. Sed nec congue justo. Nullam enim lorem, posuere id ipsum eget, scelerisque congue enim. Phasellus vel nulla libero. Aliquam libero quam, tincidunt eu feugiat quis, dictum et ipsum. Nulla pellentesque sagittis lectus, eu euismod massa vulputate id."
+  };
+  const std::array<std::string, 4> expected_hashes = {
+      "d14a028c2a3a2bc9476102bb288234c415a2b01f828ea62ac5b3e42f",
+      "abd37534c7d9a2efb9465de931cd7055ffdb8879563ae98078d6d6d5",
+      "8d784bff5465b017e8a17c3fdfa6f7ca47eb094bc7f4d8cfcfe3bc32",
+      "cd8ce4f4eac4f5b67b12c8d4ad0040f2c87eadc6a1d317e945a138d1"
+  };
+  auto sha512 = HCL::Crypto::Factory<HCL::Crypto::AHashFunction>::BuildTypedFromName("sha224");
+  for (size_t i = 0; i < test_data.size(); i++) {
+    std::cout << "Running test data " << i + 1 << "/" << test_data.size() << " of SHA224 hash function test... "
+              << std::flush;
+    std::string hash = sha512->HashData(test_data[i]);
+    std::stringstream hex_hash;
+    for (auto c : hash) {
+      hex_hash << std::hex << std::setfill('0') << std::setw(2) << (int) (uint8_t) c;
+    }
+    if (hex_hash.str() == expected_hashes[i]) {
+      std::cout << "Success!" << std::endl;
+    } else {
+      std::cout << "Error :(" << std::endl;
+      std::cout << "Expected:\t" << expected_hashes[i] << std::endl;
+      std::cout << "But got:\t" << hex_hash.str() << std::endl;
+    }
+  }
+  return 0;
+}
+
 static int (*sha_test_functions[])() = {
     SHA256Test,
     SHA512Test,
+    SHA224Test,
     nullptr
 };
 
