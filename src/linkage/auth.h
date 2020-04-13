@@ -8,6 +8,7 @@
 #include <string>
 #include "linkage.h"
 
+extern "C" std::string *GetDerivedKey(const char *raw_password);
 extern "C" std::string *GetBasicAuth(const char *raw_email, const char *raw_password);
 
 #endif //HCL_AUTH_LINKAGE_H
