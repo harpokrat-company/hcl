@@ -17,7 +17,7 @@ class HMAC : public AutoRegisterer<AMessageAuthenticationCode, HMAC> {
  public:
   HMAC() = default;
   HMAC(const std::string &header, size_t &header_length);
-  const std::vector<std::string> &GetRequiredDependencies() override {
+  const std::vector<std::string> &GetDependenciesTypes() override {
     static const std::vector<std::string> dependencies(
         {
             AHashFunction::GetName(),
@@ -37,6 +37,8 @@ class HMAC : public AutoRegisterer<AMessageAuthenticationCode, HMAC> {
   std::string SignMessage(const std::string &key, const std::string &message) override;
   std::string GetHeader() override;
   void SetHashFunction(std::unique_ptr<ACryptoElement> hash_function);
+  bool IsHashFunctionSet() const;
+  const ACryptoElement &GetHashFunction() const;
   const std::string &GetElementName() override { return GetName(); };
   const std::string &GetElementTypeName() override { return GetTypeName(); };
   static const uint16_t id = 1;

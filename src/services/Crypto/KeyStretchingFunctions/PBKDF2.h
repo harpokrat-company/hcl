@@ -22,7 +22,7 @@ class PBKDF2 : public AutoRegisterer<AKeyStretchingFunction, PBKDF2> {
  public:
   PBKDF2();
   PBKDF2(const std::string &header, size_t &header_length);
-  const std::vector<std::string> &GetRequiredDependencies() override {
+  const std::vector<std::string> &GetDependenciesTypes() override {
     static const std::vector<std::string> dependencies(
         {
             AMessageAuthenticationCode::GetName(),
@@ -46,7 +46,11 @@ class PBKDF2 : public AutoRegisterer<AKeyStretchingFunction, PBKDF2> {
   std::string StretchKey(const std::string &key, size_t derived_key_length) override;
   std::string GetHeader() override;
   void SetMessageAuthenticationCode(std::unique_ptr<ACryptoElement> message_authentication_code);
+  bool IsMessageAuthenticationCodeSet() const;
+  const ACryptoElement &GetMessageAuthenticationCode() const;
   void SetRandomGenerator(std::unique_ptr<ACryptoElement> random_generator);
+  bool IsRandomGeneratorSet() const;
+  const ACryptoElement &GetRandomGenerator() const;
   const std::string &GetElementName() override { return GetName(); };
   const std::string &GetElementTypeName() override { return GetTypeName(); };
   static const uint16_t id = 1;

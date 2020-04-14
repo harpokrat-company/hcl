@@ -13,7 +13,7 @@ class PKCS7 : public AutoRegisterer<APadding, PKCS7> {
  public:
   PKCS7() = default;
   PKCS7(const std::string &header, size_t &header_length) {};
-  const std::vector<std::string> &GetRequiredDependencies() override {
+  const std::vector<std::string> &GetDependenciesTypes() override {
     static const std::vector<std::string> dependencies({});
     return dependencies;
   }

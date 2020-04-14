@@ -121,3 +121,25 @@ std::string HCL::Crypto::PBKDF2::SerializeIterations() {
   serialized += (uint8_t) (iterations_ & 0xFF);
   return serialized;
 }
+
+bool HCL::Crypto::PBKDF2::IsMessageAuthenticationCodeSet() const {
+  return !!message_authentication_code_;
+}
+
+const HCL::Crypto::ACryptoElement &HCL::Crypto::PBKDF2::GetMessageAuthenticationCode() const {
+  if (!IsMessageAuthenticationCodeSet()) {
+    throw std::runtime_error("PBKDF2: Cannot get Message Authentication Code: Not set");
+  }
+  return *message_authentication_code_;
+}
+
+bool HCL::Crypto::PBKDF2::IsRandomGeneratorSet() const {
+  return !!random_generator_;
+}
+
+const HCL::Crypto::ACryptoElement &HCL::Crypto::PBKDF2::GetRandomGenerator() const {
+  if (!IsRandomGeneratorSet()) {
+    throw std::runtime_error("PBKDF2: Cannot get Random Generator: Not set");
+  }
+  return *random_generator_;
+}

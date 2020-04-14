@@ -22,6 +22,8 @@ class ABlockCipherMode : public ACryptoElement {
   virtual std::string Decrypt(const std::string &key, const std::string &content) = 0;
   virtual std::string GetHeader();
   void SetCipher(std::unique_ptr<ACryptoElement> cipher);
+  bool IsCipherSet() const;
+  const ACryptoElement &GetCipher() const;
   static const std::string &GetName() {
     static std::string name = "block-cipher-mode";
     return name;

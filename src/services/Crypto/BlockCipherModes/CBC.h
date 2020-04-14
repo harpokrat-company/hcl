@@ -18,7 +18,7 @@ class CBC : public AutoRegisterer<ABlockCipherMode, CBC>,
  public:
   CBC() = default;
   CBC(const std::string &header, size_t &header_length);
-  const std::vector<std::string> &GetRequiredDependencies() override {
+  const std::vector<std::string> &GetDependenciesTypes() override {
     static const std::vector<std::string> dependencies(
         {
             ABlockCipher::GetName(),

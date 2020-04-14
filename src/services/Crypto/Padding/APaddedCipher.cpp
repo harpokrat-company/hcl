@@ -18,3 +18,14 @@ std::string HCL::Crypto::APaddedCipher::GetHeader() {
 void HCL::Crypto::APaddedCipher::SetPadding(std::unique_ptr<ACryptoElement> padding) {
   padding_ = ACryptoElement::UniqueTo<APadding>(std::move(padding));
 }
+
+bool HCL::Crypto::APaddedCipher::IsPaddingSet() const {
+  return !!padding_;
+}
+
+const HCL::Crypto::ACryptoElement &HCL::Crypto::APaddedCipher::GetPadding() const {
+  if (!IsPaddingSet()) {
+    throw std::runtime_error("APaddedCipher: Cannot get Padding: Not set");
+  }
+  return *padding_;
+}

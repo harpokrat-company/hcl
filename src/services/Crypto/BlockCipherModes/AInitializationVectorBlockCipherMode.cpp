@@ -32,3 +32,15 @@ void HCL::Crypto::AInitializationVectorBlockCipherMode::SetRandomGenerator(
     std::unique_ptr<ACryptoElement> random_generator) {
   random_generator_ = ACryptoElement::UniqueTo<ARandomGenerator>(std::move(random_generator));
 }
+
+bool HCL::Crypto::AInitializationVectorBlockCipherMode::IsRandomGeneratorSet() const {
+  return !!random_generator_;
+}
+
+const HCL::Crypto::ACryptoElement &HCL::Crypto::AInitializationVectorBlockCipherMode::GetRandomGenerator() const {
+  if (!IsRandomGeneratorSet()) {
+    throw std::runtime_error("AInitializationVector: Cannot get RandomGenerator: Not set");
+  }
+
+  return *random_generator_;
+}

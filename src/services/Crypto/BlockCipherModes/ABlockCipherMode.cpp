@@ -19,3 +19,14 @@ std::string HCL::Crypto::ABlockCipherMode::GetHeader() {
 void HCL::Crypto::ABlockCipherMode::SetCipher(std::unique_ptr<ACryptoElement> cipher) {
   cipher_ = ACryptoElement::UniqueTo<ABlockCipher>(std::move(cipher));
 }
+
+bool HCL::Crypto::ABlockCipherMode::IsCipherSet() const {
+  return !!cipher_;
+}
+
+const HCL::Crypto::ACryptoElement &HCL::Crypto::ABlockCipherMode::GetCipher() const {
+  if (!IsCipherSet()) {
+    throw std::runtime_error("ABlockCipherMode: Cannot get Cipher: Not set");
+  }
+  return *cipher_;
+}

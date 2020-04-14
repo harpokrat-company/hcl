@@ -16,7 +16,7 @@ class SHA512 : public AutoRegisterer<AHashFunction, SHA512>, public SHA2<uint64_
   SHA512() = default;
   SHA512(const std::string &header, size_t &header_length) {};
   ~SHA512() override = default;
-  const std::vector<std::string> &GetRequiredDependencies() override {
+  const std::vector<std::string> &GetDependenciesTypes() override {
     static const std::vector<std::string> dependencies({});
     return dependencies;
   }

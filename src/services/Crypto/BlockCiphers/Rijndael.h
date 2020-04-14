@@ -25,7 +25,7 @@ class Rijndael : virtual public ABlockCipher {
     key_stretching_function_ = Factory<AKeyStretchingFunction>::BuildTypedFromHeader(header, header_length);
   };
   virtual ~Rijndael() = default;
-  const std::vector<std::string> &GetRequiredDependencies() override {
+  const std::vector<std::string> &GetDependenciesTypes() override {
     static const std::vector<std::string> dependencies(
         {
             AKeyStretchingFunction::GetName(),
@@ -49,6 +49,8 @@ class Rijndael : virtual public ABlockCipher {
   std::string PrepareKey(const std::string &key) override
   __attribute__((const));
   void SetKeyStretchingFunction(std::unique_ptr<ACryptoElement> key_stretching_function);
+  bool IsKeyStretchingFunctionSet() const;
+  const ACryptoElement &GetKeyStretchingFunction() const;
  protected:
   std::unique_ptr<AKeyStretchingFunction> key_stretching_function_;
  private:
@@ -303,6 +305,19 @@ std::string Rijndael<KeySize, Rounds>::PrepareKey(const std::string &key) {
 template<uint8_t KeySize, uint8_t Rounds>
 void Rijndael<KeySize, Rounds>::SetKeyStretchingFunction(std::unique_ptr<ACryptoElement> key_stretching_function) {
   key_stretching_function_ = ACryptoElement::UniqueTo<AKeyStretchingFunction>(std::move(key_stretching_function));
+}
+
+template<uint8_t KeySize, uint8_t Rounds>
+bool Rijndael<KeySize, Rounds>::IsKeyStretchingFunctionSet() const {
+  return !!key_stretching_function_;
+}
+
+template<uint8_t KeySize, uint8_t Rounds>
+const ACryptoElement &Rijndael<KeySize, Rounds>::GetKeyStretchingFunction() const {
+  if (!IsKeyStretchingFunctionSet()) {
+    throw std::runtime_error("Rijndael: Cannot get Key Stretching Function: Not set");
+  }
+  return *key_stretching_function_;
 }
 }
 #endif //HCL_SRC_SERVICES_CRYPTO_AES_H_

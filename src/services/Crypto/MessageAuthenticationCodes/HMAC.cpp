@@ -39,3 +39,14 @@ std::string HCL::Crypto::HMAC::GetHeader() {
 void HCL::Crypto::HMAC::SetHashFunction(std::unique_ptr<ACryptoElement> hash_function) {
   hash_function_ = ACryptoElement::UniqueTo<AHashFunction>(std::move(hash_function));
 }
+
+bool HCL::Crypto::HMAC::IsHashFunctionSet() const {
+  return !!hash_function_;
+}
+
+const HCL::Crypto::ACryptoElement &HCL::Crypto::HMAC::GetHashFunction() const {
+  if (!IsHashFunctionSet()) {
+    throw std::runtime_error("HMAC: Cannot get Hash Function: Not set");
+  }
+  return *hash_function_;
+}

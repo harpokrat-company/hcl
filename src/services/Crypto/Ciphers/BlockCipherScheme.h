@@ -15,7 +15,7 @@ class BlockCipherScheme : public AutoRegisterer<ACipher, BlockCipherScheme> {
  public:
   BlockCipherScheme() = default;
   BlockCipherScheme(const std::string &header, size_t &header_length);
-  const std::vector<std::string> &GetRequiredDependencies() override {
+  const std::vector<std::string> &GetDependenciesTypes() override {
     static const std::vector<std::string> dependencies(
         {
           ABlockCipherMode::GetName(),
@@ -36,6 +36,8 @@ class BlockCipherScheme : public AutoRegisterer<ACipher, BlockCipherScheme> {
   std::string Decrypt(const std::string &key, const std::string &content) override;
   std::string GetHeader() override;
   void SetBlockCipherMode(std::unique_ptr<ACryptoElement> block_cipher_mode);
+  bool IsBlockCipherModeSet() const;
+  const ACryptoElement &GetBlockCipherMode() const;
   const std::string &GetElementName() override { return GetName(); };
   const std::string &GetElementTypeName() override { return GetTypeName(); };
   static const uint16_t id = 1;

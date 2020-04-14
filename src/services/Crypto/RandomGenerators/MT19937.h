@@ -15,7 +15,7 @@ class MT19937 : public AutoRegisterer<ARandomGenerator, MT19937> {
  public:
   MT19937();
   MT19937(const std::string &header, size_t &header_length);
-  const std::vector<std::string> &GetRequiredDependencies() override {
+  const std::vector<std::string> &GetDependenciesTypes() override {
     static const std::vector<std::string> dependencies({});
     return dependencies;
   }

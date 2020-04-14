@@ -31,3 +31,14 @@ std::string HCL::Crypto::BlockCipherScheme::GetHeader() {
 void HCL::Crypto::BlockCipherScheme::SetBlockCipherMode(std::unique_ptr<ACryptoElement> block_cipher_mode) {
   block_cipher_mode_ = ACryptoElement::UniqueTo<ABlockCipherMode>(std::move(block_cipher_mode));
 }
+
+bool HCL::Crypto::BlockCipherScheme::IsBlockCipherModeSet() const {
+  return !!block_cipher_mode_;
+}
+
+const HCL::Crypto::ACryptoElement &HCL::Crypto::BlockCipherScheme::GetBlockCipherMode() const {
+  if (!IsBlockCipherModeSet()) {
+    throw std::runtime_error("BlockCipherScheme: Cannot get Block Cipher Mode: Not set");
+  }
+  return *block_cipher_mode_;
+}
