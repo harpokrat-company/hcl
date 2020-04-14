@@ -40,6 +40,15 @@ class BlockCipherScheme : public AutoRegisterer<ACipher, BlockCipherScheme> {
       default:return IsBlockCipherModeSet();
     }
   }
+  const ACryptoElement &GetDependency(size_t index) override {
+    if (index >= 1) {
+      throw std::runtime_error("BlockCipherScheme error: Cannot get dependency: Incorrect dependency index");
+    }
+    switch (index) {
+      case 0:
+      default:return GetBlockCipherMode();
+    }
+  }
   std::string Encrypt(const std::string &key, const std::string &content) override;
   std::string Decrypt(const std::string &key, const std::string &content) override;
   std::string GetHeader() override;

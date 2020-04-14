@@ -50,6 +50,15 @@ class Rijndael : virtual public ABlockCipher {
       default:return IsKeyStretchingFunctionSet();
     }
   }
+  const ACryptoElement &GetDependency(size_t index) override {
+    if (index >= 1) {
+      throw std::runtime_error("Rijndael error: Cannot get dependency: Incorrect dependency index");
+    }
+    switch (index) {
+      case 0:
+      default:return GetKeyStretchingFunction();
+    }
+  }
   std::string EncryptBloc(const std::string &key, const std::string &bloc) override;
   std::string DecryptBloc(const std::string &key, const std::string &bloc) override;
   size_t GetBlockSize() override

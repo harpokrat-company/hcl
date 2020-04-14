@@ -25,6 +25,9 @@ class MT19937 : public AutoRegisterer<ARandomGenerator, MT19937> {
   bool IsDependencySet(size_t index) override {
     throw std::runtime_error("MT19937 error: Cannot check dependency: Incorrect dependency index");
   }
+  const ACryptoElement &GetDependency(size_t index) override {
+    throw std::runtime_error("MT19937 error: Cannot get dependency: Incorrect dependency index");
+  }
   uint8_t GenerateRandomByte() override;
   std::string GenerateRandomByteSequence(size_t sequence_length) override;
   std::string GetHeader() override;

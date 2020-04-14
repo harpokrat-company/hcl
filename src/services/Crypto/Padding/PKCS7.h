@@ -23,6 +23,9 @@ class PKCS7 : public AutoRegisterer<APadding, PKCS7> {
   bool IsDependencySet(size_t index) override {
     throw std::runtime_error("PKCS7 error: Cannot check dependency: Incorrect dependency index");
   }
+  const ACryptoElement &GetDependency(size_t index) override {
+    throw std::runtime_error("PKCS7 error: Cannot get dependency: Incorrect dependency index");
+  }
   std::string PadDataToSize(const std::string &data, size_t size) override;
   std::string RemovePadding(const std::string &data) override;
   std::string GetHeader() override;

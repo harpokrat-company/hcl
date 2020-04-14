@@ -51,6 +51,16 @@ class PBKDF2 : public AutoRegisterer<AKeyStretchingFunction, PBKDF2> {
       default:return IsRandomGeneratorSet();
     }
   }
+  const ACryptoElement &GetDependency(size_t index) override {
+    if (index >= 2) {
+      throw std::runtime_error("PBKDF2 error: Cannot get dependency: Incorrect dependency index");
+    }
+    switch (index) {
+      case 0:return GetMessageAuthenticationCode();
+      case 1:
+      default:return GetRandomGenerator();
+    }
+  }
   std::string StretchKey(const std::string &key, size_t derived_key_length) override;
   std::string GetHeader() override;
   void SetMessageAuthenticationCode(std::unique_ptr<ACryptoElement> message_authentication_code);
