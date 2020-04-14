@@ -35,12 +35,20 @@ class PBKDF2 : public AutoRegisterer<AKeyStretchingFunction, PBKDF2> {
       throw std::runtime_error("PBKDF2 error: Cannot set dependency: Incorrect dependency index");
     }
     switch (index) {
-      case 0:
-        SetMessageAuthenticationCode(std::move(dependency));
+      case 0:SetMessageAuthenticationCode(std::move(dependency));
         break;
       case 1:
-      default:
-        SetRandomGenerator(std::move(dependency));
+      default:SetRandomGenerator(std::move(dependency));
+    }
+  }
+  bool IsDependencySet(size_t index) override {
+    if (index >= 2) {
+      throw std::runtime_error("PBKDF2 error: Cannot check dependency: Incorrect dependency index");
+    }
+    switch (index) {
+      case 0:return IsMessageAuthenticationCodeSet();
+      case 1:
+      default:return IsRandomGeneratorSet();
     }
   }
   std::string StretchKey(const std::string &key, size_t derived_key_length) override;

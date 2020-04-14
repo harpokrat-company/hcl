@@ -17,9 +17,6 @@ class SHA384 : public AutoRegisterer<AHashFunction, SHA384>, public SHA512 {
   SHA384() = default;
   SHA384(const std::string &header, size_t &header_length) {};
   ~SHA384() override = default;
-  void SetDependency(std::unique_ptr<ACryptoElement> dependency, size_t index) override {
-    throw std::runtime_error("SHA384 error: Cannot set dependency: Incorrect dependency index");
-  }
   static const uint16_t id = 4;
   static const std::string &GetName() {
     static std::string name = "sha384";

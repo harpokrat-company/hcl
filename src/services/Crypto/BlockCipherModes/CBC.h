@@ -40,6 +40,17 @@ class CBC : public AutoRegisterer<ABlockCipherMode, CBC>,
       default:SetRandomGenerator(std::move(dependency));
     }
   }
+  bool IsDependencySet(size_t index) override {
+    if (index >= 3) {
+      throw std::runtime_error("CBC error: Cannot check dependency: Incorrect dependency index");
+    }
+    switch (index) {
+      case 0:return IsCipherSet();
+      case 1:return IsPaddingSet();
+      case 2:
+      default:return IsRandomGeneratorSet();
+    }
+  }
   std::string Encrypt(const std::string &key, const std::string &content) override;
   std::string Decrypt(const std::string &key, const std::string &content) override;
   const std::string &GetElementName() override { return GetName(); };

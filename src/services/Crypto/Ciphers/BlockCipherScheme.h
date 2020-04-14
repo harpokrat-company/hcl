@@ -18,7 +18,7 @@ class BlockCipherScheme : public AutoRegisterer<ACipher, BlockCipherScheme> {
   const std::vector<std::string> &GetDependenciesTypes() override {
     static const std::vector<std::string> dependencies(
         {
-          ABlockCipherMode::GetName(),
+            ABlockCipherMode::GetName(),
         });
     return dependencies;
   }
@@ -28,8 +28,16 @@ class BlockCipherScheme : public AutoRegisterer<ACipher, BlockCipherScheme> {
     }
     switch (index) {
       case 0:
-      default:
-        SetBlockCipherMode(std::move(dependency));
+      default:SetBlockCipherMode(std::move(dependency));
+    }
+  }
+  bool IsDependencySet(size_t index) override {
+    if (index >= 1) {
+      throw std::runtime_error("BlockCipherScheme error: Cannot check dependency: Incorrect dependency index");
+    }
+    switch (index) {
+      case 0:
+      default:return IsBlockCipherModeSet();
     }
   }
   std::string Encrypt(const std::string &key, const std::string &content) override;

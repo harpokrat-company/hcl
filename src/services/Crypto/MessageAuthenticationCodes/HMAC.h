@@ -30,8 +30,16 @@ class HMAC : public AutoRegisterer<AMessageAuthenticationCode, HMAC> {
     }
     switch (index) {
       case 0:
-      default:
-        SetHashFunction(std::move(dependency));
+      default:SetHashFunction(std::move(dependency));
+    }
+  }
+  bool IsDependencySet(size_t index) override {
+    if (index >= 1) {
+      throw std::runtime_error("HMAC error: Cannot check dependency: Incorrect dependency index");
+    }
+    switch (index) {
+      case 0:
+      default:return IsHashFunctionSet();
     }
   }
   std::string SignMessage(const std::string &key, const std::string &message) override;

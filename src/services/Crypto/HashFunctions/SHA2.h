@@ -82,6 +82,16 @@ class SHA2 : virtual public AHashFunction {
   SHA2() = default;
   ~SHA2() override = default;
   std::string HashData(const std::string &data) override;
+  const std::vector<std::string> &GetDependenciesTypes() override {
+    static const std::vector<std::string> dependencies({});
+    return dependencies;
+  }
+  void SetDependency(std::unique_ptr<ACryptoElement> dependency, size_t index) override {
+    throw std::runtime_error("SHA2 error: Cannot set dependency: Incorrect dependency index");
+  }
+  bool IsDependencySet(size_t index) override {
+    throw std::runtime_error("SHA2 error: Cannot check dependency: Incorrect dependency index");
+  }
  protected:
   virtual WordType GetHashValue(size_t index) const = 0;
   virtual WordType GetRoundConstant(size_t index) const = 0;

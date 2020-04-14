@@ -16,13 +16,6 @@ class SHA256 : public AutoRegisterer<AHashFunction, SHA256>, public SHA2<uint32_
   SHA256() = default;
   SHA256(const std::string &header, size_t &header_length) {};
   ~SHA256() override = default;
-  const std::vector<std::string> &GetDependenciesTypes() override {
-    static const std::vector<std::string> dependencies({});
-    return dependencies;
-  }
-  void SetDependency(std::unique_ptr<ACryptoElement> dependency, size_t index) override {
-    throw std::runtime_error("SHA256 error: Cannot set dependency: Incorrect dependency index");
-  }
   size_t GetBlocSize() const override {
     return 64;
   }

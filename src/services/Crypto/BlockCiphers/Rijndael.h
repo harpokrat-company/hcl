@@ -38,8 +38,16 @@ class Rijndael : virtual public ABlockCipher {
     }
     switch (index) {
       case 0:
-      default:
-        SetKeyStretchingFunction(std::move(dependency));
+      default:SetKeyStretchingFunction(std::move(dependency));
+    }
+  }
+  bool IsDependencySet(size_t index) override {
+    if (index >= 1) {
+      throw std::runtime_error("Rijndael error: Cannot check dependency: Incorrect dependency index");
+    }
+    switch (index) {
+      case 0:
+      default:return IsKeyStretchingFunctionSet();
     }
   }
   std::string EncryptBloc(const std::string &key, const std::string &bloc) override;
@@ -139,7 +147,7 @@ uint8_t Rijndael<KeySize, Rounds>::GaloisProduct(uint8_t a, uint8_t b) {
 
 template<uint8_t KeySize, uint8_t Rounds>
 uint8_t Rijndael<KeySize, Rounds>::GaloisColumnProduct(const uint8_t coefficient[4],
-                                                                    const uint8_t column[4]) {
+                                                       const uint8_t column[4]) {
   uint8_t product = 0;
 
   for (int i = 0; i < 4; ++i) {

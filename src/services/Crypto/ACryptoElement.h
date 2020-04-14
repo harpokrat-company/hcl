@@ -20,6 +20,7 @@ class ACryptoElement {
   // TODO SetDependency via name of element (& call to factory)
   // TODO SetParameter system with different possible types of variable and boundaries for numbers
   virtual void SetDependency(std::unique_ptr<ACryptoElement> dependency, size_t index) = 0;
+  virtual bool IsDependencySet(size_t index) = 0;
 //  virtual const ACryptoElement &GetDependency(size_t index) = 0;
   virtual const std::string &GetElementName() = 0;
   virtual const std::string &GetElementTypeName() = 0;
