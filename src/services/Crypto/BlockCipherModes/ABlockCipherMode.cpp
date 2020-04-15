@@ -11,7 +11,7 @@ HCL::Crypto::ABlockCipherMode::ABlockCipherMode(const std::string &header, size_
 
 std::string HCL::Crypto::ABlockCipherMode::GetHeader() {
   if (!cipher_) {
-    throw std::runtime_error("ABlockCipherMode error: Cipher is not set");
+    throw std::runtime_error(GetDependencyUnsetError("get header", "Cipher"));
   }
   return cipher_->GetHeader();
 }
@@ -26,7 +26,7 @@ bool HCL::Crypto::ABlockCipherMode::IsCipherSet() const {
 
 HCL::Crypto::ACryptoElement &HCL::Crypto::ABlockCipherMode::GetCipher() const {
   if (!IsCipherSet()) {
-    throw std::runtime_error("ABlockCipherMode: Cannot get Cipher: Not set");
+    throw std::runtime_error(GetDependencyUnsetError("get Cipher", "Cipher"));
   }
   return *cipher_;
 }

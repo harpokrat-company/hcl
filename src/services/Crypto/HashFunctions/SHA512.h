@@ -22,8 +22,8 @@ class SHA512 : public AutoRegisterer<AHashFunction, SHA512>, public SHA2<uint64_
   std::string GetHeader() override {
     return GetIdBytes();
   }
-  const std::string &GetElementName() override { return GetName(); };
-  const std::string &GetElementTypeName() override { return GetTypeName(); };
+  const std::string &GetElementName() const override { return GetName(); };
+  const std::string &GetElementTypeName() const override { return GetTypeName(); };
   static const uint16_t id = 2;
   static const std::string &GetName() {
     static std::string name = "sha512";

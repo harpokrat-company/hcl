@@ -29,7 +29,7 @@ class CBC : public AutoRegisterer<ABlockCipherMode, CBC>,
   }
   void SetDependency(std::unique_ptr<ACryptoElement> dependency, size_t index) override {
     if (index >= 3) {
-      throw std::runtime_error("CBC error: Cannot set dependency: Incorrect dependency index");
+      throw std::runtime_error(AutoRegisterer::GetDependencyIndexError("set"));
     }
     switch (index) {
       case 0:SetCipher(std::move(dependency));
@@ -42,7 +42,7 @@ class CBC : public AutoRegisterer<ABlockCipherMode, CBC>,
   }
   bool IsDependencySet(size_t index) override {
     if (index >= 3) {
-      throw std::runtime_error("CBC error: Cannot check dependency: Incorrect dependency index");
+      throw std::runtime_error(AutoRegisterer::GetDependencyIndexError("check"));
     }
     switch (index) {
       case 0:return IsCipherSet();
@@ -53,7 +53,7 @@ class CBC : public AutoRegisterer<ABlockCipherMode, CBC>,
   }
   ACryptoElement &GetDependency(size_t index) override {
     if (index >= 3) {
-      throw std::runtime_error("CBC error: Cannot get dependency: Incorrect dependency index");
+      throw std::runtime_error(AutoRegisterer::GetDependencyIndexError("get"));
     }
     switch (index) {
       case 0:return GetCipher();
@@ -64,8 +64,8 @@ class CBC : public AutoRegisterer<ABlockCipherMode, CBC>,
   }
   std::string Encrypt(const std::string &key, const std::string &content) override;
   std::string Decrypt(const std::string &key, const std::string &content) override;
-  const std::string &GetElementName() override { return GetName(); };
-  const std::string &GetElementTypeName() override { return GetTypeName(); };
+  const std::string &GetElementName() const override { return GetName(); };
+  const std::string &GetElementTypeName() const override { return GetTypeName(); };
   static const uint16_t id = 1;
   static const std::string &GetName() {
     static std::string name = "cbc";

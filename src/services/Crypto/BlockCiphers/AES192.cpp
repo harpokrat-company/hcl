@@ -6,7 +6,7 @@
 
 std::string HCL::Crypto::AES192::GetHeader() {
   if (!key_stretching_function_) {
-    throw std::runtime_error("AES192 error: Key stretching function is not set");
+    throw std::runtime_error(GetDependencyUnsetError("get header", "Key stretching function"));
   }
   return GetIdBytes() + key_stretching_function_->GetHeader();
 }

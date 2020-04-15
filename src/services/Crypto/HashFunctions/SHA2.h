@@ -87,13 +87,13 @@ class SHA2 : virtual public AHashFunction {
     return dependencies;
   }
   void SetDependency(std::unique_ptr<ACryptoElement> dependency, size_t index) override {
-    throw std::runtime_error("SHA2 error: Cannot set dependency: Incorrect dependency index");
+    throw std::runtime_error(GetDependencyIndexError("set"));
   }
   bool IsDependencySet(size_t index) override {
-    throw std::runtime_error("SHA2 error: Cannot check dependency: Incorrect dependency index");
+    throw std::runtime_error(GetDependencyIndexError("check"));
   }
   ACryptoElement &GetDependency(size_t index) override {
-    throw std::runtime_error("SHA2 error: Cannot get dependency: Incorrect dependency index");
+    throw std::runtime_error(GetDependencyIndexError("get"));
   }
  protected:
   virtual WordType GetHashValue(size_t index) const = 0;

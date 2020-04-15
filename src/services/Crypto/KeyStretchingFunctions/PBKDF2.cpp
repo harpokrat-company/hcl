@@ -26,11 +26,11 @@ std::string HCL::Crypto::PBKDF2::StretchKey(const std::string &key, size_t deriv
 
 std::string HCL::Crypto::PBKDF2::GetPBKDF2Bloc(const std::string &key, uint32_t bloc_index) {
   if (!message_authentication_code_) {
-    throw std::runtime_error("PBKDF2 error: Message authentication code is not set");
+    throw std::runtime_error(GetDependencyUnsetError("generate bloc", "Message authentication code"));
   }
   if (!is_salt_set_) {
     if (!random_generator_) {
-      throw std::runtime_error("PBKDF2 error: Random generator is not set");
+      throw std::runtime_error(GetDependencyUnsetError("generate salt", "Random generator"));
     }
     salt_ = random_generator_->GenerateRandomByteSequence(PBKDF2_DEFAULT_SALT_LENGTH);
     is_salt_set_ = true;
@@ -54,12 +54,12 @@ void HCL::Crypto::PBKDF2::ParseSalt(const std::string &header, size_t &header_le
   uint16_t salt_length;
 
   if (header.length() < header_length + 2) {
-    throw std::runtime_error("PBKDF2: Impossible to parse salt size: Incorrect blob header: Too short");
+    throw std::runtime_error(GetError("parse salt size", "Blob header is too short"));
   }
   salt_length = uint16_t(((uint8_t) header[header_length]) << 8 | (uint8_t) header[header_length + 1]);
   header_length += 2;
   if (header.length() < header_length + salt_length) {
-    throw std::runtime_error("PBKDF2: Impossible to parse salt value: Incorrect blob header: Too short");
+    throw std::runtime_error(GetError("parse salt", "Blob header is too short"));
   }
   salt_ = header.substr(header_length, salt_length);
   is_salt_set_ = true;
@@ -68,7 +68,7 @@ void HCL::Crypto::PBKDF2::ParseSalt(const std::string &header, size_t &header_le
 
 void HCL::Crypto::PBKDF2::ParseIterations(const std::string &header, size_t &header_length) {
   if (header.length() < header_length + 4) {
-    throw std::runtime_error("PBKDF2: Impossible to parse iterations: Incorrect blob header: Too short");
+    throw std::runtime_error(GetError("parse number of iterations", "Blob header is too short"));
   }
   iterations_ = uint32_t(((uint8_t) header[header_length]) << 24
                              | ((uint8_t) header[header_length + 1]) << 16
@@ -79,7 +79,7 @@ void HCL::Crypto::PBKDF2::ParseIterations(const std::string &header, size_t &hea
 
 std::string HCL::Crypto::PBKDF2::GetHeader() {
   if (!message_authentication_code_) {
-    throw std::runtime_error("PBKDF2 error: Message authentication code is not set");
+    throw std::runtime_error(GetDependencyUnsetError("get header", "Message authentication code"));
   }
   std::string header = GetIdBytes();
 
@@ -100,8 +100,9 @@ void HCL::Crypto::PBKDF2::SetRandomGenerator(std::unique_ptr<ACryptoElement> ran
 std::string HCL::Crypto::PBKDF2::SerializeSalt() {
   if (!is_salt_set_) {
     if (!random_generator_) {
-      throw std::runtime_error("PBKDF2 error: Random generator is not set");
+      throw std::runtime_error(GetDependencyUnsetError("generate salt", "Random generator"));
     }
+    salt_ = random_generator_->GenerateRandomByteSequence(PBKDF2_DEFAULT_SALT_LENGTH);
     salt_ = random_generator_->GenerateRandomByteSequence(PBKDF2_DEFAULT_SALT_LENGTH);
     is_salt_set_ = true;
   }
@@ -128,7 +129,7 @@ bool HCL::Crypto::PBKDF2::IsMessageAuthenticationCodeSet() const {
 
 HCL::Crypto::ACryptoElement &HCL::Crypto::PBKDF2::GetMessageAuthenticationCode() const {
   if (!IsMessageAuthenticationCodeSet()) {
-    throw std::runtime_error("PBKDF2: Cannot get Message Authentication Code: Not set");
+    throw std::runtime_error(GetDependencyUnsetError("get Message authentication code", "Message authentication code"));
   }
   return *message_authentication_code_;
 }
@@ -139,7 +140,7 @@ bool HCL::Crypto::PBKDF2::IsRandomGeneratorSet() const {
 
 HCL::Crypto::ACryptoElement &HCL::Crypto::PBKDF2::GetRandomGenerator() const {
   if (!IsRandomGeneratorSet()) {
-    throw std::runtime_error("PBKDF2: Cannot get Random Generator: Not set");
+    throw std::runtime_error(GetDependencyUnsetError("get Random generator", "Random generator"));
   }
   return *random_generator_;
 }

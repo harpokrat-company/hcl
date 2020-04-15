@@ -11,7 +11,7 @@ HCL::Crypto::HMAC::HMAC(const std::string &header, size_t &header_length) {
 
 std::string HCL::Crypto::HMAC::SignMessage(const std::string &key, const std::string &message) {
   if (!hash_function_) {
-    throw std::runtime_error("HMAC error: Hash function is not set");
+    throw std::runtime_error(GetDependencyUnsetError("sign message", "Hash function"));
   }
   std::string prepared_key = key;
   size_t bloc_size = hash_function_->GetBlocSize();
@@ -31,7 +31,7 @@ std::string HCL::Crypto::HMAC::SignMessage(const std::string &key, const std::st
 
 std::string HCL::Crypto::HMAC::GetHeader() {
   if (!hash_function_) {
-    throw std::runtime_error("HMAC error: Hash function is not set");
+    throw std::runtime_error(GetDependencyUnsetError("get header", "Hash function"));
   }
   return GetIdBytes() + hash_function_->GetHeader();
 }
@@ -46,7 +46,7 @@ bool HCL::Crypto::HMAC::IsHashFunctionSet() const {
 
 HCL::Crypto::ACryptoElement &HCL::Crypto::HMAC::GetHashFunction() const {
   if (!IsHashFunctionSet()) {
-    throw std::runtime_error("HMAC: Cannot get Hash Function: Not set");
+    throw std::runtime_error(GetDependencyUnsetError("get Hash function", "Hash function"));
   }
   return *hash_function_;
 }

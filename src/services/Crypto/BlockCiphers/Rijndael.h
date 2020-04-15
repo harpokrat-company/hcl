@@ -34,7 +34,7 @@ class Rijndael : virtual public ABlockCipher {
   }
   void SetDependency(std::unique_ptr<ACryptoElement> dependency, size_t index) override {
     if (index >= 1) {
-      throw std::runtime_error("Rijndael error: Cannot set dependency: Incorrect dependency index");
+      throw std::runtime_error(GetDependencyIndexError("set"));
     }
     switch (index) {
       case 0:
@@ -43,7 +43,7 @@ class Rijndael : virtual public ABlockCipher {
   }
   bool IsDependencySet(size_t index) override {
     if (index >= 1) {
-      throw std::runtime_error("Rijndael error: Cannot check dependency: Incorrect dependency index");
+      throw std::runtime_error(GetDependencyIndexError("check"));
     }
     switch (index) {
       case 0:
@@ -52,7 +52,7 @@ class Rijndael : virtual public ABlockCipher {
   }
   ACryptoElement &GetDependency(size_t index) override {
     if (index >= 1) {
-      throw std::runtime_error("Rijndael error: Cannot get dependency: Incorrect dependency index");
+      throw std::runtime_error(GetDependencyIndexError("get"));
     }
     switch (index) {
       case 0:
@@ -314,7 +314,7 @@ size_t Rijndael<KeySize, Rounds>::GetBlockSize() {
 template<uint8_t KeySize, uint8_t Rounds>
 std::string Rijndael<KeySize, Rounds>::PrepareKey(const std::string &key) {
   if (!key_stretching_function_) {
-    throw std::runtime_error("Rijndael error: Key stretching function is not set");
+    throw std::runtime_error(GetDependencyUnsetError("prepare key", "Key stretching function"));
   }
   return key_stretching_function_->StretchKey(key, KeySize);
 }
@@ -332,7 +332,7 @@ bool Rijndael<KeySize, Rounds>::IsKeyStretchingFunctionSet() const {
 template<uint8_t KeySize, uint8_t Rounds>
 ACryptoElement &Rijndael<KeySize, Rounds>::GetKeyStretchingFunction() const {
   if (!IsKeyStretchingFunctionSet()) {
-    throw std::runtime_error("Rijndael: Cannot get Key Stretching Function: Not set");
+    throw std::runtime_error(GetDependencyUnsetError("get Key stretching function", "Key stretching function"));
   }
   return *key_stretching_function_;
 }

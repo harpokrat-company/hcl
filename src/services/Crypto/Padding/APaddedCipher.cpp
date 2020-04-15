@@ -10,7 +10,7 @@ HCL::Crypto::APaddedCipher::APaddedCipher(const std::string &header, size_t &hea
 }
 std::string HCL::Crypto::APaddedCipher::GetHeader() {
   if (!padding_) {
-    throw std::runtime_error("APaddedCipher error: Padding is not set");
+    throw std::runtime_error(GetDependencyUnsetError("get header", "Padding"));
   }
   return padding_->GetHeader();
 }
@@ -25,7 +25,7 @@ bool HCL::Crypto::APaddedCipher::IsPaddingSet() const {
 
 HCL::Crypto::ACryptoElement &HCL::Crypto::APaddedCipher::GetPadding() const {
   if (!IsPaddingSet()) {
-    throw std::runtime_error("APaddedCipher: Cannot get Padding: Not set");
+    throw std::runtime_error(GetDependencyUnsetError("get padding", "Padding"));
   }
   return *padding_;
 }

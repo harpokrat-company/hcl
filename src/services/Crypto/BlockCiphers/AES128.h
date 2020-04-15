@@ -16,8 +16,8 @@ class AES128 : public AutoRegisterer<ABlockCipher, AES128>, public Rijndael<16, 
   AES128() = default;
   AES128(const std::string &header, size_t &header_length) : Rijndael<16, 10>(header, header_length) {};
   std::string GetHeader() override;
-  const std::string &GetElementName() override { return GetName(); };
-  const std::string &GetElementTypeName() override { return GetTypeName(); };
+  const std::string &GetElementName() const override { return GetName(); };
+  const std::string &GetElementTypeName() const override { return GetTypeName(); };
   static const uint16_t id = 1;
   static const std::string &GetName() {
     static std::string name = "aes128";

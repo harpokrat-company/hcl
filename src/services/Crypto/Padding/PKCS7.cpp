@@ -15,7 +15,7 @@ std::string HCL::Crypto::PKCS7::RemovePadding(const std::string &data) {
 
   for (size_t i = data.length() - offset; i < data.length(); ++i) {
     if (data[i] != (char) offset) {
-      throw std::runtime_error("PKCS7 Padding error: Incorrect padding");
+      throw std::runtime_error(GetError("remove padding", "Incorrect padding"));
     }
   }
   return data.substr(0, data.length() - offset);

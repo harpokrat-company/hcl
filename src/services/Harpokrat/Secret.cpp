@@ -45,7 +45,7 @@ void HCL::Secret::Deserialize(const std::string &key, const std::string &content
       + serialized_header->fields_sizes[2]
       + serialized_header->fields_sizes[3];
 
-  // TODO Add magic number ?
+  // TODO Check correct password before decryption with checksum (look at android backup method)
   if (serialized_content.size() == serialized_length) {
     decryption_error_ = false;
     name_ = serialized_content.substr(offset, serialized_header->fields_sizes[0]);
@@ -57,8 +57,6 @@ void HCL::Secret::Deserialize(const std::string &key, const std::string &content
     domain_ = serialized_content.substr(offset, serialized_header->fields_sizes[3]);
   } else {
     decryption_error_ = true;
-    // TODO Check decryption ok in Blob ? Or in Cipher ?
-    // throw std::runtime_error("Secret deserialization: Incorrect Secret content (key is probably invalid)");
   }
 }
 

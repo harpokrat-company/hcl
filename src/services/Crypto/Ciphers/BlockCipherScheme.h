@@ -24,7 +24,7 @@ class BlockCipherScheme : public AutoRegisterer<ACipher, BlockCipherScheme> {
   }
   void SetDependency(std::unique_ptr<ACryptoElement> dependency, size_t index) override {
     if (index >= 1) {
-      throw std::runtime_error("BlockCipherScheme error: Cannot set dependency: Incorrect dependency index");
+      throw std::runtime_error(GetDependencyIndexError("set"));
     }
     switch (index) {
       case 0:
@@ -33,7 +33,7 @@ class BlockCipherScheme : public AutoRegisterer<ACipher, BlockCipherScheme> {
   }
   bool IsDependencySet(size_t index) override {
     if (index >= 1) {
-      throw std::runtime_error("BlockCipherScheme error: Cannot check dependency: Incorrect dependency index");
+      throw std::runtime_error(GetDependencyIndexError("check"));
     }
     switch (index) {
       case 0:
@@ -42,7 +42,7 @@ class BlockCipherScheme : public AutoRegisterer<ACipher, BlockCipherScheme> {
   }
   ACryptoElement &GetDependency(size_t index) override {
     if (index >= 1) {
-      throw std::runtime_error("BlockCipherScheme error: Cannot get dependency: Incorrect dependency index");
+      throw std::runtime_error(GetDependencyIndexError("get"));
     }
     switch (index) {
       case 0:
@@ -55,8 +55,8 @@ class BlockCipherScheme : public AutoRegisterer<ACipher, BlockCipherScheme> {
   void SetBlockCipherMode(std::unique_ptr<ACryptoElement> block_cipher_mode);
   bool IsBlockCipherModeSet() const;
   ACryptoElement &GetBlockCipherMode() const;
-  const std::string &GetElementName() override { return GetName(); };
-  const std::string &GetElementTypeName() override { return GetTypeName(); };
+  const std::string &GetElementName() const override { return GetName(); };
+  const std::string &GetElementTypeName() const override { return GetTypeName(); };
   static const uint16_t id = 1;
   static const std::string &GetName() {
     static std::string name = "block-cipher-scheme";

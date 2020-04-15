@@ -10,20 +10,20 @@ HCL::Crypto::BlockCipherScheme::BlockCipherScheme(const std::string &header, siz
 
 std::string HCL::Crypto::BlockCipherScheme::Encrypt(const std::string &password, const std::string &content) {
   if (!block_cipher_mode_) {
-    throw std::runtime_error("BlockCipherScheme error: Block cipher mode is not set");
+    throw std::runtime_error(GetDependencyUnsetError("encrypt", "Block cipher mode"));
   }
   return block_cipher_mode_->Encrypt(password, content);
 }
 
 std::string HCL::Crypto::BlockCipherScheme::Decrypt(const std::string &password, const std::string &content) {
   if (!block_cipher_mode_) {
-    throw std::runtime_error("BlockCipherScheme error: Block cipher mode is not set");
+    throw std::runtime_error(GetDependencyUnsetError("decrypt", "Block cipher mode"));
   }
   return block_cipher_mode_->Decrypt(password, content);
 }
 std::string HCL::Crypto::BlockCipherScheme::GetHeader() {
   if (!block_cipher_mode_) {
-    throw std::runtime_error("BlockCipherScheme error: Block cipher mode is not set");
+    throw std::runtime_error(GetDependencyUnsetError("get header", "Block cipher mode"));
   }
   return GetIdBytes() + block_cipher_mode_->GetHeader();
 }
@@ -38,7 +38,7 @@ bool HCL::Crypto::BlockCipherScheme::IsBlockCipherModeSet() const {
 
 HCL::Crypto::ACryptoElement &HCL::Crypto::BlockCipherScheme::GetBlockCipherMode() const {
   if (!IsBlockCipherModeSet()) {
-    throw std::runtime_error("BlockCipherScheme: Cannot get Block Cipher Mode: Not set");
+    throw std::runtime_error(GetDependencyUnsetError("get Block cipher mode", "Block cipher mode"));
   }
   return *block_cipher_mode_;
 }

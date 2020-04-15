@@ -12,10 +12,10 @@ HCL::Crypto::CBC::CBC(const std::string &header, size_t &header_length) :
 
 std::string HCL::Crypto::CBC::Encrypt(const std::string &key, const std::string &content) {
   if (!cipher_) {
-    throw std::runtime_error("CBC error: Cipher is not set");
+    throw std::runtime_error(AutoRegisterer::GetDependencyUnsetError("encrypt", "Cipher"));
   }
   if (!padding_) {
-    throw std::runtime_error("CBC error: Padding is not set");
+    throw std::runtime_error(AutoRegisterer::GetDependencyUnsetError("encrypt", "Padding"));
   }
   size_t block_size = cipher_->GetBlockSize();
   size_t content_size = content.length();
@@ -38,10 +38,10 @@ std::string HCL::Crypto::CBC::Encrypt(const std::string &key, const std::string 
 
 std::string HCL::Crypto::CBC::Decrypt(const std::string &key, const std::string &content) {
   if (!cipher_) {
-    throw std::runtime_error("CBC error: Cipher is not set");
+    throw std::runtime_error(AutoRegisterer::GetDependencyUnsetError("encrypt", "Cipher"));
   }
   if (!padding_) {
-    throw std::runtime_error("CBC error: Padding is not set");
+    throw std::runtime_error(AutoRegisterer::GetDependencyUnsetError("encrypt", "Padding"));
   }
   size_t block_size = cipher_->GetBlockSize();
   std::string prepared_key = cipher_->PrepareKey(key);
@@ -50,7 +50,7 @@ std::string HCL::Crypto::CBC::Decrypt(const std::string &key, const std::string 
   size_t index = block_size;
 
   if (content.length() % block_size != 0) {
-    throw std::runtime_error("CBC Decrypt: Incorrect blob: Size not multiple of bloc size");
+    throw std::runtime_error(AutoRegisterer::GetError("decrypt", "Size of blob is not a multiple of the bloc size"));
   }
   while (index < content.length()) {
     next_plain_bloc = CryptoHelper::XorStrings(

@@ -16,14 +16,14 @@ std::string HCL::Crypto::AInitializationVectorBlockCipherMode::GetInitialization
     size_t initialization_vector_length
 ) {
   if (!random_generator_) {
-    throw std::runtime_error("AInitializationVectorBlockCipherMode error: Random generator is not set");
+    throw std::runtime_error(GetDependencyUnsetError("get initialization vector", "Random generator"));
   }
   return random_generator_->GenerateRandomByteSequence(initialization_vector_length);
 }
 
 std::string HCL::Crypto::AInitializationVectorBlockCipherMode::GetHeader() {
   if (!random_generator_) {
-    throw std::runtime_error("AInitializationVectorBlockCipherMode error: Random generator is not set");
+    throw std::runtime_error(GetDependencyUnsetError("get header", "Random generator"));
   }
   return random_generator_->GetHeader();
 }
@@ -39,7 +39,7 @@ bool HCL::Crypto::AInitializationVectorBlockCipherMode::IsRandomGeneratorSet() c
 
 HCL::Crypto::ACryptoElement &HCL::Crypto::AInitializationVectorBlockCipherMode::GetRandomGenerator() const {
   if (!IsRandomGeneratorSet()) {
-    throw std::runtime_error("AInitializationVector: Cannot get RandomGenerator: Not set");
+    throw std::runtime_error(GetDependencyUnsetError("get Random generator", "Random generator"));
   }
 
   return *random_generator_;
