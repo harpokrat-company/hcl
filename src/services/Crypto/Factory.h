@@ -26,8 +26,10 @@ class Factory : public AFactory {
   std::unique_ptr<ACryptoElement> BuildFromHeader(const std::string &header, size_t &header_length) override;
   std::unique_ptr<ACryptoElement> BuildFromId(uint16_t id) override;
   std::unique_ptr<ACryptoElement> BuildFromName(const std::string &name) override;
-  const std::string &GetFactoryType() override
-  __attribute__((const));
+  const std::string &GetFactoryType() const override;
+  const std::map<std::string, uint16_t> &GetClassesNames() override {
+    return GetRegisteredClassesNames();
+  }
   static bool Register(uint16_t identifier,
                        HeaderInstantiator<AbstractClass> header_instantiator,
                        Instantiator<AbstractClass> instantiator,
@@ -38,9 +40,6 @@ class Factory : public AFactory {
   static AFactory &GetInstance() {
     static Factory<AbstractClass> instance;
     return instance;
-  }
-  static const std::map<std::string, uint16_t> &GetClassesNames() {
-    return GetRegisteredClassesNames();
   }
  private:
   static std::map<uint16_t, HeaderInstantiator<AbstractClass>> &GetRegisteredClassesHeaderConstructors() {
@@ -57,7 +56,6 @@ class Factory : public AFactory {
   }
   static const bool is_registered_;
 };
-// TODO Cleaner runtime errors
 
 template<typename AbstractClass>
 bool Factory<AbstractClass>::Register(uint16_t identifier,
@@ -129,7 +127,7 @@ std::unique_ptr<ACryptoElement> Factory<AbstractClass>::BuildFromName(const std:
 }
 
 template<typename AbstractClass>
-const std::string &Factory<AbstractClass>::GetFactoryType() {
+const std::string &Factory<AbstractClass>::GetFactoryType() const {
   return AbstractClass::GetName();
 }
 
