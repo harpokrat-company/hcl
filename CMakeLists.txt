@@ -87,6 +87,7 @@ set(LIBRARY_SOURCE_FILES
     src/services/Crypto/HashFunctions/SHA512.h
     src/services/Crypto/AutoRegisterer.h
     src/services/Crypto/AFactory.h
+    src/services/Crypto/ACryptoElement.cpp
     src/services/Crypto/ACryptoElement.h)
 
 add_library(hcl SHARED ${LIBRARY_SOURCE_FILES})
