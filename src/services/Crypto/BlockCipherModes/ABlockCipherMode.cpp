@@ -24,7 +24,7 @@ bool HCL::Crypto::ABlockCipherMode::IsCipherSet() const {
   return !!cipher_;
 }
 
-const HCL::Crypto::ACryptoElement &HCL::Crypto::ABlockCipherMode::GetCipher() const {
+HCL::Crypto::ACryptoElement &HCL::Crypto::ABlockCipherMode::GetCipher() const {
   if (!IsCipherSet()) {
     throw std::runtime_error("ABlockCipherMode: Cannot get Cipher: Not set");
   }

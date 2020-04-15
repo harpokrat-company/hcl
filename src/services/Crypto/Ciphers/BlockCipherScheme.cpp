@@ -36,7 +36,7 @@ bool HCL::Crypto::BlockCipherScheme::IsBlockCipherModeSet() const {
   return !!block_cipher_mode_;
 }
 
-const HCL::Crypto::ACryptoElement &HCL::Crypto::BlockCipherScheme::GetBlockCipherMode() const {
+HCL::Crypto::ACryptoElement &HCL::Crypto::BlockCipherScheme::GetBlockCipherMode() const {
   if (!IsBlockCipherModeSet()) {
     throw std::runtime_error("BlockCipherScheme: Cannot get Block Cipher Mode: Not set");
   }

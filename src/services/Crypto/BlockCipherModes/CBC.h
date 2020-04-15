@@ -51,7 +51,7 @@ class CBC : public AutoRegisterer<ABlockCipherMode, CBC>,
       default:return IsRandomGeneratorSet();
     }
   }
-  const ACryptoElement &GetDependency(size_t index) override {
+  ACryptoElement &GetDependency(size_t index) override {
     if (index >= 3) {
       throw std::runtime_error("CBC error: Cannot get dependency: Incorrect dependency index");
     }

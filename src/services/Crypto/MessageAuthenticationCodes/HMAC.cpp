@@ -44,7 +44,7 @@ bool HCL::Crypto::HMAC::IsHashFunctionSet() const {
   return !!hash_function_;
 }
 
-const HCL::Crypto::ACryptoElement &HCL::Crypto::HMAC::GetHashFunction() const {
+HCL::Crypto::ACryptoElement &HCL::Crypto::HMAC::GetHashFunction() const {
   if (!IsHashFunctionSet()) {
     throw std::runtime_error("HMAC: Cannot get Hash Function: Not set");
   }

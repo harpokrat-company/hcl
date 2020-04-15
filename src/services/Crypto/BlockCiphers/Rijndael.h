@@ -50,7 +50,7 @@ class Rijndael : virtual public ABlockCipher {
       default:return IsKeyStretchingFunctionSet();
     }
   }
-  const ACryptoElement &GetDependency(size_t index) override {
+  ACryptoElement &GetDependency(size_t index) override {
     if (index >= 1) {
       throw std::runtime_error("Rijndael error: Cannot get dependency: Incorrect dependency index");
     }
@@ -67,7 +67,7 @@ class Rijndael : virtual public ABlockCipher {
   __attribute__((const));
   void SetKeyStretchingFunction(std::unique_ptr<ACryptoElement> key_stretching_function);
   bool IsKeyStretchingFunctionSet() const;
-  const ACryptoElement &GetKeyStretchingFunction() const;
+  ACryptoElement &GetKeyStretchingFunction() const;
  protected:
   std::unique_ptr<AKeyStretchingFunction> key_stretching_function_;
  private:
@@ -330,7 +330,7 @@ bool Rijndael<KeySize, Rounds>::IsKeyStretchingFunctionSet() const {
 }
 
 template<uint8_t KeySize, uint8_t Rounds>
-const ACryptoElement &Rijndael<KeySize, Rounds>::GetKeyStretchingFunction() const {
+ACryptoElement &Rijndael<KeySize, Rounds>::GetKeyStretchingFunction() const {
   if (!IsKeyStretchingFunctionSet()) {
     throw std::runtime_error("Rijndael: Cannot get Key Stretching Function: Not set");
   }

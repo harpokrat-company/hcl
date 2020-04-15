@@ -23,7 +23,7 @@ bool HCL::Crypto::APaddedCipher::IsPaddingSet() const {
   return !!padding_;
 }
 
-const HCL::Crypto::ACryptoElement &HCL::Crypto::APaddedCipher::GetPadding() const {
+HCL::Crypto::ACryptoElement &HCL::Crypto::APaddedCipher::GetPadding() const {
   if (!IsPaddingSet()) {
     throw std::runtime_error("APaddedCipher: Cannot get Padding: Not set");
   }

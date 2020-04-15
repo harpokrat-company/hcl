@@ -19,7 +19,7 @@ class AInitializationVectorBlockCipherMode : public ACryptoElement {
   virtual std::string GetHeader();
   void SetRandomGenerator(std::unique_ptr<ACryptoElement> random_generator);
   bool IsRandomGeneratorSet() const;
-  const ACryptoElement &GetRandomGenerator() const;
+  ACryptoElement &GetRandomGenerator() const;
  protected:
   std::string GetInitializationVector(size_t initialization_vector_length);
  private:

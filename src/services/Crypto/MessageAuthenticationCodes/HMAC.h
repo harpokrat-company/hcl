@@ -42,7 +42,7 @@ class HMAC : public AutoRegisterer<AMessageAuthenticationCode, HMAC> {
       default:return IsHashFunctionSet();
     }
   }
-  const ACryptoElement &GetDependency(size_t index) override {
+  ACryptoElement &GetDependency(size_t index) override {
     if (index >= 1) {
       throw std::runtime_error("HMAC error: Cannot get dependency: Incorrect dependency index");
     }
@@ -55,7 +55,7 @@ class HMAC : public AutoRegisterer<AMessageAuthenticationCode, HMAC> {
   std::string GetHeader() override;
   void SetHashFunction(std::unique_ptr<ACryptoElement> hash_function);
   bool IsHashFunctionSet() const;
-  const ACryptoElement &GetHashFunction() const;
+  ACryptoElement &GetHashFunction() const;
   const std::string &GetElementName() override { return GetName(); };
   const std::string &GetElementTypeName() override { return GetTypeName(); };
   static const uint16_t id = 1;

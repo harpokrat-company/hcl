@@ -126,7 +126,7 @@ bool HCL::Crypto::PBKDF2::IsMessageAuthenticationCodeSet() const {
   return !!message_authentication_code_;
 }
 
-const HCL::Crypto::ACryptoElement &HCL::Crypto::PBKDF2::GetMessageAuthenticationCode() const {
+HCL::Crypto::ACryptoElement &HCL::Crypto::PBKDF2::GetMessageAuthenticationCode() const {
   if (!IsMessageAuthenticationCodeSet()) {
     throw std::runtime_error("PBKDF2: Cannot get Message Authentication Code: Not set");
   }
@@ -137,7 +137,7 @@ bool HCL::Crypto::PBKDF2::IsRandomGeneratorSet() const {
   return !!random_generator_;
 }
 
-const HCL::Crypto::ACryptoElement &HCL::Crypto::PBKDF2::GetRandomGenerator() const {
+HCL::Crypto::ACryptoElement &HCL::Crypto::PBKDF2::GetRandomGenerator() const {
   if (!IsRandomGeneratorSet()) {
     throw std::runtime_error("PBKDF2: Cannot get Random Generator: Not set");
   }

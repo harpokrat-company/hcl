@@ -92,7 +92,7 @@ class SHA2 : virtual public AHashFunction {
   bool IsDependencySet(size_t index) override {
     throw std::runtime_error("SHA2 error: Cannot check dependency: Incorrect dependency index");
   }
-  const ACryptoElement &GetDependency(size_t index) override {
+  ACryptoElement &GetDependency(size_t index) override {
     throw std::runtime_error("SHA2 error: Cannot get dependency: Incorrect dependency index");
   }
  protected:

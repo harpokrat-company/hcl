@@ -19,7 +19,7 @@ class APaddedCipher : public ACryptoElement {
   virtual std::string GetHeader();
   void SetPadding(std::unique_ptr<ACryptoElement> padding);
   bool IsPaddingSet() const;
-  const ACryptoElement &GetPadding() const;
+  ACryptoElement &GetPadding() const;
  protected:
   std::unique_ptr<APadding> padding_;
 };

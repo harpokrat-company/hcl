@@ -37,7 +37,7 @@ bool HCL::Crypto::AInitializationVectorBlockCipherMode::IsRandomGeneratorSet() c
   return !!random_generator_;
 }
 
-const HCL::Crypto::ACryptoElement &HCL::Crypto::AInitializationVectorBlockCipherMode::GetRandomGenerator() const {
+HCL::Crypto::ACryptoElement &HCL::Crypto::AInitializationVectorBlockCipherMode::GetRandomGenerator() const {
   if (!IsRandomGeneratorSet()) {
     throw std::runtime_error("AInitializationVector: Cannot get RandomGenerator: Not set");
   }
