@@ -90,7 +90,13 @@ set(LIBRARY_SOURCE_FILES
     src/services/Crypto/AutoRegisterer.h
     src/services/Crypto/AFactory.h
     src/services/Crypto/ACryptoElement.cpp
-    src/services/Crypto/ACryptoElement.h)
+    src/services/Crypto/ACryptoElement.h
+    src/services/Crypto/PrimeGenerators/APrimeGenerator.cpp
+    src/services/Crypto/PrimeGenerators/APrimeGenerator.h
+        src/services/Crypto/PrimalityTests/APrimalityTest.cpp
+    src/services/Crypto/PrimalityTests/APrimalityTest.h
+    src/services/Crypto/PrimalityTests/Fermat.cpp
+    src/services/Crypto/PrimalityTests/Fermat.h)
 
 add_library(hcl SHARED ${LIBRARY_SOURCE_FILES})
 
