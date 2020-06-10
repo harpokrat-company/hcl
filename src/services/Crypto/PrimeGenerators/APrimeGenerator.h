@@ -11,15 +11,15 @@
 
 namespace HCL::Crypto {
 
-	class APrimeGenerator : public ACryptoElement {
-	public:
-		virtual ~APrimeGenerator() = default;
-		virtual std::string GetHeader() = 0;
-		static const std::string &GetName() {
-			static std::string name = "prime-generator";
-			return name;
-		};
-	};
+class APrimeGenerator : public ACryptoElement {
+ public:
+  virtual ~APrimeGenerator() = default;
+  virtual std::string GetHeader() = 0;
+  static const std::string &GetName() {
+    static std::string name = "prime-generator";
+    return name;
+  };
+};
 
 }
 
