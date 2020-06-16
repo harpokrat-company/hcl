@@ -24,4 +24,5 @@ void UpdateSecretDomain(HCL::Secret *secret, const char *domain);
 std::string *GetContentStringFromSecret(HCL::Secret *secret, const char *key);
 void DeleteSecret(HCL::Secret *secret);
 };
+
 #endif //HCL_SECRET_LINKAGE_H

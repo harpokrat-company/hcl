@@ -7,6 +7,7 @@
 
 #include "../AutoRegisterer.h"
 #include "APadding.h"
+
 namespace HCL::Crypto {
 
 class PKCS7 : public AutoRegisterer<APadding, PKCS7> {

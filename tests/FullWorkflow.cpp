@@ -49,7 +49,7 @@ static int DefaultFullEncryptionDecryptionTest() {
   auto cbc = HCL::Crypto::SuperFactory::GetFactoryOfType("block-cipher-mode").BuildFromName("cbc");
   auto cipher = HCL::Crypto::Factory<HCL::Crypto::ACipher>::BuildTypedFromName("block-cipher-scheme");
 
-  std::cout << "Running test of full workflow (CBC(PKCS7/AES256(PKDF2(MT19937/HMAC(SHA256)))/MT19937))... "
+  std::cout << "Running test of full workflow (CBC(PKCS7/AES256(PBKDF2(MT19937/HMAC(SHA256)))/MT19937))... "
             << std::flush;
   hmac->SetDependency(std::move(sha256), 0);
   pbkdf2->SetDependency(std::move(hmac), 0);
