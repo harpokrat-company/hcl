@@ -2,7 +2,6 @@
 // Created by neodar on 16/06/2020.
 //
 
-#include <iostream>
 #include "BigNumber.h"
 
 HCL::Crypto::BigNumber::BigNumber(const std::string &number, const std::string &base) :
@@ -19,11 +18,6 @@ std::string HCL::Crypto::BigNumber::ToBase(const std::string &base) const {
   std::string output_number;
 
   while (tmp_copy > 0) {
-    std::cout << "A" << std::endl;
-    std::cout << tmp_copy.TmpDumpHex() << std::endl;
-    std::cout << base.size() << std::endl;
-    std::cout << static_cast<size_t>(tmp_copy % base.size()) << std::endl;
-    std::cout << "A2" << std::endl;
     output_number = base[static_cast<size_t>(tmp_copy % base.size())] + output_number;
     tmp_copy /= base.size();
   }
@@ -132,14 +126,10 @@ HCL::Crypto::BigNumber &HCL::Crypto::BigNumber::operator-=(const HCL::Crypto::Bi
       this->SubtractBigNumber(tmp);
       this->negative_ = !this->negative_;
     }
-  } else if (this->negative_) {
-    this->negative_ = false;
-    this->AddBigNumber(right_hand_side);
-    this->negative_ = true;
   } else {
-    this->negative_ = true;
+    this->negative_ = !this->negative_;
     this->AddBigNumber(right_hand_side);
-    this->negative_ = false;
+    this->negative_ = !this->negative_;
   }
 
   return *this;
@@ -333,5 +323,8 @@ void HCL::Crypto::BigNumber::CleanNumber() {
     } else {
       break;
     }
+  }
+  if (this->number_.empty()) {
+    this->negative_ = false;
   }
 }

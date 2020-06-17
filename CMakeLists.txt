@@ -94,12 +94,12 @@ set(LIBRARY_SOURCE_FILES
 
 add_library(hcl SHARED ${LIBRARY_SOURCE_FILES})
 
-set(TEST_SOURCE_FILES
-    tests/main.cpp
-    tests/AES.cpp
-    tests/SHA.cpp
-    tests/FullWorkflow.cpp
-    tests/RijndaelKeySchedule.cpp
-    tests/BigNumber.cpp)
-
-add_executable(hcl_test_suite ${LIBRARY_SOURCE_FILES} ${TEST_SOURCE_FILES})
+#set(TEST_SOURCE_FILES
+#    tests/main.cpp
+#    tests/AES.cpp
+#    tests/SHA.cpp
+#    tests/FullWorkflow.cpp
+#    tests/RijndaelKeySchedule.cpp
+#    tests/BigNumber.cpp)
+#
+#add_executable(hcl_test_suite ${LIBRARY_SOURCE_FILES} ${TEST_SOURCE_FILES})

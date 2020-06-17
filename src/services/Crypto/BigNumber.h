@@ -42,8 +42,6 @@ class BigNumber {
   template<typename T>
   explicit operator T() const {
     T result = 0;
-    std::cout << (this->negative_) << std::endl;
-    std::cout << (*this < std::numeric_limits<T>::min()) << std::endl;
 
     if ((this->negative_ && *this < std::numeric_limits<T>::min())
         || (!this->negative_ && *this > std::numeric_limits<T>::max())) {
@@ -79,17 +77,6 @@ class BigNumber {
   BigNumber &operator*=(const BigNumber &);
   BigNumber &operator/=(const BigNumber &);
   BigNumber &operator%=(const BigNumber &);
-  std::string TmpDumpHex() const {
-    // TODO Remove and only working for BASE 256
-    std::string output;
-    static const std::string hex_base = "0123456789ABCDEF";
-
-    for (const auto &digit : this->number_) {
-      output = (char)hex_base[digit & SQRT_BASE_MAX] + output;
-      output = (char)hex_base[digit >> HALF_BASE_SIZE] + output;
-    }
-    return output;
-  }
  private:
   static void SetSubNumberDigit(std::vector<BASE_TYPE> &number, BASE_TYPE digit, size_t index);
   static void AddToSubNumberDigit(std::vector<BASE_TYPE> &number, BASE_TYPE value, size_t index);

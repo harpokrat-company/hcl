@@ -38,10 +38,10 @@
 //}
 
 static int BigNumberTest() {
-  HCL::Crypto::BigNumber a(4);
+  HCL::Crypto::BigNumber a(89723489783249);
   HCL::Crypto::BigNumber b("90580", "0123456789");
-  std::cout << b.ToBase("0123456789") << std::endl;
   HCL::Crypto::BigNumber c = a / b;
+  std::cout << c.ToBase("0123456789") << std::endl;
   return 0;
 }
 
