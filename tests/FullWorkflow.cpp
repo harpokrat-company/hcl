@@ -98,6 +98,7 @@ static int SecretTest() {
   origin_secret.SetPassword("qwerty123456789");
 
   HCL::Secret destination_secret(key, origin_secret.Serialize(key));
+  std::cout << "Success! (probably)" << std::endl;
   return 0;
 }
 
