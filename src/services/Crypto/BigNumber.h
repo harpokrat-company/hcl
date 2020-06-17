@@ -35,13 +35,15 @@ class BigNumber {
     }
   }
   BigNumber() :
-      number_({0}),
+      number_(),
       negative_(false) {
   }
   BigNumber(const BigNumber &original) = default;
   template<typename T>
   explicit operator T() const {
     T result = 0;
+    std::cout << (this->negative_) << std::endl;
+    std::cout << (*this < std::numeric_limits<T>::min()) << std::endl;
 
     if ((this->negative_ && *this < std::numeric_limits<T>::min())
         || (!this->negative_ && *this > std::numeric_limits<T>::max())) {
@@ -58,7 +60,7 @@ class BigNumber {
 
     return result;
   }
-//  std::string ToBase(const std::string &base) const;
+  std::string ToBase(const std::string &base) const;
   BigNumber &operator=(const BigNumber &) = default;
   bool operator==(const BigNumber &) const;
   bool operator!=(const BigNumber &) const;
@@ -69,12 +71,14 @@ class BigNumber {
   BigNumber operator+(const BigNumber &) const;
   BigNumber operator-(const BigNumber &) const;
   BigNumber operator*(const BigNumber &) const;
-//  BigNumber operator/(const BigNumber &) const;
-//  BigNumber operator%(const BigNumber &) const;
+  BigNumber operator/(const BigNumber &) const;
+  BigNumber operator%(const BigNumber &) const;
   // TODO Potentially add bitwise operators
   BigNumber &operator+=(const BigNumber &);
   BigNumber &operator-=(const BigNumber &);
   BigNumber &operator*=(const BigNumber &);
+  BigNumber &operator/=(const BigNumber &);
+  BigNumber &operator%=(const BigNumber &);
   std::string TmpDumpHex() const {
     // TODO Remove and only working for BASE 256
     std::string output;

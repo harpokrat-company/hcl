@@ -14,16 +14,21 @@ HCL::Crypto::BigNumber::BigNumber(const std::string &number, const std::string &
   }
 }
 
-//std::string HCL::Crypto::BigNumber::ToBase(const std::string &base) const {
-//  BigNumber tmp_copy(*this);
-//  std::string output_number;
-//
-//  while (tmp_copy > 0) {
-//    output_number += base[static_cast<size_t>(tmp_copy % base.size())];
-//    tmp_copy /= base.size();
-//  }
-//  return output_number;
-//}
+std::string HCL::Crypto::BigNumber::ToBase(const std::string &base) const {
+  BigNumber tmp_copy(*this);
+  std::string output_number;
+
+  while (tmp_copy > 0) {
+    std::cout << "A" << std::endl;
+    std::cout << tmp_copy.TmpDumpHex() << std::endl;
+    std::cout << base.size() << std::endl;
+    std::cout << static_cast<size_t>(tmp_copy % base.size()) << std::endl;
+    std::cout << "A2" << std::endl;
+    output_number = base[static_cast<size_t>(tmp_copy % base.size())] + output_number;
+    tmp_copy /= base.size();
+  }
+  return output_number;
+}
 
 bool HCL::Crypto::BigNumber::operator==(const HCL::Crypto::BigNumber &right_hand_side) const {
   if (this->negative_ != right_hand_side.negative_
@@ -49,7 +54,7 @@ bool HCL::Crypto::BigNumber::operator>(const HCL::Crypto::BigNumber &right_hand_
   if (this->number_.size() != right_hand_side.number_.size()) {
     return this->number_.size() > right_hand_side.number_.size();
   }
-  for (auto i = this->number_.size() - 1; i >= 0; --i) {
+  for (ssize_t i = this->number_.size() - 1; i >= 0; --i) {
     if (this->number_[i] != right_hand_side.number_[i]) {
       return this->number_[i] > right_hand_side.number_[i];
     }
@@ -90,19 +95,19 @@ HCL::Crypto::BigNumber HCL::Crypto::BigNumber::operator*(const HCL::Crypto::BigN
   return new_number;
 }
 
-//HCL::Crypto::BigNumber HCL::Crypto::BigNumber::operator/(const HCL::Crypto::BigNumber &right_hand_side) const {
-//  BigNumber new_number(*this);
-//
-//  new_number /= right_hand_side;
-//  return new_number;
-//}
-//
-//HCL::Crypto::BigNumber HCL::Crypto::BigNumber::operator%(const HCL::Crypto::BigNumber &right_hand_side) const {
-//  BigNumber new_number(*this);
-//
-//  new_number %= right_hand_side;
-//  return new_number;
-//}
+HCL::Crypto::BigNumber HCL::Crypto::BigNumber::operator/(const HCL::Crypto::BigNumber &right_hand_side) const {
+  BigNumber new_number(*this);
+
+  new_number /= right_hand_side;
+  return new_number;
+}
+
+HCL::Crypto::BigNumber HCL::Crypto::BigNumber::operator%(const HCL::Crypto::BigNumber &right_hand_side) const {
+  BigNumber new_number(*this);
+
+  new_number %= right_hand_side;
+  return new_number;
+}
 
 HCL::Crypto::BigNumber &HCL::Crypto::BigNumber::operator+=(const HCL::Crypto::BigNumber &right_hand_side) {
   if (this->negative_ == right_hand_side.negative_) {
@@ -117,14 +122,24 @@ HCL::Crypto::BigNumber &HCL::Crypto::BigNumber::operator+=(const HCL::Crypto::Bi
 }
 
 HCL::Crypto::BigNumber &HCL::Crypto::BigNumber::operator-=(const HCL::Crypto::BigNumber &right_hand_side) {
-  if (*this > right_hand_side) {
-    this->SubtractBigNumber(right_hand_side);
-  } else {
-    BigNumber tmp(*this);
+  if (this->negative_ == right_hand_side.negative_) {
+    if (*this > right_hand_side) {
+      this->SubtractBigNumber(right_hand_side);
+    } else {
+      BigNumber tmp(*this);
 
-    *this = right_hand_side;
-    this->SubtractBigNumber(tmp);
-    this->negative_ = !this->negative_;
+      *this = right_hand_side;
+      this->SubtractBigNumber(tmp);
+      this->negative_ = !this->negative_;
+    }
+  } else if (this->negative_) {
+    this->negative_ = false;
+    this->AddBigNumber(right_hand_side);
+    this->negative_ = true;
+  } else {
+    this->negative_ = true;
+    this->AddBigNumber(right_hand_side);
+    this->negative_ = false;
   }
 
   return *this;
@@ -146,6 +161,54 @@ HCL::Crypto::BigNumber &HCL::Crypto::BigNumber::operator*=(const HCL::Crypto::Bi
     }
   }
   this->number_ = result;
+  this->CleanNumber();
+  return *this;
+}
+
+HCL::Crypto::BigNumber &HCL::Crypto::BigNumber::operator/=(const HCL::Crypto::BigNumber &right_hand_side) {
+  if (right_hand_side == 0) {
+    throw std::overflow_error("Division by zero");
+  }
+  BigNumber sub_divident;
+  BigNumber quotient;
+  BigNumber divider(right_hand_side);
+  this->negative_ = this->negative_ != right_hand_side.negative_;
+  divider.negative_ = false;
+
+  for (ssize_t i = this->number_.size() - 1; i >= 0; --i) {
+    quotient *= 1 << BASE_SIZE;
+    sub_divident *= 1 << BASE_SIZE;
+    sub_divident += this->GetNumberDigit(i);
+    while (sub_divident >= divider) {
+      sub_divident -= divider;
+      quotient += 1;
+    }
+  }
+  *this = quotient;
+  this->CleanNumber();
+  return *this;
+}
+
+HCL::Crypto::BigNumber &HCL::Crypto::BigNumber::operator%=(const HCL::Crypto::BigNumber &right_hand_side) {
+  if (right_hand_side == 0) {
+    throw std::overflow_error("Division by zero");
+  }
+  BigNumber sub_divident;
+  BigNumber quotient;
+  BigNumber divider(right_hand_side);
+  this->negative_ = this->negative_ != right_hand_side.negative_;
+  divider.negative_ = false;
+
+  for (ssize_t i = this->number_.size() - 1; i >= 0; --i) {
+    quotient *= 1 << BASE_SIZE;
+    sub_divident *= 1 << BASE_SIZE;
+    sub_divident += this->GetNumberDigit(i);
+    while (sub_divident >= divider) {
+      sub_divident -= divider;
+      quotient += 1;
+    }
+  }
+  *this = sub_divident;
   this->CleanNumber();
   return *this;
 }

@@ -5,10 +5,10 @@
 #include "tests.h"
 
 static int (*test_functions[])() = {
-    RijndaelKeyScheduleTests,
-    AESTests,
-    SHATests,
-    FullWorkflowTests,
+//    RijndaelKeyScheduleTests,
+//    AESTests,
+//    SHATests,
+//    FullWorkflowTests,
     BigNumberTests,
     nullptr
 };
