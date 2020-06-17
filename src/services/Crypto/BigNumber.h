@@ -71,12 +71,22 @@ class BigNumber {
   BigNumber operator*(const BigNumber &) const;
   BigNumber operator/(const BigNumber &) const;
   BigNumber operator%(const BigNumber &) const;
-  // TODO Potentially add bitwise operators
+  BigNumber operator&(const BigNumber &) const;
+  BigNumber operator|(const BigNumber &) const;
+  BigNumber operator^(const BigNumber &) const;
+  BigNumber operator>>(const BigNumber &) const;
+  BigNumber operator<<(const BigNumber &) const;
+  BigNumber operator~() const;
   BigNumber &operator+=(const BigNumber &);
   BigNumber &operator-=(const BigNumber &);
   BigNumber &operator*=(const BigNumber &);
   BigNumber &operator/=(const BigNumber &);
   BigNumber &operator%=(const BigNumber &);
+  BigNumber &operator&=(const BigNumber &);
+  BigNumber &operator|=(const BigNumber &);
+  BigNumber &operator^=(const BigNumber &);
+  BigNumber &operator>>=(const BigNumber &);
+  BigNumber &operator<<=(const BigNumber &);
  private:
   static void SetSubNumberDigit(std::vector<BASE_TYPE> &number, BASE_TYPE digit, size_t index);
   static void AddToSubNumberDigit(std::vector<BASE_TYPE> &number, BASE_TYPE value, size_t index);
