@@ -45,8 +45,18 @@ static int BigNumberTest() {
   return 0;
 }
 
+static int BigNumberModularExponentiation() {
+  HCL::Crypto::BigNumber x("2347230479", "0123456789");
+  HCL::Crypto::BigNumber exponent("3294823094", "0123456789");
+  HCL::Crypto::BigNumber modulo("2349092384", "0123456789");
+  HCL::Crypto::BigNumber result = x.ModularExponentiation(exponent, modulo);
+  std::cout << result.ToBase("0123456789") << std::endl;
+  return 0;
+}
+
 static int (*big_number_test_functions[])() = {
     BigNumberTest,
+    BigNumberModularExponentiation,
     nullptr
 };
 

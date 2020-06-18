@@ -87,9 +87,12 @@ class BigNumber {
   BigNumber &operator^=(const BigNumber &);
   BigNumber &operator>>=(const BigNumber &);
   BigNumber &operator<<=(const BigNumber &);
+  BigNumber ModularExponentiation(
+      const BigNumber &exponent,
+      const BigNumber &modulo
+  ) const;
  private:
   static void SetSubNumberDigit(std::vector<BASE_TYPE> &number, BASE_TYPE digit, size_t index);
-  static void AddToSubNumberDigit(std::vector<BASE_TYPE> &number, BASE_TYPE value, size_t index);
   static BASE_TYPE GetSubNumberDigit(const std::vector<BASE_TYPE> &number, size_t index);
   void SetNumberDigit(BASE_TYPE digit, size_t index);
   BASE_TYPE GetNumberDigit(size_t index) const;

@@ -131,7 +131,6 @@ HCL::Crypto::BigNumber HCL::Crypto::BigNumber::operator>>(const HCL::Crypto::Big
   return new_number;
 }
 
-
 HCL::Crypto::BigNumber HCL::Crypto::BigNumber::operator<<(const HCL::Crypto::BigNumber &right_hand_side) const {
   BigNumber new_number(*this);
 
@@ -182,18 +181,23 @@ HCL::Crypto::BigNumber &HCL::Crypto::BigNumber::operator-=(const HCL::Crypto::Bi
 }
 
 HCL::Crypto::BigNumber &HCL::Crypto::BigNumber::operator*=(const HCL::Crypto::BigNumber &right_hand_side) {
+  // TODO Optimize square (same subproduct results both way)
   this->negative_ = this->negative_ != right_hand_side.negative_;
   std::vector<BASE_TYPE> result(this->number_.size() + right_hand_side.number_.size());
 
   for (auto lhs_index = 0; lhs_index < this->number_.size() * 2; ++lhs_index) {
     for (auto rhs_index = 0; rhs_index < right_hand_side.number_.size() * 2; ++rhs_index) {
       auto result_index = lhs_index + rhs_index;
-      BASE_TYPE sub_digit_result = GetSubNumberDigit(this->number_, lhs_index);
+      BASE_TYPE sub_digit_result = GetSubNumberDigit(this->number_, lhs_index)
+          * GetSubNumberDigit(right_hand_side.number_, rhs_index);
 
-      sub_digit_result *= GetSubNumberDigit(right_hand_side.number_, rhs_index);
-      sub_digit_result += GetSubNumberDigit(result, result_index);
-      AddToSubNumberDigit(result, sub_digit_result / (SQRT_BASE_MAX + 1), result_index + 1);
-      SetSubNumberDigit(result, sub_digit_result % (SQRT_BASE_MAX + 1), result_index);
+      size_t i = 0;
+      while (sub_digit_result > 0) {
+        sub_digit_result += GetSubNumberDigit(result, result_index + i);
+        SetSubNumberDigit(result, sub_digit_result % (SQRT_BASE_MAX + 1), result_index + i);
+        sub_digit_result /= (SQRT_BASE_MAX + 1);
+        i += 1;
+      }
     }
   }
   this->number_ = result;
@@ -250,7 +254,9 @@ HCL::Crypto::BigNumber &HCL::Crypto::BigNumber::operator%=(const HCL::Crypto::Bi
 }
 
 HCL::Crypto::BigNumber &HCL::Crypto::BigNumber::operator&=(const HCL::Crypto::BigNumber &right_hand_side) {
-  for (auto i = 0; i < right_hand_side.number_.size(); ++i) {
+  const size_t max_digits = this->number_.size() > right_hand_side.number_.size() ?
+                            this->number_.size() : right_hand_side.number_.size();
+  for (auto i = 0; i < max_digits; ++i) {
     this->SetNumberDigit(this->GetNumberDigit(i) & right_hand_side.GetNumberDigit(i), i);
   }
 
@@ -259,7 +265,9 @@ HCL::Crypto::BigNumber &HCL::Crypto::BigNumber::operator&=(const HCL::Crypto::Bi
 }
 
 HCL::Crypto::BigNumber &HCL::Crypto::BigNumber::operator|=(const HCL::Crypto::BigNumber &right_hand_side) {
-  for (auto i = 0; i < right_hand_side.number_.size(); ++i) {
+  const size_t max_digits = this->number_.size() > right_hand_side.number_.size() ?
+                            this->number_.size() : right_hand_side.number_.size();
+  for (auto i = 0; i < max_digits; ++i) {
     this->SetNumberDigit(this->GetNumberDigit(i) | right_hand_side.GetNumberDigit(i), i);
   }
 
@@ -268,7 +276,9 @@ HCL::Crypto::BigNumber &HCL::Crypto::BigNumber::operator|=(const HCL::Crypto::Bi
 }
 
 HCL::Crypto::BigNumber &HCL::Crypto::BigNumber::operator^=(const HCL::Crypto::BigNumber &right_hand_side) {
-  for (auto i = 0; i < right_hand_side.number_.size(); ++i) {
+  const size_t max_digits = this->number_.size() > right_hand_side.number_.size() ?
+                            this->number_.size() : right_hand_side.number_.size();
+  for (auto i = 0; i < max_digits; ++i) {
     this->SetNumberDigit(this->GetNumberDigit(i) ^ right_hand_side.GetNumberDigit(i), i);
   }
 
@@ -279,14 +289,21 @@ HCL::Crypto::BigNumber &HCL::Crypto::BigNumber::operator^=(const HCL::Crypto::Bi
 HCL::Crypto::BigNumber &HCL::Crypto::BigNumber::operator>>=(const HCL::Crypto::BigNumber &right_hand_side) {
   BigNumber offset_counter(right_hand_side);
 
-  while (offset_counter > BASE_SIZE && this->number_.size() > 1) {
+  while (offset_counter >= BASE_SIZE && this->number_.size() > 1) {
     this->number_.erase(this->number_.begin());
     offset_counter -= BASE_SIZE;
   }
   if (offset_counter >= BASE_SIZE) {
     *this = 0;
   } else {
-    this->number_[this->number_.size() - 1] >>= static_cast<BASE_TYPE>(offset_counter);
+    BASE_TYPE carry = 0;
+    for (ssize_t i = this->number_.size() - 1; i >= 0; --i) {
+      BASE_TYPE tmp_carry = (this->number_[i] & ((1 << static_cast<BASE_TYPE>(offset_counter)) - 1))
+          << (BASE_SIZE - static_cast<BASE_TYPE>(offset_counter));
+      this->number_[i] >>= static_cast<BASE_TYPE>(offset_counter);
+      this->number_[i] += carry;
+      carry = tmp_carry;
+    }
   }
   this->CleanNumber();
   return *this;
@@ -313,6 +330,27 @@ HCL::Crypto::BigNumber &HCL::Crypto::BigNumber::operator<<=(const HCL::Crypto::B
   return *this;
 }
 
+HCL::Crypto::BigNumber HCL::Crypto::BigNumber::ModularExponentiation(
+    const HCL::Crypto::BigNumber &exponent,
+    const HCL::Crypto::BigNumber &modulo
+) const {
+  BigNumber last_modular_power_of_two = *this % modulo;
+  BigNumber exponent_counter(exponent);
+  BigNumber total_modular_exponentiation(1);
+
+  while (exponent_counter > 0) {
+    if (exponent_counter & 1) {
+      total_modular_exponentiation *= last_modular_power_of_two;
+      total_modular_exponentiation %= modulo;
+    }
+    last_modular_power_of_two *= last_modular_power_of_two;
+    last_modular_power_of_two %= modulo;
+    exponent_counter >>= 1;
+  }
+  total_modular_exponentiation.CleanNumber();
+  return total_modular_exponentiation;
+}
+
 void HCL::Crypto::BigNumber::SetNumberDigit(BASE_TYPE digit, size_t index) {
   while (this->number_.size() <= index) {
     this->number_.push_back(0);
@@ -332,14 +370,6 @@ void HCL::Crypto::BigNumber::SetSubNumberDigit(std::vector<BASE_TYPE> &number, B
     number[index / 2] &= SQRT_BASE_MAX;
     number[index / 2] |= digit << HALF_BASE_SIZE;
   }
-}
-
-void HCL::Crypto::BigNumber::AddToSubNumberDigit(std::vector<BASE_TYPE> &number, BASE_TYPE value, size_t index) {
-  SetSubNumberDigit(
-      number,
-      GetSubNumberDigit(number, index) + value,
-      index
-  );
 }
 
 BASE_TYPE HCL::Crypto::BigNumber::GetSubNumberDigit(const std::vector<BASE_TYPE> &number, size_t index) {
