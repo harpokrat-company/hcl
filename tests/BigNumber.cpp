@@ -9,6 +9,7 @@
 #include <random>
 
 #include "../src/services/Crypto/BigNumber.h"
+#include "../src/services/Crypto/RandomGenerators/MT19937.h"
 
 //static int AES256KeyExpansionPerformanceTest() {
 //  const size_t tests_number = 100000;
@@ -54,9 +55,23 @@ static int BigNumberModularExponentiation() {
   return 0;
 }
 
+static int BigNumberRandomGeneration() {
+  HCL::Crypto::MT19937 random_generator;
+  HCL::Crypto::BigNumber x = random_generator.GenerateRandomBigNumber(1024);
+  HCL::Crypto::BigNumber exponent = random_generator.GenerateRandomBigNumber(1024);
+  HCL::Crypto::BigNumber modulo = random_generator.GenerateRandomBigNumber(1024);
+  std::cout << "x:   " << x.ToBase("01") << std::endl;
+  std::cout << "exp: " << exponent.ToBase("01") << std::endl;
+  std::cout << "mod: " << modulo.ToBase("01") << std::endl;
+  HCL::Crypto::BigNumber result = x.ModularExponentiation(exponent, modulo);
+  std::cout << "res: " << result.ToBase("01") << std::endl;
+  return 0;
+}
+
 static int (*big_number_test_functions[])() = {
     BigNumberTest,
     BigNumberModularExponentiation,
+    BigNumberRandomGeneration,
     nullptr
 };
 

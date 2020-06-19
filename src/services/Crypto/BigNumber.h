@@ -30,7 +30,7 @@ class BigNumber {
 
       while (number != 0) {
         this->SetNumberDigit(number & BASE_MAX, i++);
-        number /= 1 << BASE_SIZE;
+        number >>= BASE_SIZE;
       }
     }
   }
@@ -48,7 +48,10 @@ class BigNumber {
       throw std::overflow_error("BigNumber doesn't fit in type");
     }
     for (auto i : this->number_) {
-      result *= 1 << BASE_SIZE;
+      #pragma GCC diagnostic push
+      #pragma GCC diagnostic ignored "-Wshift-count-overflow"
+      result <<= BASE_SIZE;
+      #pragma GCC diagnostic pop
       if (this->negative_) {
         result -= i;
       } else {

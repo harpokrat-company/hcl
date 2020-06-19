@@ -216,8 +216,8 @@ HCL::Crypto::BigNumber &HCL::Crypto::BigNumber::operator/=(const HCL::Crypto::Bi
   divider.negative_ = false;
 
   for (ssize_t i = this->number_.size() - 1; i >= 0; --i) {
-    quotient *= 1 << BASE_SIZE;
-    sub_divident *= 1 << BASE_SIZE;
+    quotient <<= BASE_SIZE;
+    sub_divident <<= BASE_SIZE;
     sub_divident += this->GetNumberDigit(i);
     while (sub_divident >= divider) {
       sub_divident -= divider;
@@ -240,8 +240,8 @@ HCL::Crypto::BigNumber &HCL::Crypto::BigNumber::operator%=(const HCL::Crypto::Bi
   divider.negative_ = false;
 
   for (ssize_t i = this->number_.size() - 1; i >= 0; --i) {
-    quotient *= 1 << BASE_SIZE;
-    sub_divident *= 1 << BASE_SIZE;
+    quotient <<= BASE_SIZE;
+    sub_divident <<= BASE_SIZE;
     sub_divident += this->GetNumberDigit(i);
     while (sub_divident >= divider) {
       sub_divident -= divider;
@@ -315,6 +315,9 @@ HCL::Crypto::BigNumber &HCL::Crypto::BigNumber::operator<<=(const HCL::Crypto::B
   while (offset_counter >= BASE_SIZE) {
     this->number_.insert(this->number_.begin(), 0);
     offset_counter -= BASE_SIZE;
+    if (offset_counter < 0) {
+      offset_counter = 0;
+    }
   }
   BASE_TYPE carry = 0;
   for (auto &digit : this->number_) {
