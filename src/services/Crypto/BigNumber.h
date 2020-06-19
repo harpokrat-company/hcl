@@ -9,6 +9,7 @@
 #include <string>
 #include <limits>
 #include <stdexcept>
+#include <iostream>
 
 #define BASE_TYPE             uint8_t
 #define BASE_SIZE             (sizeof(BASE_TYPE) * 8)
@@ -77,8 +78,8 @@ class BigNumber {
   BigNumber operator&(const BigNumber &) const;
   BigNumber operator|(const BigNumber &) const;
   BigNumber operator^(const BigNumber &) const;
-  BigNumber operator>>(const BigNumber &) const;
-  BigNumber operator<<(const BigNumber &) const;
+  BigNumber operator>>(size_t) const;
+  BigNumber operator<<(size_t) const;
   BigNumber operator~() const;
   BigNumber &operator+=(const BigNumber &);
   BigNumber &operator-=(const BigNumber &);
@@ -88,8 +89,9 @@ class BigNumber {
   BigNumber &operator&=(const BigNumber &);
   BigNumber &operator|=(const BigNumber &);
   BigNumber &operator^=(const BigNumber &);
-  BigNumber &operator>>=(const BigNumber &);
-  BigNumber &operator<<=(const BigNumber &);
+  // TODO Every operator for Big Number && for template to optimize
+  BigNumber &operator>>=(size_t);
+  BigNumber &operator<<=(size_t);
   BigNumber ModularExponentiation(
       const BigNumber &exponent,
       const BigNumber &modulo
@@ -105,6 +107,8 @@ class BigNumber {
   std::vector<BASE_TYPE> number_;
   bool negative_;
 };
+
+static const BigNumber one = 1; // TODO Remove when add every operator with template
 }
 
 #endif //HCL_SRC_SERVICES_CRYPTO_BIGNUMBER_H_
