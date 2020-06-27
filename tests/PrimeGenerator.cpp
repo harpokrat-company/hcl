@@ -21,7 +21,7 @@ static int CustomPrimeGenerator() {
 }
 
 static int (*prime_generator_test_functions[])() = {
-	CustomPrimeGenerator,
+	//CustomPrimeGenerator,
 	nullptr
 };
 
