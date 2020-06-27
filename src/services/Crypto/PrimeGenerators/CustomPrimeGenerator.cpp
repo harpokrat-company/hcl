@@ -50,6 +50,12 @@ HCL::Crypto::ACryptoElement &HCL::Crypto::CustomPrimeGenerator::GetPrimalityTest
 }
 
 HCL::Crypto::BigNumber HCL::Crypto::CustomPrimeGenerator::GenerateRandomPrimeBigNumber(size_t bits) {
+  if (!random_generator_) {
+	throw std::runtime_error(GetDependencyUnsetError("generate random prime big number", "Random generator"));
+  }
+  if (!primality_test_) {
+	throw std::runtime_error(GetDependencyUnsetError("generate random prime big number", "Primality test"));
+  }
   //TODO: Implement generate random prime big number
   return HCL::Crypto::BigNumber("5", "0123456789");
 }
