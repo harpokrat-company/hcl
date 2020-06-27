@@ -96,7 +96,9 @@ set(LIBRARY_SOURCE_FILES
         src/services/Crypto/PrimalityTests/APrimalityTest.cpp
     src/services/Crypto/PrimalityTests/APrimalityTest.h
     src/services/Crypto/PrimalityTests/Fermat.cpp
-    src/services/Crypto/PrimalityTests/Fermat.h)
+    src/services/Crypto/PrimalityTests/Fermat.h
+    src/services/Crypto/PrimeGenerators/CustomPrimeGenerator.cpp
+    src/services/Crypto/PrimeGenerators/CustomPrimeGenerator.h)
 
 add_library(hcl SHARED ${LIBRARY_SOURCE_FILES})
 

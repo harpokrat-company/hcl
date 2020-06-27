@@ -14,7 +14,6 @@ class APrimalityTest : public ACryptoElement {
  public:
   virtual ~APrimalityTest() = default;
   virtual std::string GetHeader() = 0;
-  //TODO Temporary function signature (not sure)
   virtual bool IsPrime(BigNumber number) = 0;
   static const std::string &GetName() {
 	static std::string name = "primality-test";
