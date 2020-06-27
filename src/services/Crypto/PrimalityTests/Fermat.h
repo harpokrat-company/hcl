@@ -29,7 +29,7 @@ class Fermat : public AutoRegisterer<APrimalityTest, Fermat> {
 	throw std::runtime_error(GetDependencyIndexError("get"));
   }
   //
-  bool IsPrime(size_t number) override;
+  bool IsPrime(BigNumber number) override;
   //
   std::string GetHeader() override;
   const std::string &GetElementName() const override { return GetName(); };

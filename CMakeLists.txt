@@ -88,6 +88,8 @@ set(LIBRARY_SOURCE_FILES
     src/services/Crypto/AutoRegisterer.h
     src/services/Crypto/AFactory.h
     src/services/Crypto/ACryptoElement.cpp
+    src/services/Crypto/BigNumber.cpp
+    src/services/Crypto/BigNumber.h
     src/services/Crypto/PrimeGenerators/APrimeGenerator.cpp
     src/services/Crypto/PrimeGenerators/APrimeGenerator.h
     src/services/Crypto/PrimalityTests/APrimalityTest.cpp
@@ -103,6 +105,7 @@ add_library(hcl SHARED ${LIBRARY_SOURCE_FILES})
 #    tests/SHA.cpp
 #    tests/FullWorkflow.cpp
 #    tests/RijndaelKeySchedule.cpp
-#    tests/BigNumber.cpp)
-#
-#add_executable(hcl_test_suite ${LIBRARY_SOURCE_FILES} ${TEST_SOURCE_FILES})
+#    tests/BigNumber.cpp
+#    tests/Primality.cpp)
+
+add_executable(hcl_test_suite ${LIBRARY_SOURCE_FILES} ${TEST_SOURCE_FILES})
