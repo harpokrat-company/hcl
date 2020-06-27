@@ -92,6 +92,9 @@ class BigNumber {
   // TODO Every operator for Big Number && for template to optimize
   BigNumber &operator>>=(size_t);
   BigNumber &operator<<=(size_t);
+  BigNumber Exponentiation(
+      const BigNumber &exponent
+  ) const;
   BigNumber ModularExponentiation(
       const BigNumber &exponent,
       const BigNumber &modulo

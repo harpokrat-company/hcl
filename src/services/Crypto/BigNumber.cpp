@@ -330,6 +330,24 @@ HCL::Crypto::BigNumber &HCL::Crypto::BigNumber::operator<<=(size_t offset_counte
   return *this;
 }
 
+HCL::Crypto::BigNumber HCL::Crypto::BigNumber::Exponentiation(
+    const HCL::Crypto::BigNumber &exponent
+) const {
+  BigNumber last_modular_power_of_two = *this;
+  BigNumber exponent_counter(exponent);
+  BigNumber total_modular_exponentiation(1);
+
+  while (exponent_counter > 0) {
+    if (exponent_counter & one) {
+      total_modular_exponentiation *= last_modular_power_of_two;
+    }
+    last_modular_power_of_two *= last_modular_power_of_two;
+    exponent_counter >>= 1;
+  }
+  total_modular_exponentiation.CleanNumber();
+  return total_modular_exponentiation;
+}
+
 HCL::Crypto::BigNumber HCL::Crypto::BigNumber::ModularExponentiation(
     const HCL::Crypto::BigNumber &exponent,
     const HCL::Crypto::BigNumber &modulo
