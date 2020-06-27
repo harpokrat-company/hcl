@@ -23,7 +23,8 @@ class BigNumber {
   BigNumber(const std::string &number, const std::string &base);
   template<typename T>
   BigNumber(T number) :
-      negative_(number < 0) {
+      negative_(number < 0),
+      size_(0) {
     if (BASE_SIZE >= sizeof(number) * 8) {
       this->SetNumberDigit(number < 0 ? number * -1 : number, 0);
     } else {
@@ -37,7 +38,8 @@ class BigNumber {
   }
   BigNumber() :
       number_(),
-      negative_(false) {
+      negative_(false),
+      size_(0) {
   }
   BigNumber(const BigNumber &original) = default;
   template<typename T>
@@ -108,6 +110,7 @@ class BigNumber {
   void SubtractBigNumber(const BigNumber &);
   void CleanNumber();
   std::vector<BASE_TYPE> number_;
+  ssize_t size_;
   bool negative_;
 };
 

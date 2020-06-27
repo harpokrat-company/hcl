@@ -6,7 +6,8 @@
 
 HCL::Crypto::BigNumber::BigNumber(const std::string &number, const std::string &base) :
     negative_(false),
-    number_() {
+    number_(),
+    size_(0) {
   for (const auto &digit : number) {
     *this *= base.size();
     *this += base.find(digit);
@@ -26,10 +27,10 @@ std::string HCL::Crypto::BigNumber::ToBase(const std::string &base) const {
 
 bool HCL::Crypto::BigNumber::operator==(const HCL::Crypto::BigNumber &right_hand_side) const {
   if (this->negative_ != right_hand_side.negative_
-      || this->number_.size() != right_hand_side.number_.size()) {
+      || this->size_ != right_hand_side.size_) {
     return false;
   }
-  for (auto i = 0; i < this->number_.size(); ++i) {
+  for (auto i = 0; i < this->size_; ++i) {
     if (this->GetNumberDigit(i) != right_hand_side.GetNumberDigit(i)) {
       return false;
     }
@@ -45,10 +46,10 @@ bool HCL::Crypto::BigNumber::operator>(const HCL::Crypto::BigNumber &right_hand_
   if (this->negative_ != right_hand_side.negative_) {
     return !this->negative_;
   }
-  if (this->number_.size() != right_hand_side.number_.size()) {
-    return this->number_.size() > right_hand_side.number_.size();
+  if (this->size_ != right_hand_side.size_) {
+    return this->size_ > right_hand_side.size_;
   }
-  for (ssize_t i = this->number_.size() - 1; i >= 0; --i) {
+  for (ssize_t i = this->size_ - 1; i >= 0; --i) {
     if (this->number_[i] != right_hand_side.number_[i]) {
       return this->number_[i] > right_hand_side.number_[i];
     }
@@ -183,10 +184,10 @@ HCL::Crypto::BigNumber &HCL::Crypto::BigNumber::operator-=(const HCL::Crypto::Bi
 HCL::Crypto::BigNumber &HCL::Crypto::BigNumber::operator*=(const HCL::Crypto::BigNumber &right_hand_side) {
   // TODO Optimize square (same subproduct results both way)
   this->negative_ = this->negative_ != right_hand_side.negative_;
-  std::vector<BASE_TYPE> result(this->number_.size() + right_hand_side.number_.size());
+  std::vector<BASE_TYPE> result(this->size_ + right_hand_side.size_);
 
-  for (auto lhs_index = 0; lhs_index < this->number_.size() * 2; ++lhs_index) {
-    for (auto rhs_index = 0; rhs_index < right_hand_side.number_.size() * 2; ++rhs_index) {
+  for (auto lhs_index = 0; lhs_index < this->size_ * 2; ++lhs_index) {
+    for (auto rhs_index = 0; rhs_index < right_hand_side.size_ * 2; ++rhs_index) {
       auto result_index = lhs_index + rhs_index;
       BASE_TYPE sub_digit_result = GetSubNumberDigit(this->number_, lhs_index)
           * GetSubNumberDigit(right_hand_side.number_, rhs_index);
@@ -201,6 +202,7 @@ HCL::Crypto::BigNumber &HCL::Crypto::BigNumber::operator*=(const HCL::Crypto::Bi
     }
   }
   this->number_ = result;
+  this->size_ = result.size();
   this->CleanNumber();
   return *this;
 }
@@ -215,7 +217,7 @@ HCL::Crypto::BigNumber &HCL::Crypto::BigNumber::operator/=(const HCL::Crypto::Bi
   this->negative_ = this->negative_ != right_hand_side.negative_;
   divider.negative_ = false;
 
-  for (ssize_t i = this->number_.size() - 1; i >= 0; --i) {
+  for (ssize_t i = this->size_ - 1; i >= 0; --i) {
     quotient <<= BASE_SIZE;
     sub_divident <<= BASE_SIZE;
     sub_divident += this->GetNumberDigit(i);
@@ -239,7 +241,7 @@ HCL::Crypto::BigNumber &HCL::Crypto::BigNumber::operator%=(const HCL::Crypto::Bi
   this->negative_ = this->negative_ != right_hand_side.negative_;
   divider.negative_ = false;
 
-  for (ssize_t i = this->number_.size() - 1; i >= 0; --i) {
+  for (ssize_t i = this->size_ - 1; i >= 0; --i) {
     quotient <<= BASE_SIZE;
     sub_divident <<= BASE_SIZE;
     sub_divident += this->GetNumberDigit(i);
@@ -254,8 +256,8 @@ HCL::Crypto::BigNumber &HCL::Crypto::BigNumber::operator%=(const HCL::Crypto::Bi
 }
 
 HCL::Crypto::BigNumber &HCL::Crypto::BigNumber::operator&=(const HCL::Crypto::BigNumber &right_hand_side) {
-  const size_t max_digits = this->number_.size() > right_hand_side.number_.size() ?
-                            this->number_.size() : right_hand_side.number_.size();
+  const size_t max_digits = this->size_ > right_hand_side.size_ ?
+                            this->size_ : right_hand_side.size_;
   for (auto i = 0; i < max_digits; ++i) {
     this->SetNumberDigit(this->GetNumberDigit(i) & right_hand_side.GetNumberDigit(i), i);
   }
@@ -265,8 +267,8 @@ HCL::Crypto::BigNumber &HCL::Crypto::BigNumber::operator&=(const HCL::Crypto::Bi
 }
 
 HCL::Crypto::BigNumber &HCL::Crypto::BigNumber::operator|=(const HCL::Crypto::BigNumber &right_hand_side) {
-  const size_t max_digits = this->number_.size() > right_hand_side.number_.size() ?
-                            this->number_.size() : right_hand_side.number_.size();
+  const size_t max_digits = this->size_ > right_hand_side.size_ ?
+                            this->size_ : right_hand_side.size_;
   for (auto i = 0; i < max_digits; ++i) {
     this->SetNumberDigit(this->GetNumberDigit(i) | right_hand_side.GetNumberDigit(i), i);
   }
@@ -276,8 +278,8 @@ HCL::Crypto::BigNumber &HCL::Crypto::BigNumber::operator|=(const HCL::Crypto::Bi
 }
 
 HCL::Crypto::BigNumber &HCL::Crypto::BigNumber::operator^=(const HCL::Crypto::BigNumber &right_hand_side) {
-  const size_t max_digits = this->number_.size() > right_hand_side.number_.size() ?
-                            this->number_.size() : right_hand_side.number_.size();
+  const size_t max_digits = this->size_ > right_hand_side.size_ ?
+                            this->size_ : right_hand_side.size_;
   for (auto i = 0; i < max_digits; ++i) {
     this->SetNumberDigit(this->GetNumberDigit(i) ^ right_hand_side.GetNumberDigit(i), i);
   }
@@ -287,15 +289,16 @@ HCL::Crypto::BigNumber &HCL::Crypto::BigNumber::operator^=(const HCL::Crypto::Bi
 }
 
 HCL::Crypto::BigNumber &HCL::Crypto::BigNumber::operator>>=(size_t offset_counter) {
-  while (offset_counter >= BASE_SIZE && this->number_.size() > 1) {
+  while (offset_counter >= BASE_SIZE && this->size_ > 1) {
     this->number_.erase(this->number_.begin());
+    this->size_ -= 1;
     offset_counter -= BASE_SIZE;
   }
   if (offset_counter >= BASE_SIZE) {
     *this = 0;
   } else {
     BASE_TYPE carry = 0;
-    for (ssize_t i = this->number_.size() - 1; i >= 0; --i) {
+    for (ssize_t i = this->size_ - 1; i >= 0; --i) {
       BASE_TYPE tmp_carry = (this->number_[i] & ((1 << offset_counter) - 1))
           << (BASE_SIZE - offset_counter);
       this->number_[i] >>= offset_counter;
@@ -308,9 +311,11 @@ HCL::Crypto::BigNumber &HCL::Crypto::BigNumber::operator>>=(size_t offset_counte
 }
 
 HCL::Crypto::BigNumber &HCL::Crypto::BigNumber::operator<<=(size_t offset_counter) {
-  this->number_.resize(this->number_.size() + (offset_counter / BASE_SIZE) + 1);
+  this->size_ = this->size_ + (offset_counter / BASE_SIZE) + 1;
+  this->number_.resize(this->size_);
   while (offset_counter >= BASE_SIZE) {
     this->number_.insert(this->number_.begin(), 0);
+    this->size_ += 1;
     offset_counter -= BASE_SIZE;
     if (offset_counter < 0) {
       offset_counter = 0;
@@ -324,7 +329,7 @@ HCL::Crypto::BigNumber &HCL::Crypto::BigNumber::operator<<=(size_t offset_counte
     carry = tmp_carry;
   }
   if (carry) {
-    this->SetNumberDigit(carry, this->number_.size());
+    this->SetNumberDigit(carry, this->size_);
   }
   this->CleanNumber();
   return *this;
@@ -370,8 +375,9 @@ HCL::Crypto::BigNumber HCL::Crypto::BigNumber::ModularExponentiation(
 }
 
 void HCL::Crypto::BigNumber::SetNumberDigit(BASE_TYPE digit, size_t index) {
-  while (this->number_.size() <= index) {
+  while (this->size_ <= index) {
     this->number_.push_back(0);
+    this->size_ += 1;
   }
   this->number_[index] = digit;
 }
@@ -402,7 +408,7 @@ BASE_TYPE HCL::Crypto::BigNumber::GetSubNumberDigit(const std::vector<BASE_TYPE>
 }
 
 BASE_TYPE HCL::Crypto::BigNumber::GetNumberDigit(size_t index) const {
-  if (this->number_.size() <= index) {
+  if (this->size_ <= index) {
     return 0;
   }
   return this->number_[index];
@@ -413,7 +419,7 @@ void HCL::Crypto::BigNumber::AddBigNumber(const HCL::Crypto::BigNumber &right_ha
   bool carry = false;
   BASE_TYPE current_digit;
 
-  while (right_hand_side.number_.size() > digit_index) {
+  while (right_hand_side.size_ > digit_index) {
     current_digit = carry ? 1 : 0;
     carry = this->GetNumberDigit(digit_index) > BASE_MAX - right_hand_side.number_[digit_index];
     if (carry) {
@@ -442,7 +448,7 @@ void HCL::Crypto::BigNumber::SubtractBigNumber(const HCL::Crypto::BigNumber &rig
   BASE_TYPE current_digit;
   BASE_TYPE current_rhs_digit;
 
-  while (right_hand_side.number_.size() > digit_index) {
+  while (right_hand_side.size_ > digit_index) {
     current_rhs_digit = right_hand_side.number_[digit_index];
     if (carry) {
       if (current_rhs_digit != BASE_MAX) {
@@ -475,14 +481,15 @@ void HCL::Crypto::BigNumber::SubtractBigNumber(const HCL::Crypto::BigNumber &rig
 }
 
 void HCL::Crypto::BigNumber::CleanNumber() {
-  for (ssize_t i = this->number_.size() - 1; i >= 0; --i) {
+  for (ssize_t i = this->size_ - 1; i >= 0; --i) {
     if (this->GetNumberDigit(i) == 0) {
       this->number_.pop_back();
+      this->size_ -= 1;
     } else {
       break;
     }
   }
-  if (this->number_.empty()) {
+  if (this->size_ == 0) {
     this->negative_ = false;
   }
 }
