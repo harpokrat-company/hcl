@@ -11,5 +11,6 @@ int SHATests();
 int FullWorkflowTests();
 int BigNumberTests();
 int PrimalityTests();
+int PrimeGeneratorTests();
 
 #endif //HCL_TESTS_TESTS_H_

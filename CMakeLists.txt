@@ -108,6 +108,7 @@ set(TEST_SOURCE_FILES
     tests/FullWorkflow.cpp
     tests/RijndaelKeySchedule.cpp
     tests/BigNumber.cpp
-    tests/Primality.cpp)
+    tests/Primality.cpp
+    tests/PrimeGenerator.cpp)
 
 add_executable(hcl_test_suite ${LIBRARY_SOURCE_FILES} ${TEST_SOURCE_FILES})

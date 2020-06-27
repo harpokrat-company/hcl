@@ -11,6 +11,7 @@ static int (*test_functions[])() = {
     FullWorkflowTests,
     BigNumberTests,
     PrimalityTests,
+    PrimeGeneratorTests,
     nullptr
 };
 
