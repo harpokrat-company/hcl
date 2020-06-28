@@ -9,6 +9,5 @@ int RijndaelKeyScheduleTests();
 int AESTests();
 int SHATests();
 int FullWorkflowTests();
-int BigNumberTests();
 
 #endif //HCL_TESTS_TESTS_H_

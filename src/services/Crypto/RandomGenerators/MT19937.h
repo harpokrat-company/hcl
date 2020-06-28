@@ -30,7 +30,6 @@ class MT19937 : public AutoRegisterer<ARandomGenerator, MT19937> {
   }
   uint8_t GenerateRandomByte() override;
   std::string GenerateRandomByteSequence(size_t sequence_length) override;
-  BigNumber GenerateRandomBigNumber(size_t bits) override;
   std::string GetHeader() override;
   const std::string &GetElementName() const override { return GetName(); };
   const std::string &GetElementTypeName() const override { return GetTypeName(); };

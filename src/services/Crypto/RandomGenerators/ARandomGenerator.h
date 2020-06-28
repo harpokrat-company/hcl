@@ -8,7 +8,6 @@
 #include <cstdint>
 #include <string>
 #include "../ACryptoElement.h"
-#include "../BigNumber.h"
 
 namespace HCL::Crypto {
 
@@ -17,7 +16,6 @@ class ARandomGenerator : public ACryptoElement {
   virtual ~ARandomGenerator() = default;
   virtual uint8_t GenerateRandomByte() = 0;
   virtual std::string GenerateRandomByteSequence(size_t sequence_length) = 0;
-  virtual BigNumber GenerateRandomBigNumber(size_t bits) = 0;
   virtual std::string GetHeader() = 0;
   static const std::string &GetName() {
     static std::string name = "random-generator";
