@@ -2,8 +2,6 @@
 // Created by neodar on 12/01/2020.
 //
 
-#include <sstream>
-#include <iomanip>
 #include "auth.h"
 #include "../services/Crypto/Base64.h"
 #include "../services/Crypto/Factory.h"

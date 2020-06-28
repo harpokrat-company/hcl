@@ -7,6 +7,8 @@ endif ()
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS_RELEASE "-Ofast")
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}")
+find_package(GMP REQUIRED)
 
 set(LIBRARY_SOURCE_FILES
     src/linkage/auth.cpp
@@ -88,18 +90,21 @@ set(LIBRARY_SOURCE_FILES
     src/services/Crypto/AutoRegisterer.h
     src/services/Crypto/AFactory.h
     src/services/Crypto/ACryptoElement.cpp
-    src/services/Crypto/ACryptoElement.h
-    src/services/Crypto/BigNumber.cpp
-    src/services/Crypto/BigNumber.h)
+    src/services/Crypto/ACryptoElement.h)
 
 add_library(hcl SHARED ${LIBRARY_SOURCE_FILES})
 
-#set(TEST_SOURCE_FILES
-#    tests/main.cpp
-#    tests/AES.cpp
-#    tests/SHA.cpp
-#    tests/FullWorkflow.cpp
-#    tests/RijndaelKeySchedule.cpp
-#    tests/BigNumber.cpp)
-#
-#add_executable(hcl_test_suite ${LIBRARY_SOURCE_FILES} ${TEST_SOURCE_FILES})
+target_link_libraries(hcl gmp gmpxx)
+
+if(DEFINED ENV{TEST})
+    set(TEST_SOURCE_FILES
+        tests/main.cpp
+        tests/AES.cpp
+        tests/SHA.cpp
+        tests/FullWorkflow.cpp
+        tests/RijndaelKeySchedule.cpp)
+
+    add_executable(hcl_test_suite ${LIBRARY_SOURCE_FILES} ${TEST_SOURCE_FILES})
+
+    target_link_libraries(hcl_test_suite gmp gmpxx)
+endif()

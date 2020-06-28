@@ -25,21 +25,6 @@ std::string HCL::Crypto::MT19937::GenerateRandomByteSequence(size_t sequence_len
   return sequence;
 }
 
-HCL::Crypto::BigNumber HCL::Crypto::MT19937::GenerateRandomBigNumber(size_t bits) {
-  BigNumber random_number;
-
-  while (bits >= sizeof(uint8_t) * 8) {
-    random_number <<= sizeof(uint8_t) * 8;
-    random_number += GenerateRandomByte();
-    bits -= sizeof(uint8_t) * 8;
-  }
-  if (bits > 0) {
-    random_number <<= bits;
-    random_number += GenerateRandomByte() >> (sizeof(uint8_t) * 8 - bits);
-  }
-  return random_number;
-}
-
 std::string HCL::Crypto::MT19937::GetHeader() {
   return GetIdBytes();
 }
