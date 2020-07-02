@@ -3,25 +3,38 @@
 //
 
 #include <iostream>
+#include <gmp.h>
+#include <gmpxx.h>
 
 #include "../src/services/Crypto/Factory.h"
 #include "../src/services/Crypto/PrimeGenerators/APrimeGenerator.h"
-#include "../src/services/Crypto/BigNumber.h"
 
 static int CustomPrimeGenerator() {
-
   auto pgenerator = HCL::Crypto::Factory<HCL::Crypto::APrimeGenerator>::BuildTypedFromName("custom-prime-generator");
-  std::cout << "Running prime numbers generator tests" << std::endl;
-  auto fermat = HCL::Crypto::SuperFactory::GetFactoryOfType("primality-test").BuildFromName("fermat");
-  auto mt19937 = HCL::Crypto::SuperFactory::GetFactoryOfType("random-generator").BuildFromName("mt19937");
-//  pgenerator->SetDependency(fermat, 1);
-//  pgenerator->SetDependency(mt19937, 0);
-//  pgenerator->GenerateRandomPrimeBigNumber(1);
+  static int test_bits[10] = {
+  	8,
+  	16,
+  	32,
+  	64,
+  	128,
+  	256,
+  	512,
+  	1024,
+  	2048,
+  	4096
+  };
+  mpz_class result;
+  std::cout << "Running prime numbers generator tests..." << std::endl;
+  for (size_t i = 0; i < 10; ++i) {
+    std::cout << test_bits[i] << " bits: " << std::flush;
+    result = pgenerator->GenerateRandomPrime(test_bits[i]);
+    std::cout << (mpz_probab_prime_p(result.get_mpz_t(), 10) > 0 ? "OK :)" : "KO >:(") << std::endl;
+  }
   return 0;
 }
 
 static int (*prime_generator_test_functions[])() = {
-	//CustomPrimeGenerator,
+	CustomPrimeGenerator,
 	nullptr
 };
 
