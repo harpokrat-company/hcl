@@ -7,8 +7,8 @@
 
 #include <cstdint>
 #include <string>
+#include <gmpxx.h>
 #include "../ACryptoElement.h"
-#include "../BigNumber.h"
 
 namespace HCL::Crypto {
 
@@ -16,7 +16,7 @@ class APrimeGenerator : public ACryptoElement {
  public:
   virtual ~APrimeGenerator() = default;
   virtual std::string GetHeader() = 0;
-  virtual BigNumber GenerateRandomPrimeBigNumber(size_t bits) = 0;
+  virtual mpz_class GenerateRandomPrime(size_t bits) = 0;
   static const std::string &GetName() {
     static std::string name = "prime-generator";
     return name;
