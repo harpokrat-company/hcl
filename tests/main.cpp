@@ -9,6 +9,7 @@ static int (*test_functions[])() = {
     AESTests,
     SHATests,
     FullWorkflowTests,
+    PrimeGeneratorTests,
     nullptr
 };
 
