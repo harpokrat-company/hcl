@@ -94,7 +94,11 @@ set(LIBRARY_SOURCE_FILES
     src/services/Crypto/PrimeGenerators/APrimeGenerator.cpp
     src/services/Crypto/PrimeGenerators/APrimeGenerator.h
     src/services/Crypto/PrimeGenerators/CustomPrimeGenerator.cpp
-    src/services/Crypto/PrimeGenerators/CustomPrimeGenerator.h)
+    src/services/Crypto/PrimeGenerators/CustomPrimeGenerator.h
+    src/services/Crypto/AsymmetricCiphers/AAsymmetricCipher.cpp
+    src/services/Crypto/AsymmetricCiphers/AAsymmetricCipher.h
+    src/services/Crypto/AsymmetricCiphers/RSA.cpp
+    src/services/Crypto/AsymmetricCiphers/RSA.h)
 
 add_library(hcl SHARED ${LIBRARY_SOURCE_FILES})
 
