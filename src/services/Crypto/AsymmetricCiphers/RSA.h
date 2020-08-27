@@ -5,6 +5,9 @@
 #ifndef HCL_SRC_SERVICES_CRYPTO_ASYMMETRICCIPHERS_RSA_H_
 #define HCL_SRC_SERVICES_CRYPTO_ASYMMETRICCIPHERS_RSA_H_
 
+#include <gmpxx.h>
+#include <gmp.h>
+
 #include "../AutoRegisterer.h"
 #include "AAsymmetricCipher.h"
 
@@ -28,8 +31,8 @@ class RSA : public AutoRegisterer<AAsymmetricCipher, RSA> {
   ACryptoElement &GetDependency(size_t index) override {
 	throw std::runtime_error(GetDependencyIndexError("get"));
   }
-  std::string Encrypt(const std::string &key, const std::string &content);
-  std::string Decrypt(const std::string &key, const std::string &content);
+  mpz_class Encrypt(const mpz_class &key, const mpz_class &content);
+  mpz_class Decrypt(const mpz_class &key, const mpz_class &content);
   std::string GetHeader() override;
   const std::string &GetElementName() const override { return GetName(); };
   const std::string &GetElementTypeName() const override { return GetTypeName(); };
