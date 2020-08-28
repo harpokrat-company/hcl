@@ -10,5 +10,6 @@ int AESTests();
 int SHATests();
 int FullWorkflowTests();
 int PrimeGeneratorTests();
+int RSATests();
 
 #endif //HCL_TESTS_TESTS_H_
