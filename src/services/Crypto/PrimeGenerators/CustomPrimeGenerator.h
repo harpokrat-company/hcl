@@ -37,6 +37,8 @@ class CustomPrimeGenerator : public AutoRegisterer<APrimeGenerator, CustomPrimeG
 	return name;
   };
  private:
+  gmp_randclass r1;
+  bool seeded;
 };
 
 }

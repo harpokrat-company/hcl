@@ -10,6 +10,7 @@ static int (*test_functions[])() = {
     SHATests,
     FullWorkflowTests,
     PrimeGeneratorTests,
+    RSATests,
     nullptr
 };
 

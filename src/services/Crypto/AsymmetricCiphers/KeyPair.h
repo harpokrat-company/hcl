@@ -7,6 +7,9 @@
 
 #include <gmpxx.h>
 #include <utility>
+
+namespace HCL::Crypto {
+
 class KeyPair {
  public:
   KeyPair(const mpz_class &public_key, const mpz_class &private_key, const mpz_class &modulus);
@@ -16,5 +19,6 @@ class KeyPair {
   std::pair<mpz_class, mpz_class> public_key;
   std::pair<mpz_class, mpz_class> private_key;
 };
+}
 
 #endif //HCL_SRC_SERVICES_CRYPTO_ASYMMETRICCIPHERS_KEYPAIR_H_
