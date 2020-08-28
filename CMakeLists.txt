@@ -98,7 +98,9 @@ set(LIBRARY_SOURCE_FILES
     src/services/Crypto/AsymmetricCiphers/AAsymmetricCipher.cpp
     src/services/Crypto/AsymmetricCiphers/AAsymmetricCipher.h
     src/services/Crypto/AsymmetricCiphers/RSA.cpp
-    src/services/Crypto/AsymmetricCiphers/RSA.h)
+    src/services/Crypto/AsymmetricCiphers/RSA.h
+    src/services/Crypto/AsymmetricCiphers/KeyPair.cpp
+    src/services/Crypto/AsymmetricCiphers/KeyPair.h)
 
 add_library(hcl SHARED ${LIBRARY_SOURCE_FILES})
 
