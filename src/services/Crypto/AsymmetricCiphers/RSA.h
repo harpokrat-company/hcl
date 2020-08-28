@@ -70,7 +70,6 @@ class RSA : public AutoRegisterer<AAsymmetricCipher, RSA> {
  private:
   std::unique_ptr<APrimeGenerator> prime_generator_;
   gmp_randclass r1;
-  bool key_seeded;
 };
 }
 

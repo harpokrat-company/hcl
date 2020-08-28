@@ -4,7 +4,9 @@
 
 #include "RSA.h"
 
-HCL::Crypto::RSA::RSA() : r1(gmp_randinit_mt) {}
+HCL::Crypto::RSA::RSA() : r1(gmp_randinit_mt) {
+  r1.seed(time(NULL));
+}
 
 HCL::Crypto::RSA::RSA(const std::string &header, size_t &header_length) : r1(gmp_randinit_mt) {}
 
@@ -30,17 +32,9 @@ HCL::Crypto::ACryptoElement &HCL::Crypto::RSA::GetPrimeGenerator() const {
   return *prime_generator_;
 }
 
-static unsigned long get_seed() {
-  return time(NULL);
-}
-
 HCL::Crypto::KeyPair HCL::Crypto::RSA::GenerateKeyPair(size_t bits) {
   if (!prime_generator_) {
 	throw std::runtime_error(GetDependencyUnsetError("generate key pair", "Prime generator"));
-  }
-  if (!key_seeded) {
-	r1.seed(get_seed());
-	key_seeded = true;
   }
   mpz_class p = prime_generator_->GenerateRandomPrime(bits);
   mpz_class q = prime_generator_->GenerateRandomPrime(bits);
