@@ -17,12 +17,10 @@ set(LIBRARY_SOURCE_FILES
     src/services/Crypto/Base64.h
     src/linkage/string_utils.cpp
     src/linkage/string_utils.h
-    src/services/Harpokrat/Secret.cpp
-    src/services/Harpokrat/Secret.h
     src/services/Harpokrat/User.cpp
     src/services/Harpokrat/User.h
-    src/linkage/secret.cpp
-    src/linkage/secret.h
+    src/linkage/password.cpp
+    src/linkage/password.h
     src/linkage/user.cpp
     src/linkage/user.h
     src/linkage/linkage.h
@@ -100,7 +98,13 @@ set(LIBRARY_SOURCE_FILES
     src/services/Crypto/AsymmetricCiphers/RSA.cpp
     src/services/Crypto/AsymmetricCiphers/RSA.h
     src/services/Crypto/AsymmetricCiphers/KeyPair.cpp
-    src/services/Crypto/AsymmetricCiphers/KeyPair.h)
+    src/services/Crypto/AsymmetricCiphers/KeyPair.h
+    src/services/Harpokrat/Secrets/ASecret.cpp
+    src/services/Harpokrat/Secrets/ASecret.h
+    src/services/Harpokrat/Secrets/Password.cpp
+    src/services/Harpokrat/Secrets/Password.h
+    src/services/Harpokrat/Secrets/PrivateKey.cpp
+    src/services/Harpokrat/Secrets/PrivateKey.h)
 
 add_library(hcl SHARED ${LIBRARY_SOURCE_FILES})
 
@@ -113,7 +117,8 @@ set(TEST_SOURCE_FILES
     tests/FullWorkflow.cpp
     tests/RijndaelKeySchedule.cpp
     tests/PrimeGenerator.cpp
-    tests/RSA.cpp)
+    tests/RSA.cpp
+    tests/PrimeGenerator.cpp)
 
 add_executable(hcl_test_suite ${LIBRARY_SOURCE_FILES} ${TEST_SOURCE_FILES})
 
