@@ -32,7 +32,7 @@ HCL::Crypto::ACryptoElement &HCL::Crypto::RSA::GetPrimeGenerator() const {
   return *prime_generator_;
 }
 
-HCL::Crypto::KeyPair HCL::Crypto::RSA::GenerateKeyPair(size_t bits) {
+HCL::Crypto::KeyPair *HCL::Crypto::RSA::GenerateKeyPair(size_t bits) {
   if (!prime_generator_) {
     throw std::runtime_error(GetDependencyUnsetError("generate key pair", "Prime generator"));
   }
@@ -46,7 +46,7 @@ HCL::Crypto::KeyPair HCL::Crypto::RSA::GenerateKeyPair(size_t bits) {
   while (gcd(e, phi_n) != 1)
     e = r1.get_z_range(phi_n);
   mpz_invert(d.get_mpz_t(), e.get_mpz_t(), phi_n.get_mpz_t());
-  return KeyPair(e, d, n);
+  return new KeyPair(e, d, n);
 }
 
 std::string HCL::Crypto::RSA::RSAEncrypt(const mpz_class &modulus, const mpz_class &public_key, const std::string &content) {

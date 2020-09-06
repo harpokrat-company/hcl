@@ -14,8 +14,8 @@ namespace HCL::Crypto {
 class KeyPair {
  public:
   KeyPair(mpz_class public_key, mpz_class private_key, mpz_class modulus);
-  [[nodiscard]] PublicKey GetPublic() const;
-  [[nodiscard]] PrivateKey GetPrivate() const;
+  [[nodiscard]] PublicKey *GetPublic() const;
+  [[nodiscard]] PrivateKey *GetPrivate() const;
  private:
   mpz_class modulus_;
   mpz_class public_key_;

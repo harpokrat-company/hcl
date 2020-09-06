@@ -60,3 +60,11 @@ std::string HCL::PrivateKey::SerializeContent(const std::string &key) const {
 std::string HCL::PrivateKey::Decrypt(const std::string &message) {
   return HCL::Crypto::RSA::RSADecrypt(modulus_, private_key_, message);
 }
+
+const std::string &HCL::PrivateKey::GetOwner() const {
+  return owner_;
+}
+
+void HCL::PrivateKey::SetOwner(const std::string &owner) {
+  this->owner_ = owner;
+}

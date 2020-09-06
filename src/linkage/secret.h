@@ -2,8 +2,8 @@
 // Created by neodar on 13/01/2020.
 //
 
-#ifndef HCL_PASSWORD_LINKAGE_H
-#define HCL_PASSWORD_LINKAGE_H
+#ifndef HCL_SECRET_LINKAGE_H
+#define HCL_SECRET_LINKAGE_H
 
 #include <string>
 #include "linkage.h"
@@ -13,4 +13,4 @@ extern "C" {
 HCL::ASecret *DeserializeSecret(const char *key, const char *content);
 };
 
-#endif //HCL_PASSWORD_LINKAGE_H
+#endif //HCL_SECRET_LINKAGE_H

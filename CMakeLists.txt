@@ -21,6 +21,14 @@ set(LIBRARY_SOURCE_FILES
     src/services/Harpokrat/User.h
     src/linkage/password.cpp
     src/linkage/password.h
+    src/linkage/rsa_keypair.cpp
+    src/linkage/rsa_keypair.h
+    src/linkage/rsa_private_key.cpp
+    src/linkage/rsa_private_key.h
+    src/linkage/rsa_public_key.cpp
+    src/linkage/rsa_public_key.h
+    src/linkage/secret.cpp
+    src/linkage/secret.h
     src/linkage/user.cpp
     src/linkage/user.h
     src/linkage/linkage.h

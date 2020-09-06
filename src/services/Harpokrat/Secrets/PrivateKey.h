@@ -19,6 +19,8 @@ class PrivateKey : public ASecret {
   PrivateKey() : ASecret() {};
   PrivateKey(mpz_class modulus, mpz_class private_key);
   std::string Decrypt(const std::string &encrypted);
+  [[nodiscard]] const std::string &GetOwner() const;
+  void SetOwner(const std::string &owner);
 
  protected:
   [[nodiscard]] SecretType GetSecretType() const override {

@@ -12,10 +12,10 @@ HCL::Crypto::KeyPair::KeyPair(mpz_class public_key, mpz_class private_key, mpz_c
     public_key_(std::move(public_key)) {
 }
 
-HCL::PublicKey HCL::Crypto::KeyPair::GetPublic() const {
-  return HCL::PublicKey(modulus_, public_key_);
+HCL::PublicKey *HCL::Crypto::KeyPair::GetPublic() const {
+  return new HCL::PublicKey(modulus_, public_key_);
 }
 
-HCL::PrivateKey HCL::Crypto::KeyPair::GetPrivate() const {
-  return HCL::PrivateKey(modulus_, private_key_);
+HCL::PrivateKey *HCL::Crypto::KeyPair::GetPrivate() const {
+  return new HCL::PrivateKey(modulus_, private_key_);
 }
