@@ -107,13 +107,13 @@ add_library(hcl SHARED ${LIBRARY_SOURCE_FILES})
 target_link_libraries(hcl gmp gmpxx)
 
 set(TEST_SOURCE_FILES
-        tests/main.cpp
-        tests/AES.cpp
-        tests/SHA.cpp
-        tests/FullWorkflow.cpp
-        tests/RijndaelKeySchedule.cpp
-        tests/PrimeGenerator.cpp
-        tests/RSA.cpp)
+    tests/main.cpp
+    tests/AES.cpp
+    tests/SHA.cpp
+    tests/FullWorkflow.cpp
+    tests/RijndaelKeySchedule.cpp
+    tests/PrimeGenerator.cpp
+    tests/RSA.cpp)
 
 add_executable(hcl_test_suite ${LIBRARY_SOURCE_FILES} ${TEST_SOURCE_FILES})
 

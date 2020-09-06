@@ -24,5 +24,3 @@ mpz_class HCL::Crypto::CustomPrimeGenerator::GenerateRandomPrime(size_t bits) {
   mpz_nextprime(output.get_mpz_t(), output.get_mpz_t());
   return output;
 }
-
-

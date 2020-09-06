@@ -39,6 +39,5 @@ class CustomPrimeGenerator : public AutoRegisterer<APrimeGenerator, CustomPrimeG
  private:
   gmp_randclass r1;
 };
-
 }
 #endif //HCL_SRC_SERVICES_CRYPTO_PRIMEGENERATORS_CUSTOMPRIMEGENERATOR_H_

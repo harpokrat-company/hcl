@@ -9,10 +9,10 @@ HCL::Crypto::KeyPair::KeyPair(const mpz_class &public_key, const mpz_class &priv
   this->private_key = std::pair(modulus, private_key);
 }
 
-const std::pair<mpz_class,mpz_class>& HCL::Crypto::KeyPair::GetPrivate() {
+const std::pair<mpz_class, mpz_class> &HCL::Crypto::KeyPair::GetPrivate() {
   return this->private_key;
 }
 
-const std::pair<mpz_class, mpz_class>& HCL::Crypto::KeyPair::GetPublic() {
+const std::pair<mpz_class, mpz_class> &HCL::Crypto::KeyPair::GetPublic() {
   return this->public_key;
 }

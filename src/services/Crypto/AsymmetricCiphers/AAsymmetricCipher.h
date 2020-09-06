@@ -20,8 +20,8 @@ class AAsymmetricCipher : public ACryptoElement {
   virtual mpz_class Decrypt(const std::pair<mpz_class, mpz_class> &key, const mpz_class &content) = 0;
   virtual std::string GetHeader() = 0;
   static const std::string &GetName() {
-	static std::string name = "asymmetric-cipher";
-	return name;
+    static std::string name = "asymmetric-cipher";
+    return name;
   };
  private:
 };

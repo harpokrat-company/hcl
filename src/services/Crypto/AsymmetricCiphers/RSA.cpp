@@ -12,7 +12,7 @@ HCL::Crypto::RSA::RSA(const std::string &header, size_t &header_length) : r1(gmp
 
 std::string HCL::Crypto::RSA::GetHeader() {
   if (!prime_generator_) {
-	throw std::runtime_error(GetDependencyUnsetError("get header", "Prime generator"));
+    throw std::runtime_error(GetDependencyUnsetError("get header", "Prime generator"));
   }
   return GetIdBytes() + prime_generator_->GetHeader();
 }
@@ -27,14 +27,14 @@ bool HCL::Crypto::RSA::IsPrimeGeneratorSet() const {
 
 HCL::Crypto::ACryptoElement &HCL::Crypto::RSA::GetPrimeGenerator() const {
   if (!IsPrimeGeneratorSet()) {
-	throw std::runtime_error(GetDependencyUnsetError("get Prime generator", "Prime generator"));
+    throw std::runtime_error(GetDependencyUnsetError("get Prime generator", "Prime generator"));
   }
   return *prime_generator_;
 }
 
 HCL::Crypto::KeyPair HCL::Crypto::RSA::GenerateKeyPair(size_t bits) {
   if (!prime_generator_) {
-	throw std::runtime_error(GetDependencyUnsetError("generate key pair", "Prime generator"));
+    throw std::runtime_error(GetDependencyUnsetError("generate key pair", "Prime generator"));
   }
   mpz_class p = prime_generator_->GenerateRandomPrime(bits);
   mpz_class q = prime_generator_->GenerateRandomPrime(bits);
@@ -55,7 +55,7 @@ mpz_class HCL::Crypto::RSA::Encrypt(const std::pair<mpz_class, mpz_class> &key, 
 
   mpz_init(encrypted);
   mpz_powm(encrypted, content.get_mpz_t(), key.second.get_mpz_t(), key.first.get_mpz_t());
-  result = mpz_class (encrypted);
+  result = mpz_class(encrypted);
   mpz_clear(encrypted);
   return result;
 }
@@ -66,7 +66,7 @@ mpz_class HCL::Crypto::RSA::Decrypt(const std::pair<mpz_class, mpz_class> &key, 
 
   mpz_init(decrypted);
   mpz_powm(decrypted, content.get_mpz_t(), key.second.get_mpz_t(), key.first.get_mpz_t());
-  result = mpz_class (decrypted);
+  result = mpz_class(decrypted);
   mpz_clear(decrypted);
   return result;
 }
