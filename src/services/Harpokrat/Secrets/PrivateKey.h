@@ -17,6 +17,8 @@ union SerializedPrivateKeyHeader {
 class PrivateKey : public ASecret {
  public:
   PrivateKey() : ASecret() {};
+  PrivateKey(mpz_class modulus, mpz_class private_key);
+  std::string Decrypt(const std::string &encrypted);
 
  protected:
   [[nodiscard]] SecretType GetSecretType() const override {

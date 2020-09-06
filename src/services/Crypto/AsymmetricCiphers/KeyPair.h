@@ -7,17 +7,19 @@
 
 #include <gmpxx.h>
 #include <utility>
+#include "../../Harpokrat/Secrets/PrivateKey.h"
+#include "../../Harpokrat/Secrets/PublicKey.h"
 
 namespace HCL::Crypto {
-
 class KeyPair {
  public:
-  KeyPair(const mpz_class &public_key, const mpz_class &private_key, const mpz_class &modulus);
-  const std::pair<mpz_class, mpz_class> &GetPublic();
-  const std::pair<mpz_class, mpz_class> &GetPrivate();
+  KeyPair(mpz_class public_key, mpz_class private_key, mpz_class modulus);
+  [[nodiscard]] PublicKey GetPublic() const;
+  [[nodiscard]] PrivateKey GetPrivate() const;
  private:
-  std::pair<mpz_class, mpz_class> public_key;
-  std::pair<mpz_class, mpz_class> private_key;
+  mpz_class modulus_;
+  mpz_class public_key_;
+  mpz_class private_key_;
 };
 }
 

@@ -35,8 +35,10 @@ static int SimpleRSATest() {
     HCL::Crypto::KeyPair keys = rsa->GenerateKeyPair(test_bit);
 	std::cout << "OK :)" << std::endl;
     std::cout << "Testing Encrypt/Decrypt integrity using " << test_bit << " bits keys: " << std::flush;
-    encrypted = encrypted = rsa->Encrypt(keys.GetPublic(), text);
-    decrypted = rsa->Decrypt(keys.GetPrivate(), encrypted);
+//    encrypted = encrypted = rsa->Encrypt(keys.GetPublic(), text);
+//    encrypted = keys.GetPublic().Encrypt(text);
+//    decrypted = rsa->Decrypt(keys.GetPrivate(), encrypted);
+//    decrypted = keys.GetPrivate().Decrypt("");
     std::cout << (text == decrypted ? "OK :)" : "KO >:(") << std::endl;
   }
   return 0;

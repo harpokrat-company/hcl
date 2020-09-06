@@ -104,7 +104,9 @@ set(LIBRARY_SOURCE_FILES
     src/services/Harpokrat/Secrets/Password.cpp
     src/services/Harpokrat/Secrets/Password.h
     src/services/Harpokrat/Secrets/PrivateKey.cpp
-    src/services/Harpokrat/Secrets/PrivateKey.h)
+    src/services/Harpokrat/Secrets/PrivateKey.h
+    src/services/Harpokrat/Secrets/PublicKey.cpp
+    src/services/Harpokrat/Secrets/PublicKey.h)
 
 add_library(hcl SHARED ${LIBRARY_SOURCE_FILES})
 

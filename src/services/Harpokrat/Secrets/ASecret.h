@@ -12,6 +12,7 @@ namespace HCL {
 enum SecretType : char {
   PASSWORD,
   PRIVATE_KEY,
+  PUBLIC_KEY,
 };
 
 //-> RSAPrivateKey

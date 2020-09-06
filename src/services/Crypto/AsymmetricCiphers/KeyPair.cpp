@@ -4,15 +4,18 @@
 
 #include "KeyPair.h"
 
-HCL::Crypto::KeyPair::KeyPair(const mpz_class &public_key, const mpz_class &private_key, const mpz_class &modulus) {
-  this->public_key = std::pair(modulus, public_key);
-  this->private_key = std::pair(modulus, private_key);
+#include <utility>
+
+HCL::Crypto::KeyPair::KeyPair(mpz_class public_key, mpz_class private_key, mpz_class modulus) :
+    modulus_(std::move(modulus)),
+    private_key_(std::move(private_key)),
+    public_key_(std::move(public_key)) {
 }
 
-const std::pair<mpz_class, mpz_class> &HCL::Crypto::KeyPair::GetPrivate() {
-  return this->private_key;
+HCL::PublicKey HCL::Crypto::KeyPair::GetPublic() const {
+  return HCL::PublicKey(modulus_, public_key_);
 }
 
-const std::pair<mpz_class, mpz_class> &HCL::Crypto::KeyPair::GetPublic() {
-  return this->public_key;
+HCL::PrivateKey HCL::Crypto::KeyPair::GetPrivate() const {
+  return HCL::PrivateKey(modulus_, private_key_);
 }

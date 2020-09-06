@@ -11,13 +11,12 @@
 #include "KeyPair.h"
 
 namespace HCL::Crypto {
-
 class AAsymmetricCipher : public ACryptoElement {
  public:
   virtual ~AAsymmetricCipher() = default;
   virtual KeyPair GenerateKeyPair(size_t bits) = 0;
-  virtual mpz_class Encrypt(const std::pair<mpz_class, mpz_class> &key, const mpz_class &content) = 0;
-  virtual mpz_class Decrypt(const std::pair<mpz_class, mpz_class> &key, const mpz_class &content) = 0;
+  virtual std::string Encrypt(const mpz_class &modulus, const mpz_class &public_key, const std::string &content) = 0;
+  virtual std::string Decrypt(const mpz_class &modulus, const mpz_class &private_key, const std::string &content) = 0;
   virtual std::string GetHeader() = 0;
   static const std::string &GetName() {
     static std::string name = "asymmetric-cipher";

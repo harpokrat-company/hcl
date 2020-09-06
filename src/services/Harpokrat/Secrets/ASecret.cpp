@@ -8,6 +8,7 @@
 #include "../../Crypto/Factory.h"
 #include "Password.h"
 #include "PrivateKey.h"
+#include "PublicKey.h"
 
 HCL::ASecret::ASecret() {
   auto sha256 = HCL::Crypto::SuperFactory::GetFactoryOfType("hash-function").BuildFromName("sha256");
@@ -44,6 +45,9 @@ HCL::ASecret *HCL::ASecret::DeserializeSecret(const std::string &key, const std:
       break;
     case PRIVATE_KEY:
       secret = static_cast<ASecret *>(new PrivateKey());
+      break;
+    case PUBLIC_KEY:
+      secret = static_cast<ASecret *>(new PublicKey());
       break;
   }
   secret->DeserializeContent(serialized_content.substr(1));

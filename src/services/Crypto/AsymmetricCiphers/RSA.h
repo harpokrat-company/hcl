@@ -57,8 +57,10 @@ class RSA : public AutoRegisterer<AAsymmetricCipher, RSA> {
   bool IsPrimeGeneratorSet() const;
   ACryptoElement &GetPrimeGenerator() const;
   KeyPair GenerateKeyPair(size_t bits);
-  mpz_class Encrypt(const std::pair<mpz_class, mpz_class> &key, const mpz_class &content);
-  mpz_class Decrypt(const std::pair<mpz_class, mpz_class> &key, const mpz_class &content);
+  static std::string RSAEncrypt(const mpz_class &modulus, const mpz_class &public_key, const std::string &content);
+  static std::string RSADecrypt(const mpz_class &modulus, const mpz_class &private_key, const std::string &content);
+  std::string Encrypt(const mpz_class &modulus, const mpz_class &public_key, const std::string &content) override;
+  std::string Decrypt(const mpz_class &modulus, const mpz_class &private_key, const std::string &content) override;
   std::string GetHeader() override;
   const std::string &GetElementName() const override { return GetName(); };
   const std::string &GetElementTypeName() const override { return GetTypeName(); };
