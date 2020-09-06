@@ -22,7 +22,6 @@ class APrimeGenerator : public ACryptoElement {
     return name;
   };
 };
-
 }
 
 #endif //HCL_SRC_SERVICES_CRYPTO_PRIMEGENERATORS_APRIMEGENERATOR_H_

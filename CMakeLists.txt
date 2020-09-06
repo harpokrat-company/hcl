@@ -94,19 +94,26 @@ set(LIBRARY_SOURCE_FILES
     src/services/Crypto/PrimeGenerators/APrimeGenerator.cpp
     src/services/Crypto/PrimeGenerators/APrimeGenerator.h
     src/services/Crypto/PrimeGenerators/CustomPrimeGenerator.cpp
-    src/services/Crypto/PrimeGenerators/CustomPrimeGenerator.h)
+    src/services/Crypto/PrimeGenerators/CustomPrimeGenerator.h
+    src/services/Crypto/AsymmetricCiphers/AAsymmetricCipher.cpp
+    src/services/Crypto/AsymmetricCiphers/AAsymmetricCipher.h
+    src/services/Crypto/AsymmetricCiphers/RSA.cpp
+    src/services/Crypto/AsymmetricCiphers/RSA.h
+    src/services/Crypto/AsymmetricCiphers/KeyPair.cpp
+    src/services/Crypto/AsymmetricCiphers/KeyPair.h)
 
 add_library(hcl SHARED ${LIBRARY_SOURCE_FILES})
 
 target_link_libraries(hcl gmp gmpxx)
 
 set(TEST_SOURCE_FILES
-        tests/main.cpp
-        tests/AES.cpp
-        tests/SHA.cpp
-        tests/FullWorkflow.cpp
-        tests/RijndaelKeySchedule.cpp
-        tests/PrimeGenerator.cpp)
+    tests/main.cpp
+    tests/AES.cpp
+    tests/SHA.cpp
+    tests/FullWorkflow.cpp
+    tests/RijndaelKeySchedule.cpp
+    tests/PrimeGenerator.cpp
+    tests/RSA.cpp)
 
 add_executable(hcl_test_suite ${LIBRARY_SOURCE_FILES} ${TEST_SOURCE_FILES})
 
