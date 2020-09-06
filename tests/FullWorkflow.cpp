@@ -7,10 +7,8 @@
 #include <iostream>
 
 #include "../src/services/Crypto/Factory.h"
-#include "../src/services/Crypto/SuperFactory.h"
-#include "../src/services/Crypto/Ciphers/ACipher.h"
 #include "../src/services/Crypto/EncryptedBlob.h"
-#include "../src/services/Harpokrat/Secret.h"
+#include "../src/services/Harpokrat/Secrets/Password.h"
 
 static void PrintHex(const std::string &data) {
   std::stringstream hex_data_stream;
@@ -88,16 +86,16 @@ static int DefaultFullEncryptionDecryptionTest() {
 static int SecretTest() {
   const std::string key = "The answer to the life, the universe and everything...";
 
-  std::cout << "Running test of autonomous Secret... "
+  std::cout << "Running test of autonomous Password... "
             << std::flush;
-  HCL::Secret origin_secret;
+  HCL::Password origin_secret;
 
   origin_secret.SetName("Google");
   origin_secret.SetDomain("https://www.google.com/");
   origin_secret.SetLogin("neodar");
   origin_secret.SetPassword("qwerty123456789");
 
-  HCL::Secret destination_secret(key, origin_secret.Serialize(key));
+  HCL::ASecret *destination_secret = HCL::ASecret::DeserializeSecret(key, origin_secret.Serialize(key));
   std::cout << "Success! (probably)" << std::endl;
   return 0;
 }

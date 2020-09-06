@@ -32,11 +32,13 @@ static int SimpleRSATest() {
   std::cout << "Running RSA tests..." << std::endl;
   for (int test_bit : test_bits) {
 	std::cout << "Generating " << test_bit << " bits keys: " << std::flush;
-    HCL::Crypto::KeyPair keys = rsa->GenerateKeyPair(test_bit);
+    HCL::Crypto::KeyPair *keys = rsa->GenerateKeyPair(test_bit);
 	std::cout << "OK :)" << std::endl;
     std::cout << "Testing Encrypt/Decrypt integrity using " << test_bit << " bits keys: " << std::flush;
-    encrypted = encrypted = rsa->Encrypt(keys.GetPublic(), text);
-    decrypted = rsa->Decrypt(keys.GetPrivate(), encrypted);
+//    encrypted = encrypted = rsa->Encrypt(keys.GetPublic(), text);
+//    encrypted = keys.GetPublic().Encrypt(text);
+//    decrypted = rsa->Decrypt(keys.GetPrivate(), encrypted);
+//    decrypted = keys.GetPrivate().Decrypt("");
     std::cout << (text == decrypted ? "OK :)" : "KO >:(") << std::endl;
   }
   return 0;

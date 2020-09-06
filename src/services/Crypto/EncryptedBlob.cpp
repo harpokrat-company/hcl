@@ -24,12 +24,12 @@ void HCL::Crypto::EncryptedBlob::SetCipher(std::unique_ptr<ACipher> cipher) {
 }
 
 void HCL::Crypto::EncryptedBlob::SetContent(const std::string &content) {
-  // TODO Secret constructor when specified ?
+  // TODO ASecret constructor when specified ?
   content_ = content;
 }
 
 std::string HCL::Crypto::EncryptedBlob::GetContent() {
-  // TODO Secret constructor when specified ?
+  // TODO ASecret constructor when specified ?
   return content_;
 }
 
