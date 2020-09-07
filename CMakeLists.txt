@@ -27,6 +27,8 @@ set(LIBRARY_SOURCE_FILES
     src/linkage/rsa_private_key.h
     src/linkage/rsa_public_key.cpp
     src/linkage/rsa_public_key.h
+    src/linkage/rsa_symmetric_key.cpp
+    src/linkage/rsa_symmetric_key.h
     src/linkage/secret.cpp
     src/linkage/secret.h
     src/linkage/user.cpp
@@ -114,7 +116,9 @@ set(LIBRARY_SOURCE_FILES
     src/services/Harpokrat/Secrets/PrivateKey.cpp
     src/services/Harpokrat/Secrets/PrivateKey.h
     src/services/Harpokrat/Secrets/PublicKey.cpp
-    src/services/Harpokrat/Secrets/PublicKey.h)
+    src/services/Harpokrat/Secrets/PublicKey.h
+    src/services/Harpokrat/Secrets/SymmetricKey.cpp
+    src/services/Harpokrat/Secrets/SymmetricKey.h)
 
 add_library(hcl SHARED ${LIBRARY_SOURCE_FILES})
 
@@ -127,8 +131,7 @@ set(TEST_SOURCE_FILES
     tests/FullWorkflow.cpp
     tests/RijndaelKeySchedule.cpp
     tests/PrimeGenerator.cpp
-    tests/RSA.cpp
-    tests/PrimeGenerator.cpp)
+    tests/RSA.cpp)
 
 add_executable(hcl_test_suite ${LIBRARY_SOURCE_FILES} ${TEST_SOURCE_FILES})
 

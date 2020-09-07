@@ -3,12 +3,14 @@
 //
 
 #include "PublicKey.h"
+
+#include <utility>
 #include "../../Crypto/AsymmetricCiphers/RSA.h"
 
 HCL::PublicKey::PublicKey(mpz_class modulus, mpz_class public_key) :
     PublicKey() {
-  modulus_ = modulus;
-  public_key_ = public_key;
+  modulus_ = std::move(modulus);
+  public_key_ = std::move(public_key);
 }
 
 bool HCL::PublicKey::DeserializeContent(const std::string &content) {
@@ -55,7 +57,7 @@ std::string HCL::PublicKey::SerializeContent(const std::string &key) const {
   return serialized_content;
 }
 
-std::string HCL::PublicKey::Encrypt(const std::string &message) {
+std::string HCL::PublicKey::Encrypt(const std::string &message) const {
   return HCL::Crypto::RSA::RSAEncrypt(modulus_, public_key_, message);
 }
 

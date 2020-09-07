@@ -13,6 +13,7 @@ enum SecretType : char {
   PASSWORD,
   PRIVATE_KEY,
   PUBLIC_KEY,
+  SYMMETRIC_KEY
 };
 
 //-> RSAPrivateKey

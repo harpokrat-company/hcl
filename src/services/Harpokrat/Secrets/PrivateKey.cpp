@@ -57,7 +57,7 @@ std::string HCL::PrivateKey::SerializeContent(const std::string &key) const {
   return serialized_content;
 }
 
-std::string HCL::PrivateKey::Decrypt(const std::string &message) {
+std::string HCL::PrivateKey::Decrypt(const std::string &message) const {
   return HCL::Crypto::RSA::RSADecrypt(modulus_, private_key_, message);
 }
 
