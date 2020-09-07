@@ -7,6 +7,7 @@
 
 #include <gmpxx.h>
 #include "ASecret.h"
+#include "../../Crypto/Ciphers/ICipherEncryptionKey.h"
 
 namespace HCL {
 union SerializedPublicKeyHeader {
@@ -14,19 +15,24 @@ union SerializedPublicKeyHeader {
   char bytes[6];
 };
 
-class PublicKey : public ASecret {
+class PublicKey : public ASecret, public Crypto::ICipherEncryptionKey {
  public:
   PublicKey() : ASecret() {};
   PublicKey(mpz_class modulus, mpz_class public_key);
+  ~PublicKey() override = default;
   [[nodiscard]] std::string Encrypt(const std::string &message) const;
   [[nodiscard]] const std::string &GetOwner() const;
   void SetOwner(const std::string &owner);
+  [[nodiscard]] const std::string &GetEncryptionKeyType() const override {
+    static std::string key_type = "public";
+    return key_type;
+  }
 
  protected:
   [[nodiscard]] SecretType GetSecretType() const override {
     return PUBLIC_KEY;
   };
-  [[nodiscard]] std::string SerializeContent(const std::string &key) const override;
+  [[nodiscard]] std::string SerializeContent() const override;
   bool DeserializeContent(const std::string &content) override;
 
  public:

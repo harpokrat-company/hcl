@@ -8,9 +8,13 @@
 #include <string>
 #include "linkage.h"
 #include "../services/Harpokrat/Secrets/ASecret.h"
+#include "../services/Crypto/Ciphers/ICipherDecryptionKey.h"
+#include "../services/Crypto/Ciphers/ICipherEncryptionKey.h"
 
 extern "C" {
-HCL::ASecret *DeserializeSecret(const char *key, const char *content);
+HCL::ASecret *DeserializeSecret(const HCL::Crypto::ICipherDecryptionKey *key, const char *content);
+std::string *SerializeSecret(HCL::ASecret *secret, const HCL::Crypto::ICipherEncryptionKey *key);
+void DeleteSecret(HCL::ASecret *secret);
 };
 
 #endif //HCL_SECRET_LINKAGE_H

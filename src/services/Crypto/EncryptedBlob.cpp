@@ -5,14 +5,14 @@
 #include "EncryptedBlob.h"
 #include "Factory.h"
 
-HCL::Crypto::EncryptedBlob::EncryptedBlob(const std::string &key, const std::string &content) {
+HCL::Crypto::EncryptedBlob::EncryptedBlob(const ICipherDecryptionKey *key, const std::string &content) {
   size_t header_length = 0;
 
   SetCipher(Factory<ACipher>::BuildTypedFromHeader(content, header_length));
   SetEncryptedContent(key, content.substr(header_length));
 }
 
-void HCL::Crypto::EncryptedBlob::SetEncryptedContent(const std::string &key, const std::string &content) {
+void HCL::Crypto::EncryptedBlob::SetEncryptedContent(const ICipherDecryptionKey *key, const std::string &content) {
   if (!cipher_) {
     throw std::runtime_error("EncryptedBlob: Cannot decrypt content: No cipher is set");
   }
@@ -33,7 +33,7 @@ std::string HCL::Crypto::EncryptedBlob::GetContent() {
   return content_;
 }
 
-std::string HCL::Crypto::EncryptedBlob::GetEncryptedContent(const std::string &key) {
+std::string HCL::Crypto::EncryptedBlob::GetEncryptedContent(const ICipherEncryptionKey *key) {
   if (!cipher_) {
     throw std::runtime_error("EncryptedBlob: Cannot encrypt content: No cipher is set");
   }

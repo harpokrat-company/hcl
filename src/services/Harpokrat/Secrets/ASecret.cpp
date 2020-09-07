@@ -34,7 +34,7 @@ HCL::ASecret::ASecret() {
   blob_.SetCipher(std::move(cipher));
 }
 
-HCL::ASecret *HCL::ASecret::DeserializeSecret(const std::string &key, const std::string &content) {
+HCL::ASecret *HCL::ASecret::DeserializeSecret(const Crypto::ICipherDecryptionKey *key, const std::string &content) {
   HCL::Crypto::EncryptedBlob blob = HCL::Crypto::EncryptedBlob(key, HCL::Crypto::Base64::Decode(content));
   std::string serialized_content = blob.GetContent();
   SecretType type = reinterpret_cast<const SecretType *>(serialized_content.c_str())[0];
@@ -58,8 +58,8 @@ HCL::ASecret *HCL::ASecret::DeserializeSecret(const std::string &key, const std:
   return secret;
 }
 
-std::string HCL::ASecret::Serialize(const std::string &key) {
-  std::string serialized_content = std::string(1, this->GetSecretType()) + SerializeContent(key);
+std::string HCL::ASecret::Serialize(const Crypto::ICipherEncryptionKey *key) {
+  std::string serialized_content = std::string(1, this->GetSecretType()) + SerializeContent();
 
   blob_.SetContent(serialized_content);
   return HCL::Crypto::Base64::Encode(blob_.GetEncryptedContent(key));

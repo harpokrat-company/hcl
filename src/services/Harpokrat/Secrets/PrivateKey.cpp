@@ -39,7 +39,7 @@ bool HCL::PrivateKey::DeserializeContent(const std::string &content) {
   }
 }
 
-std::string HCL::PrivateKey::SerializeContent(const std::string &key) const {
+std::string HCL::PrivateKey::SerializeContent() const {
   std::string serialized_content;
   SerializedPrivateKeyHeader serialized_header{};
 

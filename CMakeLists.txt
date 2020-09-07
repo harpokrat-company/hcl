@@ -118,7 +118,13 @@ set(LIBRARY_SOURCE_FILES
     src/services/Harpokrat/Secrets/PublicKey.cpp
     src/services/Harpokrat/Secrets/PublicKey.h
     src/services/Harpokrat/Secrets/SymmetricKey.cpp
-    src/services/Harpokrat/Secrets/SymmetricKey.h)
+    src/services/Harpokrat/Secrets/SymmetricKey.h
+    src/services/Crypto/Ciphers/ICipherEncryptionKey.cpp
+    src/services/Crypto/Ciphers/ICipherEncryptionKey.h
+    src/services/Crypto/Ciphers/ICipherDecryptionKey.cpp
+    src/services/Crypto/Ciphers/ICipherDecryptionKey.h
+    src/services/Crypto/Ciphers/AsymmetricCipherScheme.cpp
+    src/services/Crypto/Ciphers/AsymmetricCipherScheme.h)
 
 add_library(hcl SHARED ${LIBRARY_SOURCE_FILES})
 

@@ -16,6 +16,7 @@ union SerializedPasswordHeader {
 class Password : public ASecret {
  public:
   Password() : ASecret() {};
+  ~Password() override = default;
   [[nodiscard]] const std::string &GetName() const;
   [[nodiscard]] const std::string &GetLogin() const;
   [[nodiscard]] const std::string &GetPassword() const;
@@ -29,7 +30,7 @@ class Password : public ASecret {
   [[nodiscard]] SecretType GetSecretType() const override {
     return PASSWORD;
   };
-  [[nodiscard]] std::string SerializeContent(const std::string &key) const override;
+  [[nodiscard]] std::string SerializeContent() const override;
   bool DeserializeContent(const std::string &content) override;
 
  private:

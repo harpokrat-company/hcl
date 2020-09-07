@@ -39,7 +39,7 @@ bool HCL::PublicKey::DeserializeContent(const std::string &content) {
   }
 }
 
-std::string HCL::PublicKey::SerializeContent(const std::string &key) const {
+std::string HCL::PublicKey::SerializeContent() const {
   std::string serialized_content;
   SerializedPublicKeyHeader serialized_header{};
 

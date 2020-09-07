@@ -9,6 +9,7 @@
 #include "../src/services/Crypto/Factory.h"
 #include "../src/services/Crypto/EncryptedBlob.h"
 #include "../src/services/Harpokrat/Secrets/Password.h"
+#include "../src/services/Harpokrat/Secrets/SymmetricKey.h"
 
 static void PrintHex(const std::string &data) {
   std::stringstream hex_data_stream;
@@ -62,13 +63,15 @@ static int DefaultFullEncryptionDecryptionTest() {
   origin.SetCipher(std::move(cipher));
 
   const std::string key = "Qwerty";
+  HCL::SymmetricKey symmetricKey;
+  symmetricKey.SetKey(key);
   const std::string message =
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In venenatis lectus quis cursus suscipit. Curabitur vitae varius turpis.";
 
   origin.SetContent(message);
 
-  std::string ciphered_message = origin.GetEncryptedContent(key);
-  HCL::Crypto::EncryptedBlob destination(key, ciphered_message);
+  std::string ciphered_message = origin.GetEncryptedContent(&symmetricKey);
+  HCL::Crypto::EncryptedBlob destination(&symmetricKey, ciphered_message);
   std::string deciphered_message = destination.GetContent();
   if (message == deciphered_message) {
     std::cout << "Success!" << std::endl;
@@ -85,6 +88,8 @@ static int DefaultFullEncryptionDecryptionTest() {
 
 static int SecretTest() {
   const std::string key = "The answer to the life, the universe and everything...";
+  HCL::SymmetricKey symmetricKey;
+  symmetricKey.SetKey(key);
 
   std::cout << "Running test of autonomous Password... "
             << std::flush;
@@ -95,7 +100,10 @@ static int SecretTest() {
   origin_secret.SetLogin("neodar");
   origin_secret.SetPassword("qwerty123456789");
 
-  HCL::ASecret *destination_secret = HCL::ASecret::DeserializeSecret(key, origin_secret.Serialize(key));
+  HCL::ASecret *destination_secret = HCL::ASecret::DeserializeSecret(
+      &symmetricKey,
+      origin_secret.Serialize(&symmetricKey)
+  );
   std::cout << "Success! (probably)" << std::endl;
   return 0;
 }

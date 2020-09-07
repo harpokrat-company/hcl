@@ -45,10 +45,6 @@ void EXPORT_FUNCTION UpdatePasswordDomain(HCL::Password *password, const char *d
     password->SetDomain(domain);
 }
 
-std::string *EXPORT_FUNCTION GetContentStringFromPassword(HCL::Password *password, const char *key) {
-    return new std::string(password->Serialize(key));
-}
-
 void EXPORT_FUNCTION DeletePassword(HCL::Password *password) {
     delete password;
 }

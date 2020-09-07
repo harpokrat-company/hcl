@@ -38,7 +38,7 @@ bool HCL::SymmetricKey::DeserializeContent(const std::string &content) {
   }
 }
 
-std::string HCL::SymmetricKey::SerializeContent(const std::string &key) const {
+std::string HCL::SymmetricKey::SerializeContent() const {
   std::string serialized_content;
   SerializedSymmetricKeyHeader serialized_header{};
 

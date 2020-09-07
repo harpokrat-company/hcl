@@ -7,6 +7,8 @@
 
 #include <string>
 #include "../../Crypto/EncryptedBlob.h"
+#include "../../Crypto/Ciphers/ICipherDecryptionKey.h"
+#include "../../Crypto/Ciphers/ICipherEncryptionKey.h"
 
 namespace HCL {
 enum SecretType : char {
@@ -24,16 +26,17 @@ enum SecretType : char {
 //-> SymmetricKey
 class ASecret {
  public:
+  virtual ~ASecret() = default;
   // TODO optional key and decrypt when needed (IsDecrypted & Decrypt(key)) (in blob ?)
   //  Probably change working principle to be always encrypted and decrypt when needed only
-  static ASecret *DeserializeSecret(const std::string &key, const std::string &content);
-  [[nodiscard]] std::string Serialize(const std::string &key);
+  static ASecret *DeserializeSecret(const Crypto::ICipherDecryptionKey *key, const std::string &content);
+  [[nodiscard]] std::string Serialize(const Crypto::ICipherEncryptionKey *key);
   [[nodiscard]] bool CorrectDecryption() const;
 
  protected:
   ASecret();
   [[nodiscard]] virtual SecretType GetSecretType() const = 0;
-  [[nodiscard]] virtual std::string SerializeContent(const std::string &key) const = 0;
+  [[nodiscard]] virtual std::string SerializeContent() const = 0;
   virtual bool DeserializeContent(const std::string &content) = 0;
 
  private:

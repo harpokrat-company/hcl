@@ -1,24 +1,24 @@
 //
-// Created by neodar on 06/04/2020.
+// Created by neodar on 07/09/2020.
 //
 
-#ifndef HCL_SRC_SERVICES_CRYPTO_CIPHERS_BLOCKCIPHERSCHEME_H_
-#define HCL_SRC_SERVICES_CRYPTO_CIPHERS_BLOCKCIPHERSCHEME_H_
+#ifndef HCL_SRC_SERVICES_CRYPTO_CIPHERS_ASYMMETRICCIPHERSCHEME_H_
+#define HCL_SRC_SERVICES_CRYPTO_CIPHERS_ASYMMETRICCIPHERSCHEME_H_
 
 #include "ACipher.h"
 #include "../AutoRegisterer.h"
-#include "../BlockCipherModes/ABlockCipherMode.h"
+#include "../AsymmetricCiphers/AAsymmetricCipher.h"
 
 namespace HCL::Crypto {
 
-class BlockCipherScheme : public AutoRegisterer<ACipher, BlockCipherScheme> {
+class AsymmetricCipherScheme : public AutoRegisterer<ACipher, AsymmetricCipherScheme>  {
  public:
-  BlockCipherScheme() = default;
-  BlockCipherScheme(const std::string &header, size_t &header_length);
+  AsymmetricCipherScheme() = default;
+  AsymmetricCipherScheme(const std::string &header, size_t &header_length);
   const std::vector<std::string> &GetDependenciesTypes() override {
     static const std::vector<std::string> dependencies(
         {
-            ABlockCipherMode::GetName(),
+            AAsymmetricCipher::GetName(),
         });
     return dependencies;
   }
@@ -28,7 +28,7 @@ class BlockCipherScheme : public AutoRegisterer<ACipher, BlockCipherScheme> {
     }
     switch (index) {
       case 0:
-      default:SetBlockCipherMode(std::move(dependency));
+      default:SetAsymmetricCipher(std::move(dependency));
     }
   }
   bool IsDependencySet(size_t index) override {
@@ -37,7 +37,7 @@ class BlockCipherScheme : public AutoRegisterer<ACipher, BlockCipherScheme> {
     }
     switch (index) {
       case 0:
-      default:return IsBlockCipherModeSet();
+      default:return IsAsymmetricCipherSet();
     }
   }
   ACryptoElement &GetDependency(size_t index) override {
@@ -46,25 +46,25 @@ class BlockCipherScheme : public AutoRegisterer<ACipher, BlockCipherScheme> {
     }
     switch (index) {
       case 0:
-      default:return GetBlockCipherMode();
+      default:return GetAsymmetricCipher();
     }
   }
   std::string Encrypt(const ICipherEncryptionKey *key, const std::string &content) override;
   std::string Decrypt(const ICipherDecryptionKey *key, const std::string &content) override;
   std::string GetHeader() override;
-  void SetBlockCipherMode(std::unique_ptr<ACryptoElement> block_cipher_mode);
-  bool IsBlockCipherModeSet() const;
-  ACryptoElement &GetBlockCipherMode() const;
+  void SetAsymmetricCipher(std::unique_ptr<ACryptoElement> asymmetric_cipher);
+  bool IsAsymmetricCipherSet() const;
+  ACryptoElement &GetAsymmetricCipher() const;
   const std::string &GetElementName() const override { return GetName(); };
   const std::string &GetElementTypeName() const override { return GetTypeName(); };
-  static const uint16_t id = 1;
+  static const uint16_t id = 2;
   static const std::string &GetName() {
-    static std::string name = "block-cipher-scheme";
+    static std::string name = "asymmetric-cipher-scheme";
     return name;
   };
  private:
-  std::unique_ptr<ABlockCipherMode> block_cipher_mode_;
+  std::unique_ptr<AAsymmetricCipher> asymmetric_cipher_;
 };
 }
 
-#endif //HCL_SRC_SERVICES_CRYPTO_CIPHERS_BLOCKCIPHERSCHEME_H_
+#endif //HCL_SRC_SERVICES_CRYPTO_CIPHERS_ASYMMETRICCIPHERSCHEME_H_

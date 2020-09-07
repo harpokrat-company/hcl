@@ -60,7 +60,7 @@ bool HCL::Password::DeserializeContent(const std::string &content) {
   }
 }
 
-std::string HCL::Password::SerializeContent(const std::string &key) const {
+std::string HCL::Password::SerializeContent() const {
   std::string serialized_content;
   SerializedPasswordHeader serialized_header{};
 

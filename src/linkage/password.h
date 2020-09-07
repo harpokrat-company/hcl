@@ -20,7 +20,6 @@ void UpdatePasswordName(HCL::Password *password, const char *name);
 void UpdatePasswordLogin(HCL::Password *password, const char *login);
 void UpdatePasswordPassword(HCL::Password *password, const char *password_value);
 void UpdatePasswordDomain(HCL::Password *password, const char *domain);
-std::string *GetContentStringFromPassword(HCL::Password *password, const char *key);
 void DeletePassword(HCL::Password *password);
 };
 
