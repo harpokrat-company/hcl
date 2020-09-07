@@ -50,27 +50,38 @@ HCL::Crypto::KeyPair *HCL::Crypto::RSA::GenerateKeyPair(size_t bits) {
 }
 
 std::string HCL::Crypto::RSA::RSAEncrypt(const mpz_class &modulus, const mpz_class &public_key, const std::string &content) {
-  mpz_t encrypted;
-  mpz_class result;
+  std::string text;
+  std::string hex("0123456789ABCDEF");
+  char *ciphered;
+  mpz_t m, res;
 
-  mpz_init(encrypted);
-  // TODO PKCS1
-//  mpz_powm(encrypted, content.get_mpz_t(), public_key.get_mpz_t(), modulus.get_mpz_t());
-  result = mpz_class(encrypted);
-  mpz_clear(encrypted);
-  return "";
+  for (unsigned int i = 0, j = 0; j < content.length(); i += 2, j++) {
+    text.push_back(hex[content[j] / 16]);
+    text.push_back(hex[content[j] % 16]);
+  }
+  mpz_inits(m, res, nullptr);
+  mpz_set_str(m, text.c_str(), 16);
+  mpz_powm(res, m, public_key.get_mpz_t(), modulus.get_mpz_t());
+  ciphered = mpz_get_str(nullptr, 62, res);
+  return std::string(ciphered);
 }
 
 std::string HCL::Crypto::RSA::RSADecrypt(const mpz_class &modulus, const mpz_class &private_key, const std::string &content) {
-  mpz_t decrypted;
-  mpz_class result;
+  mpz_t m, out;
+  char *msg;
+  char *message;
+  unsigned int msg_len;
 
-  mpz_init(decrypted);
-  // TODO PKCS1
-//  mpz_powm(decrypted, content.get_mpz_t(), private_key.get_mpz_t(), modulus.get_mpz_t());
-  result = mpz_class(decrypted);
-  mpz_clear(decrypted);
-  return "";
+  mpz_inits(m, out, nullptr);
+  mpz_set_str(m, content.c_str(), 62);
+  mpz_powm_sec(out, m, private_key.get_mpz_t(), modulus.get_mpz_t());
+  message = mpz_get_str(NULL, 16, out);
+  msg_len = strlen(message);
+  msg = (char*) malloc(sizeof(char) * (msg_len / 2 + 1));
+  for (unsigned int i = 0, j = 0; i < msg_len; i += 2, j++)
+	msg[j] = CHARS_TO_INT(message[i], message[i+1]);
+  msg[msg_len / 2] = '\0';
+  return std::string(msg);
 }
 
 std::string HCL::Crypto::RSA::Encrypt(const mpz_class &modulus, const mpz_class &public_key,

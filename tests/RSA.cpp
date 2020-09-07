@@ -14,12 +14,9 @@
 static int SimpleRSATest() {
   auto pgenerator = HCL::Crypto::Factory<HCL::Crypto::APrimeGenerator>::BuildTypedFromName("custom-prime-generator");
   auto rsa = HCL::Crypto::Factory<HCL::Crypto::AAsymmetricCipher>::BuildTypedFromName("rsa");
+  std::string input("Coucou les copains d'HPK");
   rsa->SetDependency(std::move(pgenerator), 0);
-  static int test_bits[10] = {
-	  8,
-	  16,
-	  32,
-	  64,
+  static int test_bits[6] = {
 	  128,
 	  256,
 	  512,
@@ -27,19 +24,15 @@ static int SimpleRSATest() {
 	  2048,
 	  4096
   };
-  mpz_class text, encrypted, decrypted;
-  text = 12;
   std::cout << "Running RSA tests..." << std::endl;
   for (int test_bit : test_bits) {
 	std::cout << "Generating " << test_bit << " bits keys: " << std::flush;
     HCL::Crypto::KeyPair *keys = rsa->GenerateKeyPair(test_bit);
 	std::cout << "OK :)" << std::endl;
     std::cout << "Testing Encrypt/Decrypt integrity using " << test_bit << " bits keys: " << std::flush;
-//    encrypted = encrypted = rsa->Encrypt(keys.GetPublic(), text);
-//    encrypted = keys.GetPublic().Encrypt(text);
-//    decrypted = rsa->Decrypt(keys.GetPrivate(), encrypted);
-//    decrypted = keys.GetPrivate().Decrypt("");
-    std::cout << (text == decrypted ? "OK :)" : "KO >:(") << std::endl;
+    HCL::PublicKey *pk = keys->GetPublic();
+    HCL::PrivateKey *prk = keys->GetPrivate();
+    std::cout << (input == prk->Decrypt(pk->Encrypt(input)) ? "OK :)" : "KO >:(") << std::endl;
   }
   return 0;
 }
