@@ -13,6 +13,9 @@
 #include "../PrimeGenerators/APrimeGenerator.h"
 #include "KeyPair.h"
 
+#define CHAR_TO_INT(c)	(c >= 'a' ? c - 'a' + 10 : (c >= 'A' ? c - 'A' + 10 : c - '0'))
+#define CHARS_TO_INT(h, l)	(CHAR_TO_INT(h) * 16 + CHAR_TO_INT(l))
+
 namespace HCL::Crypto {
 
 class RSA : public AutoRegisterer<AAsymmetricCipher, RSA> {
