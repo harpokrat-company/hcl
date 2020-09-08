@@ -7,6 +7,8 @@ endif ()
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS_RELEASE "-Ofast")
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}")
+find_package(GMP REQUIRED)
 
 set(LIBRARY_SOURCE_FILES
     src/linkage/auth.cpp
@@ -15,10 +17,18 @@ set(LIBRARY_SOURCE_FILES
     src/services/Crypto/Base64.h
     src/linkage/string_utils.cpp
     src/linkage/string_utils.h
-    src/services/Harpokrat/Secret.cpp
-    src/services/Harpokrat/Secret.h
     src/services/Harpokrat/User.cpp
     src/services/Harpokrat/User.h
+    src/linkage/password.cpp
+    src/linkage/password.h
+    src/linkage/rsa_keypair.cpp
+    src/linkage/rsa_keypair.h
+    src/linkage/rsa_private_key.cpp
+    src/linkage/rsa_private_key.h
+    src/linkage/rsa_public_key.cpp
+    src/linkage/rsa_public_key.h
+    src/linkage/symmetric_key.cpp
+    src/linkage/symmetric_key.h
     src/linkage/secret.cpp
     src/linkage/secret.h
     src/linkage/user.cpp
@@ -88,15 +98,47 @@ set(LIBRARY_SOURCE_FILES
     src/services/Crypto/AutoRegisterer.h
     src/services/Crypto/AFactory.h
     src/services/Crypto/ACryptoElement.cpp
-    src/services/Crypto/ACryptoElement.h)
+    src/services/Crypto/ACryptoElement.h
+    src/services/Crypto/PrimeGenerators/APrimeGenerator.cpp
+    src/services/Crypto/PrimeGenerators/APrimeGenerator.h
+    src/services/Crypto/PrimeGenerators/CustomPrimeGenerator.cpp
+    src/services/Crypto/PrimeGenerators/CustomPrimeGenerator.h
+    src/services/Crypto/AsymmetricCiphers/AAsymmetricCipher.cpp
+    src/services/Crypto/AsymmetricCiphers/AAsymmetricCipher.h
+    src/services/Crypto/AsymmetricCiphers/RSA.cpp
+    src/services/Crypto/AsymmetricCiphers/RSA.h
+    src/services/Crypto/AsymmetricCiphers/KeyPair.cpp
+    src/services/Crypto/AsymmetricCiphers/KeyPair.h
+    src/services/Harpokrat/Secrets/ASecret.cpp
+    src/services/Harpokrat/Secrets/ASecret.h
+    src/services/Harpokrat/Secrets/Password.cpp
+    src/services/Harpokrat/Secrets/Password.h
+    src/services/Harpokrat/Secrets/PrivateKey.cpp
+    src/services/Harpokrat/Secrets/PrivateKey.h
+    src/services/Harpokrat/Secrets/PublicKey.cpp
+    src/services/Harpokrat/Secrets/PublicKey.h
+    src/services/Harpokrat/Secrets/SymmetricKey.cpp
+    src/services/Harpokrat/Secrets/SymmetricKey.h
+    src/services/Crypto/Ciphers/ICipherEncryptionKey.cpp
+    src/services/Crypto/Ciphers/ICipherEncryptionKey.h
+    src/services/Crypto/Ciphers/ICipherDecryptionKey.cpp
+    src/services/Crypto/Ciphers/ICipherDecryptionKey.h
+    src/services/Crypto/Ciphers/AsymmetricCipherScheme.cpp
+    src/services/Crypto/Ciphers/AsymmetricCipherScheme.h)
 
 add_library(hcl SHARED ${LIBRARY_SOURCE_FILES})
 
-#set(TEST_SOURCE_FILES
-#    tests/main.cpp
-#    tests/AES.cpp
-#    tests/SHA.cpp
-#    tests/FullWorkflow.cpp
-#    tests/RijndaelKeySchedule.cpp)
-#
-#add_executable(hcl_test_suite ${LIBRARY_SOURCE_FILES} ${TEST_SOURCE_FILES})
+target_link_libraries(hcl gmp gmpxx)
+
+set(TEST_SOURCE_FILES
+    tests/main.cpp
+    tests/AES.cpp
+    tests/SHA.cpp
+    tests/FullWorkflow.cpp
+    tests/RijndaelKeySchedule.cpp
+    tests/PrimeGenerator.cpp
+    tests/RSA.cpp)
+
+add_executable(hcl_test_suite ${LIBRARY_SOURCE_FILES} ${TEST_SOURCE_FILES})
+
+target_link_libraries(hcl_test_suite gmp gmpxx)

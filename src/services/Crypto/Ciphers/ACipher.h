@@ -8,14 +8,16 @@
 #include <string>
 #include <memory>
 #include "../ACryptoElement.h"
+#include "ICipherEncryptionKey.h"
+#include "ICipherDecryptionKey.h"
 
 namespace HCL::Crypto {
 
 class ACipher : public ACryptoElement {
  public:
   virtual ~ACipher() = default;
-  virtual std::string Encrypt(const std::string &key, const std::string &content) = 0;
-  virtual std::string Decrypt(const std::string &key, const std::string &content) = 0;
+  virtual std::string Encrypt(const ICipherEncryptionKey *key, const std::string &content) = 0;
+  virtual std::string Decrypt(const ICipherDecryptionKey *key, const std::string &content) = 0;
   virtual std::string GetHeader() = 0;
   static const std::string &GetName() {
     static std::string name = "cipher";

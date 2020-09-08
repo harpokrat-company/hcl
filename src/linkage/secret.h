@@ -7,22 +7,16 @@
 
 #include <string>
 #include "linkage.h"
-#include "../services/Harpokrat/Secret.h"
+#include "../services/Harpokrat/Secrets/ASecret.h"
+#include "../services/Crypto/Ciphers/ICipherDecryptionKey.h"
+#include "../services/Crypto/Ciphers/ICipherEncryptionKey.h"
 
 extern "C" {
-HCL::Secret *GetSecretFromContent(const char *key, const char *raw_content);
-HCL::Secret *CreateSecret();
-bool CorrectSecretDecryption(HCL::Secret *secret);
-const char *GetNameFromSecret(HCL::Secret *secret);
-const char *GetLoginFromSecret(HCL::Secret *secret);
-const char *GetPasswordFromSecret(HCL::Secret *secret);
-const char *GetDomainFromSecret(HCL::Secret *secret);
-void UpdateSecretName(HCL::Secret *secret, const char *name);
-void UpdateSecretLogin(HCL::Secret *secret, const char *login);
-void UpdateSecretPassword(HCL::Secret *secret, const char *password);
-void UpdateSecretDomain(HCL::Secret *secret, const char *domain);
-std::string *GetContentStringFromSecret(HCL::Secret *secret, const char *key);
-void DeleteSecret(HCL::Secret *secret);
+HCL::ASecret *DeserializeSecret(const HCL::Crypto::ICipherDecryptionKey *key, const char *content);
+std::string *SerializeSecret(HCL::ASecret *secret, const HCL::Crypto::ICipherEncryptionKey *key);
+bool GetSecretCorrectDecryption(HCL::ASecret *secret);
+std::string *GetSecretTypeName(HCL::ASecret *secret);
+void DeleteSecret(HCL::ASecret *secret);
 };
 
 #endif //HCL_SECRET_LINKAGE_H

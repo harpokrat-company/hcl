@@ -3,24 +3,32 @@
 //
 
 #include "BlockCipherScheme.h"
+#include "../../Harpokrat/Secrets/SymmetricKey.h"
 
 HCL::Crypto::BlockCipherScheme::BlockCipherScheme(const std::string &header, size_t &header_length) {
   this->block_cipher_mode_ = Factory<ABlockCipherMode>::BuildTypedFromHeader(header, header_length);
 }
 
-std::string HCL::Crypto::BlockCipherScheme::Encrypt(const std::string &password, const std::string &content) {
+std::string HCL::Crypto::BlockCipherScheme::Encrypt(const ICipherEncryptionKey *password, const std::string &content) {
   if (!block_cipher_mode_) {
     throw std::runtime_error(GetDependencyUnsetError("encrypt", "Block cipher mode"));
   }
-  return block_cipher_mode_->Encrypt(password, content);
+  if (password->GetEncryptionKeyType() != "symmetric") {
+    throw std::runtime_error(GetError("encrypt", "Cipher encryption key is of wrong type"));
+  }
+  return block_cipher_mode_->Encrypt(dynamic_cast<const SymmetricKey *>(password)->GetKey(), content);
 }
 
-std::string HCL::Crypto::BlockCipherScheme::Decrypt(const std::string &password, const std::string &content) {
+std::string HCL::Crypto::BlockCipherScheme::Decrypt(const ICipherDecryptionKey *password, const std::string &content) {
   if (!block_cipher_mode_) {
     throw std::runtime_error(GetDependencyUnsetError("decrypt", "Block cipher mode"));
   }
-  return block_cipher_mode_->Decrypt(password, content);
+  if (password->GetDecryptionKeyType() != "symmetric") {
+    throw std::runtime_error(GetError("decrypt", "Cipher decryption key is of wrong type"));
+  }
+  return block_cipher_mode_->Decrypt(dynamic_cast<const SymmetricKey *>(password)->GetKey(), content);
 }
+
 std::string HCL::Crypto::BlockCipherScheme::GetHeader() {
   if (!block_cipher_mode_) {
     throw std::runtime_error(GetDependencyUnsetError("get header", "Block cipher mode"));

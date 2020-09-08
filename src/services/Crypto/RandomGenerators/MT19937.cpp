@@ -24,6 +24,7 @@ std::string HCL::Crypto::MT19937::GenerateRandomByteSequence(size_t sequence_len
 
   return sequence;
 }
+
 std::string HCL::Crypto::MT19937::GetHeader() {
   return GetIdBytes();
 }
