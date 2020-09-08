@@ -18,7 +18,18 @@ const std::map<HCL::SecretType, const std::string> HCL::ASecret::type_names_ = {
     {SYMMETRIC_KEY, "symmetric-key"}
 };
 
-HCL::ASecret::ASecret() {
+void HCL::ASecret::InitializeAsymmetricCipher() {
+  auto prime_generator = HCL::Crypto::SuperFactory::GetFactoryOfType("prime-generator").BuildFromName("custom-prime-generator");
+  auto rsa = HCL::Crypto::SuperFactory::GetFactoryOfType("asymmetric-cipher").BuildFromName("rsa");
+  auto cipher = HCL::Crypto::Factory<HCL::Crypto::ACipher>::BuildTypedFromName("asymmetric-cipher-scheme");
+
+  rsa->SetDependency(std::move(prime_generator), 0);
+  cipher->SetDependency(std::move(rsa), 0);
+
+  blob_.SetCipher(std::move(cipher));
+}
+
+void HCL::ASecret::InitializeSymmetricCipher() {
   auto sha256 = HCL::Crypto::SuperFactory::GetFactoryOfType("hash-function").BuildFromName("sha256");
   auto hmac = HCL::Crypto::SuperFactory::GetFactoryOfType("message-authentication-code").BuildFromName("hmac");
   auto mt19927_pbkdf = HCL::Crypto::SuperFactory::GetFactoryOfType("random-generator").BuildFromName("mt19937");
@@ -40,6 +51,7 @@ HCL::ASecret::ASecret() {
 
   blob_.SetCipher(std::move(cipher));
 }
+
 
 HCL::ASecret *HCL::ASecret::DeserializeSecret(const Crypto::ICipherDecryptionKey *key, const std::string &content) {
   HCL::Crypto::EncryptedBlob blob = HCL::Crypto::EncryptedBlob(key, HCL::Crypto::Base64::Decode(content));

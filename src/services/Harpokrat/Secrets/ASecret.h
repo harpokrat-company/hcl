@@ -27,6 +27,8 @@ enum SecretType : char {
 class ASecret {
  public:
   virtual ~ASecret() = default;
+  void InitializeAsymmetricCipher();
+  void InitializeSymmetricCipher();
   // TODO optional key and decrypt when needed (IsDecrypted & Decrypt(key)) (in blob ?)
   //  Probably change working principle to be always encrypted and decrypt when needed only
   static ASecret *DeserializeSecret(const Crypto::ICipherDecryptionKey *key, const std::string &content);
@@ -35,7 +37,7 @@ class ASecret {
   [[nodiscard]] const std::string &GetSecretTypeName() const;
 
  protected:
-  ASecret();
+  ASecret() = default;
   [[nodiscard]] virtual SecretType GetSecretType() const = 0;
   [[nodiscard]] virtual std::string SerializeContent() const = 0;
   virtual bool DeserializeContent(const std::string &content) = 0;
