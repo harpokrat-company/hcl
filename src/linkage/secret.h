@@ -14,6 +14,8 @@
 extern "C" {
 HCL::ASecret *DeserializeSecret(const HCL::Crypto::ICipherDecryptionKey *key, const char *content);
 std::string *SerializeSecret(HCL::ASecret *secret, const HCL::Crypto::ICipherEncryptionKey *key);
+void SecretInitializeAsymmetricCipher(HCL::ASecret *secret);
+void SecretInitializeSymmetricCipher(HCL::ASecret *secret);
 bool GetSecretCorrectDecryption(HCL::ASecret *secret);
 std::string *GetSecretTypeName(HCL::ASecret *secret);
 void DeleteSecret(HCL::ASecret *secret);

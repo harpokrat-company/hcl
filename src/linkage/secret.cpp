@@ -17,6 +17,14 @@ bool EXPORT_FUNCTION GetSecretCorrectDecryption(HCL::ASecret *secret) {
   return secret->CorrectDecryption();
 }
 
+void EXPORT_FUNCTION SecretInitializeAsymmetricCipher(HCL::ASecret *secret) {
+  secret->InitializeAsymmetricCipher();
+}
+
+void EXPORT_FUNCTION SecretInitializeSymmetricCipher(HCL::ASecret *secret) {
+  secret->InitializeSymmetricCipher();
+}
+
 std::string *EXPORT_FUNCTION GetSecretTypeName(HCL::ASecret *secret) {
   return new std::string(secret->GetSecretTypeName());
 }
