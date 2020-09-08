@@ -2,8 +2,8 @@
 // Created by neodar on 13/01/2020.
 //
 
-#ifndef HCL_RSA_SYMMETRIC_KEY_LINKAGE_H
-#define HCL_RSA_SYMMETRIC_KEY_LINKAGE_H
+#ifndef HCL_SYMMETRIC_KEY_LINKAGE_H
+#define HCL_SYMMETRIC_KEY_LINKAGE_H
 
 #include <string>
 #include "linkage.h"
@@ -17,4 +17,4 @@ const char *GetKeyFromSymmetricKey(HCL::SymmetricKey *symmetric_key);
 void SetSymmetricKeyKey(HCL::SymmetricKey *symmetric_key, const char *key);
 };
 
-#endif //HCL_RSA_SYMMETRIC_KEY_LINKAGE_H
+#endif //HCL_SYMMETRIC_KEY_LINKAGE_H

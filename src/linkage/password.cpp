@@ -9,10 +9,6 @@ HCL::Password *EXPORT_FUNCTION CreatePassword() {
     return new HCL::Password();
 }
 
-bool EXPORT_FUNCTION CorrectPasswordDecryption(HCL::Password *password) {
-  return password->CorrectDecryption();
-}
-
 const char *EXPORT_FUNCTION GetNameFromPassword(HCL::Password *password) {
   return password->GetName().c_str();
 }

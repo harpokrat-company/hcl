@@ -11,6 +11,13 @@
 #include "PublicKey.h"
 #include "SymmetricKey.h"
 
+const std::map<HCL::SecretType, const std::string> HCL::ASecret::type_names_ = {
+    {PASSWORD, "password"},
+    {PRIVATE_KEY, "private-key"},
+    {PUBLIC_KEY, "public-key"},
+    {SYMMETRIC_KEY, "symmetric-key"}
+};
+
 HCL::ASecret::ASecret() {
   auto sha256 = HCL::Crypto::SuperFactory::GetFactoryOfType("hash-function").BuildFromName("sha256");
   auto hmac = HCL::Crypto::SuperFactory::GetFactoryOfType("message-authentication-code").BuildFromName("hmac");
@@ -67,4 +74,8 @@ std::string HCL::ASecret::Serialize(const Crypto::ICipherEncryptionKey *key) {
 
 bool HCL::ASecret::CorrectDecryption() const {
   return !decryption_error_;
+}
+
+const std::string &HCL::ASecret::GetSecretTypeName() const {
+  return type_names_.at(GetSecretType());
 }

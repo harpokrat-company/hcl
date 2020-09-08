@@ -27,8 +27,8 @@ set(LIBRARY_SOURCE_FILES
     src/linkage/rsa_private_key.h
     src/linkage/rsa_public_key.cpp
     src/linkage/rsa_public_key.h
-    src/linkage/rsa_symmetric_key.cpp
-    src/linkage/rsa_symmetric_key.h
+    src/linkage/symmetric_key.cpp
+    src/linkage/symmetric_key.h
     src/linkage/secret.cpp
     src/linkage/secret.h
     src/linkage/user.cpp

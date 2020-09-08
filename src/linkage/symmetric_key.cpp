@@ -2,7 +2,7 @@
 // Created by neodar on 13/01/2020.
 //
 
-#include "rsa_symmetric_key.h"
+#include "symmetric_key.h"
 
 extern "C" {
 HCL::SymmetricKey *EXPORT_FUNCTION CreateSymmetricKey() {

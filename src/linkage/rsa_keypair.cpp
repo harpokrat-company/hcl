@@ -20,4 +20,8 @@ HCL::PublicKey *EXPORT_FUNCTION GetPublicKeyFromRSAKeyPair(HCL::Crypto::KeyPair 
 HCL::PrivateKey *EXPORT_FUNCTION GetPrivateKeyFromRSAKeyPair(HCL::Crypto::KeyPair *key_pair) {
   return key_pair->GetPrivate();
 }
+
+void EXPORT_FUNCTION DeleteRSAKeyPair(HCL::Crypto::KeyPair *key_pair) {
+  delete key_pair;
+}
 }

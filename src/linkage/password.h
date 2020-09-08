@@ -11,7 +11,6 @@
 
 extern "C" {
 HCL::Password *CreatePassword();
-bool CorrectPasswordDecryption(HCL::Password *password);
 const char *GetNameFromPassword(HCL::Password *password);
 const char *GetLoginFromPassword(HCL::Password *password);
 const char *GetPasswordFromPassword(HCL::Password *password);

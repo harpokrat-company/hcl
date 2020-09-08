@@ -32,6 +32,7 @@ class ASecret {
   static ASecret *DeserializeSecret(const Crypto::ICipherDecryptionKey *key, const std::string &content);
   [[nodiscard]] std::string Serialize(const Crypto::ICipherEncryptionKey *key);
   [[nodiscard]] bool CorrectDecryption() const;
+  [[nodiscard]] const std::string &GetSecretTypeName() const;
 
  protected:
   ASecret();
@@ -44,6 +45,7 @@ class ASecret {
   bool decryption_error_ = false;
   // TODO Move blob somewhere else & implement API for customization of crypto workflow
   HCL::Crypto::EncryptedBlob blob_;
+  static const std::map<SecretType, const std::string> type_names_;
 };
 }
 

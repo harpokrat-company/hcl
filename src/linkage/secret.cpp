@@ -13,6 +13,14 @@ std::string *EXPORT_FUNCTION SerializeSecret(HCL::ASecret *secret, const HCL::Cr
   return new std::string(secret->Serialize(key));
 }
 
+bool EXPORT_FUNCTION GetSecretCorrectDecryption(HCL::ASecret *secret) {
+  return secret->CorrectDecryption();
+}
+
+std::string *EXPORT_FUNCTION GetSecretTypeName(HCL::ASecret *secret) {
+  return new std::string(secret->GetSecretTypeName());
+}
+
 void EXPORT_FUNCTION DeleteSecret(HCL::ASecret *secret) {
   delete secret;
 }
