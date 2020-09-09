@@ -7,4 +7,4 @@ build test page:
       emcc src/services/*/*.cpp src/services/*/*/*.cpp src/linkage/*.cpp /usr/local/gmp/em_6_2_0/lib/libgmp.a  /usr/local/gmp/em_6_2_0/lib/libgmpxx.a -s EXTRA_EXPORTED_RUNTIME_METHODS='["cwrap"]' -std=c++17 -s WASM=1 -s FILESYSTEM=1 -s ENVIRONMENT='web' -s TOTAL_MEMORY=16MB -s NO_EXIT_RUNTIME=0 -o tmp/hcl.html --emrun -I /usr/local/gmp/6_2_0/include/
 
 build hcl lib:
-      emcc src/services/*/*.cpp src/services/*/*/*.cpp src/linkage/*.cpp /usr/local/gmp/em_6_2_0/lib/libgmp.a  /usr/local/gmp/em_6_2_0/lib/libgmpxx.a -s EXTRA_EXPORTED_RUNTIME_METHODS='["cwrap"]' -std=c++17 -s WASM=1 -s FILESYSTEM=1 -s ENVIRONMENT='web' -s TOTAL_MEMORY=16MB -s NO_EXIT_RUNTIME=0 -I /usr/local/gmp/6_2_0/include/ -s MODULARIZE -o ../hclw-angular/projects/hclw/src/lib/hcl.js
+      emcc src/services/*/*.cpp src/services/*/*/*.cpp src/linkage/*.cpp /usr/local/gmp/em_6_2_0/lib/libgmp.a  /usr/local/gmp/em_6_2_0/lib/libgmpxx.a -s EXTRA_EXPORTED_RUNTIME_METHODS='["cwrap"]' -std=c++17 -s WASM=1 -s FILESYSTEM=1 -s ENVIRONMENT='web' -s TOTAL_MEMORY=16MB -s NO_EXIT_RUNTIME=0 -I /usr/local/gmp/6_2_0/include/ -s MODULARIZE -o ../hclw-angular/src/lib/hcl.js

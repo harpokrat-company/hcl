@@ -5,6 +5,9 @@ if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif ()
 
+set(GMP_INCLUDES "/home/neodar/Pro/Harpokrat/hcl/gmp-android/include")
+set(GMP_LIBRARIES "/home/neodar/Pro/Harpokrat/hcl/gmp-android/lib")
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS_RELEASE "-Ofast")
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}")

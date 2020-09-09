@@ -59,7 +59,7 @@ class RSA : public AutoRegisterer<AAsymmetricCipher, RSA> {
   void SetPrimeGenerator(std::unique_ptr<ACryptoElement> prime_generator);
   bool IsPrimeGeneratorSet() const;
   ACryptoElement &GetPrimeGenerator() const;
-  KeyPair *GenerateKeyPair(size_t bits);
+  KeyPair *GenerateKeyPair(size_t bits) override;
   static std::string RSAEncrypt(const mpz_class &modulus, const mpz_class &public_key, const std::string &content);
   static std::string RSADecrypt(const mpz_class &modulus, const mpz_class &private_key, const std::string &content);
   std::string Encrypt(const mpz_class &modulus, const mpz_class &public_key, const std::string &content) override;
