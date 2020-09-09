@@ -5,6 +5,7 @@
 #ifndef HCL_SRC_SERVICES_CRYPTO_HASHFUNCTIONS_SHA2_H_
 #define HCL_SRC_SERVICES_CRYPTO_HASHFUNCTIONS_SHA2_H_
 
+#include <stdexcept>
 #include "AHashFunction.h"
 
 namespace HCL::Crypto {
