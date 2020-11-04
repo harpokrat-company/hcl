@@ -34,7 +34,7 @@ class SymmetricKey : public ASecret, public Crypto::ICipherEncryptionKey, public
 
  protected:
   [[nodiscard]] SecretType GetSecretType() const override {
-    return PUBLIC_KEY;
+    return SYMMETRIC_KEY;
   };
   [[nodiscard]] std::string SerializeContent() const override;
   bool DeserializeContent(const std::string &content) override;

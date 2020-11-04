@@ -94,6 +94,7 @@ static int SecretTest() {
   std::cout << "Running test of autonomous Password... "
             << std::flush;
   HCL::Password origin_secret;
+  origin_secret.InitializeSymmetricCipher();
 
   origin_secret.SetName("Google");
   origin_secret.SetDomain("https://www.google.com/");

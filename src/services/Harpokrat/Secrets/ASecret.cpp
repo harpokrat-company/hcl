@@ -52,7 +52,6 @@ void HCL::ASecret::InitializeSymmetricCipher() {
   blob_.SetCipher(std::move(cipher));
 }
 
-
 HCL::ASecret *HCL::ASecret::DeserializeSecret(const Crypto::ICipherDecryptionKey *key, const std::string &content) {
   HCL::Crypto::EncryptedBlob blob = HCL::Crypto::EncryptedBlob(key, HCL::Crypto::Base64::Decode(content));
   std::string serialized_content = blob.GetContent();
