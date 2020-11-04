@@ -66,6 +66,8 @@ set(LIBRARY_SOURCE_FILES
     src/services/Crypto/BlockCipherModes/ABlockCipherMode.h
     src/services/Crypto/BlockCipherModes/CBC.cpp
     src/services/Crypto/BlockCipherModes/CBC.h
+    src/services/Crypto/BlockCipherModes/ECB.cpp
+    src/services/Crypto/BlockCipherModes/ECB.h
     src/services/Crypto/Padding/APaddedCipher.cpp
     src/services/Crypto/Padding/APaddedCipher.h
     src/services/Crypto/Padding/APadding.cpp
