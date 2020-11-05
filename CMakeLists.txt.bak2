@@ -5,26 +5,38 @@ if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif ()
 
-#set(GMP_INCLUDES "/home/neodar/Pro/Harpokrat/hcl/gmp-android/include")
-#set(GMP_LIBRARIES "/home/neodar/Pro/Harpokrat/hcl/gmp-android/lib")
+set(GMP_INCLUDES "/home/neodar/Pro/Harpokrat/hcl/gmp-android/include")
+set(GMP_LIBRARIES "/home/neodar/Pro/Harpokrat/hcl/gmp-android/lib")
 
 set(CMAKE_CXX_STANDARD 17)
-#set(CMAKE_CXX_FLAGS_RELEASE "-Ofast")
-#set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}")
-#find_package(GMP REQUIRED)
-
-include_directories(/usr/local/gmp/6_2_0/include/)
-
-set(STATIC_LIBRARIES
-    /usr/local/gmp/em_6_2_0/lib/libgmp.a
-    /usr/local/gmp/em_6_2_0/lib/libgmpxx.a
-)
+set(CMAKE_CXX_FLAGS_RELEASE "-Ofast")
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}")
+find_package(GMP REQUIRED)
 
 set(LIBRARY_SOURCE_FILES
+    src/linkage/auth.cpp
+    src/linkage/auth.h
     src/services/Crypto/Base64.cpp
     src/services/Crypto/Base64.h
+    src/linkage/string_utils.cpp
+    src/linkage/string_utils.h
     src/services/Harpokrat/User.cpp
     src/services/Harpokrat/User.h
+    src/linkage/password.cpp
+    src/linkage/password.h
+    src/linkage/rsa_keypair.cpp
+    src/linkage/rsa_keypair.h
+    src/linkage/rsa_private_key.cpp
+    src/linkage/rsa_private_key.h
+    src/linkage/rsa_public_key.cpp
+    src/linkage/rsa_public_key.h
+    src/linkage/symmetric_key.cpp
+    src/linkage/symmetric_key.h
+    src/linkage/secret.cpp
+    src/linkage/secret.h
+    src/linkage/user.cpp
+    src/linkage/user.h
+    src/linkage/linkage.h
     src/services/Crypto/BlockCiphers/Rijndael.h
     src/services/Crypto/RijndaelKeySchedule.cpp
     src/services/Crypto/RijndaelKeySchedule.tpp
@@ -117,21 +129,21 @@ set(LIBRARY_SOURCE_FILES
     src/services/Crypto/Ciphers/ICipherDecryptionKey.cpp
     src/services/Crypto/Ciphers/ICipherDecryptionKey.h
     src/services/Crypto/Ciphers/AsymmetricCipherScheme.cpp
-    src/services/Crypto/Ciphers/AsymmetricCipherScheme.h
-    src/linkage/emscripten_binding.cpp
-    src/linkage/emscripten_binding.h
-    src/services/Crypto/RSAKey.cpp
-    src/services/Crypto/RSAKey.h)
+    src/services/Crypto/Ciphers/AsymmetricCipherScheme.h)
 
-add_executable(hcl ${LIBRARY_SOURCE_FILES})
+add_library(hcl SHARED ${LIBRARY_SOURCE_FILES})
 
-target_link_libraries(hcl ${STATIC_LIBRARIES})
+target_link_libraries(hcl gmp gmpxx)
 
-set_target_properties(
-        hcl
-        PROPERTIES
-        LINK_FLAGS
-        "--bind -s WASM=1 -s MODULARIZE=1 -s FILESYSTEM=0 -s EXPORT_ES6=1 -s USE_ES6_IMPORT_META=0 -s ENVIRONMENT='web' -s DISABLE_EXCEPTION_CATCHING=0"
-)
-#        "-O3  --llvm-opts 3 --bind -s WASM=1 -s STRICT=1 -s ALLOW_MEMORY_GROWTH=1 -s ENVIRONMENT='web' -s ASSERTIONS=1 -s MODULARIZE=1 -s FILESYSTEM=0 -s EXPORT_ES6=1 -s USE_ES6_IMPORT_META=0 -s MALLOC=emmalloc -x c++ --no-entry -s LLD_REPORT_UNDEFINED -s DISABLE_EXCEPTION_CATCHING=0"
-#)
+set(TEST_SOURCE_FILES
+    tests/main.cpp
+    tests/AES.cpp
+    tests/SHA.cpp
+    tests/FullWorkflow.cpp
+    tests/RijndaelKeySchedule.cpp
+    tests/PrimeGenerator.cpp
+    tests/RSA.cpp)
+
+add_executable(hcl_test_suite ${LIBRARY_SOURCE_FILES} ${TEST_SOURCE_FILES})
+
+target_link_libraries(hcl_test_suite gmp gmpxx)

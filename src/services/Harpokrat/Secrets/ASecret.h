@@ -9,6 +9,7 @@
 #include "../../Crypto/EncryptedBlob.h"
 #include "../../Crypto/Ciphers/ICipherDecryptionKey.h"
 #include "../../Crypto/Ciphers/ICipherEncryptionKey.h"
+#include "../../Crypto/RSAKey.h"
 
 namespace HCL {
 enum SecretType : char {
@@ -33,6 +34,10 @@ class ASecret {
   //  Probably change working principle to be always encrypted and decrypt when needed only
   static ASecret *DeserializeSecret(const Crypto::ICipherDecryptionKey *key, const std::string &content);
   [[nodiscard]] std::string Serialize(const Crypto::ICipherEncryptionKey *key);
+  static ASecret *DeserializeSecretWasm(const std::string &key, const std::string &content);
+  [[nodiscard]] std::string SerializeWasm(const std::string &key);
+  static ASecret *DeserializeSecretWasmAsymmetric(const Crypto::RSAKey &key_pair, const std::string &content);
+  [[nodiscard]] std::string SerializeWasmAsymmetric(const Crypto::RSAKey &key_pair);
   [[nodiscard]] bool CorrectDecryption() const;
   [[nodiscard]] const std::string &GetSecretTypeName() const;
 

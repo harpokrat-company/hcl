@@ -2,6 +2,7 @@
 // Created by neodar on 13/01/2020.
 //
 
+#include <iostream>
 #include "secret.h"
 
 extern "C" {

@@ -21,6 +21,10 @@ const char *EXPORT_FUNCTION GetKeyFromSymmetricKey(HCL::SymmetricKey *symmetric_
   return symmetric_key->GetKey().c_str();
 }
 
+const char *EXPORT_FUNCTION GetSymmetricKeyEncryptionKeyType(HCL::SymmetricKey *symmetric_key) {
+  return symmetric_key->GetEncryptionKeyType().c_str();
+}
+
 void EXPORT_FUNCTION SetSymmetricKeyKey(HCL::SymmetricKey *symmetric_key, const char *key) {
   symmetric_key->SetKey(key);
 }

@@ -13,6 +13,9 @@ HCL::PublicKey::PublicKey(mpz_class modulus, mpz_class public_key) :
   public_key_ = std::move(public_key);
 }
 
+HCL::PublicKey::PublicKey(const HCL::Crypto::RSAKey &key_pair) :
+    PublicKey(key_pair.GetModulus(), key_pair.GetKey()) {}
+
 bool HCL::PublicKey::DeserializeContent(const std::string &content) {
   mpz_t gmp_value;
   const auto *serialized_header = reinterpret_cast<const SerializedPublicKeyHeader *>(content.c_str());
@@ -67,4 +70,8 @@ const std::string &HCL::PublicKey::GetOwner() const {
 
 void HCL::PublicKey::SetOwner(const std::string &owner) {
   this->owner_ = owner;
+}
+
+HCL::Crypto::RSAKey HCL::PublicKey::ExtractKey() const {
+  return Crypto::RSAKey(modulus_, public_key_);
 }

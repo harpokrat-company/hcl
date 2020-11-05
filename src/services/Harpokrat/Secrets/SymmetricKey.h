@@ -17,7 +17,10 @@ union SerializedSymmetricKeyHeader {
 
 class SymmetricKey : public ASecret, public Crypto::ICipherEncryptionKey, public Crypto::ICipherDecryptionKey {
  public:
-  SymmetricKey() : ASecret() {};
+  SymmetricKey() :
+      ASecret(),
+      Crypto::ICipherEncryptionKey(),
+      Crypto::ICipherDecryptionKey() {};
   ~SymmetricKey() override = default;
   [[nodiscard]] const std::string &GetOwner() const;
   void SetOwner(const std::string &owner);

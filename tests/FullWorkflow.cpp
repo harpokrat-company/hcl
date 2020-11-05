@@ -101,6 +101,7 @@ static int SecretTest() {
   origin_secret.SetLogin("neodar");
   origin_secret.SetPassword("qwerty123456789");
 
+  PrintHex(origin_secret.Serialize(&symmetricKey));
   HCL::ASecret *destination_secret = HCL::ASecret::DeserializeSecret(
       &symmetricKey,
       origin_secret.Serialize(&symmetricKey)

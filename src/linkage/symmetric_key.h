@@ -14,6 +14,7 @@ HCL::SymmetricKey *CreateSymmetricKey();
 const char *GetOwnerFromSymmetricKey(HCL::SymmetricKey *symmetric_key);
 void SetSymmetricKeyOwner(HCL::SymmetricKey *symmetric_key, const char *owner);
 const char *GetKeyFromSymmetricKey(HCL::SymmetricKey *symmetric_key);
+const char *GetSymmetricKeyEncryptionKeyType(HCL::SymmetricKey *symmetric_key);
 void SetSymmetricKeyKey(HCL::SymmetricKey *symmetric_key, const char *key);
 };
 
