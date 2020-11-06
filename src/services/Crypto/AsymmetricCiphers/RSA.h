@@ -5,6 +5,7 @@
 #ifndef HCL_SRC_SERVICES_CRYPTO_ASYMMETRICCIPHERS_RSA_H_
 #define HCL_SRC_SERVICES_CRYPTO_ASYMMETRICCIPHERS_RSA_H_
 
+#include <stdexcept>
 #include <gmpxx.h>
 #include <gmp.h>
 

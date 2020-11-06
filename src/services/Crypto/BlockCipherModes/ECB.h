@@ -5,6 +5,7 @@
 #ifndef HCL_SRC_SERVICES_CRYPTO_BLOCKCIPHERMODES_ECB_H_
 #define HCL_SRC_SERVICES_CRYPTO_BLOCKCIPHERMODES_ECB_H_
 
+#include <stdexcept>
 #include "ABlockCipherMode.h"
 #include "../AutoRegisterer.h"
 #include "../Padding/APaddedCipher.h"

@@ -5,6 +5,7 @@
 #ifndef HCL_SRC_SERVICES_CRYPTO_KEYSTRETCHING_PBKDF2_H_
 #define HCL_SRC_SERVICES_CRYPTO_KEYSTRETCHING_PBKDF2_H_
 
+#include <stdexcept>
 #include <algorithm>
 #include "../AutoRegisterer.h"
 #include "AKeyStretchingFunction.h"

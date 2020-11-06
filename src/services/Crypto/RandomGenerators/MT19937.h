@@ -5,6 +5,7 @@
 #ifndef HCL_SRC_SERVICES_CRYPTO_RANDOMGENERATORS_MT19937_H_
 #define HCL_SRC_SERVICES_CRYPTO_RANDOMGENERATORS_MT19937_H_
 
+#include <stdexcept>
 #include <random>
 #include "../AutoRegisterer.h"
 #include "ARandomGenerator.h"
