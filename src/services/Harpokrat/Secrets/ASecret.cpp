@@ -83,27 +83,27 @@ std::string HCL::ASecret::Serialize(const Crypto::ICipherEncryptionKey *key) {
   return HCL::Crypto::Base64::Encode(blob_.GetEncryptedContent(key));
 }
 
-HCL::ASecret *HCL::ASecret::DeserializeSecretWasm(const std::string &key, const std::string &content) {
+HCL::ASecret *HCL::ASecret::DeserializeSecretExternal(const std::string &key, const std::string &content) {
   SymmetricKey symmetricKey;
   symmetricKey.SetKey(key);
 
   return DeserializeSecret(&symmetricKey, content);
 }
 
-std::string HCL::ASecret::SerializeWasm(const std::string &key) {
+std::string HCL::ASecret::SerializeExternal(const std::string &key) {
   SymmetricKey symmetric_key;
   symmetric_key.SetKey(key);
 
   return Serialize(&symmetric_key);
 }
 
-HCL::ASecret *HCL::ASecret::DeserializeSecretWasmAsymmetric(const Crypto::RSAKey &key_pair, const std::string &content) {
+HCL::ASecret *HCL::ASecret::DeserializeSecretExternalAsymmetric(const Crypto::RSAKey &key_pair, const std::string &content) {
   PrivateKey private_key(key_pair);
 
   return DeserializeSecret(&private_key, content);
 }
 
-std::string HCL::ASecret::SerializeWasmAsymmetric(const Crypto::RSAKey &key_pair) {
+std::string HCL::ASecret::SerializeExternalAsymmetric(const Crypto::RSAKey &key_pair) {
   PublicKey public_key(key_pair);
 
   return Serialize(&public_key);

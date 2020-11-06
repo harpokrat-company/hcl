@@ -6,13 +6,15 @@
 #include "secret.h"
 
 extern "C" {
-HCL::ASecret *EXPORT_FUNCTION DeserializeSecret(const HCL::Crypto::ICipherDecryptionKey *key, const char *content) {
-  return HCL::ASecret::DeserializeSecret(key, content);
+HCL::ASecret *EXPORT_FUNCTION DeserializeSecret(const char *key, const char *content) {
+  return HCL::ASecret::DeserializeSecretExternal(key, content);
 }
 
-std::string *EXPORT_FUNCTION SerializeSecret(HCL::ASecret *secret, const HCL::Crypto::ICipherEncryptionKey *key) {
-  return new std::string(secret->Serialize(key));
+std::string *EXPORT_FUNCTION SerializeSecret(HCL::ASecret *secret, const char *key) {
+  return new std::string(secret->SerializeExternal(key));
 }
+
+// TODO Serialize / Deserialize asymmetric
 
 bool EXPORT_FUNCTION GetSecretCorrectDecryption(HCL::ASecret *secret) {
   return secret->CorrectDecryption();
