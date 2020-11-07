@@ -8,7 +8,9 @@ HCL::Crypto::RSA::RSA() : r1(gmp_randinit_mt) {
   r1.seed(time(NULL));
 }
 
-HCL::Crypto::RSA::RSA(const std::string &header, size_t &header_length) : r1(gmp_randinit_mt) {}
+HCL::Crypto::RSA::RSA(const std::string &header, size_t &header_length) : r1(gmp_randinit_mt) {
+  this->prime_generator_ = Factory<APrimeGenerator>::BuildTypedFromHeader(header, header_length);
+}
 
 std::string HCL::Crypto::RSA::GetHeader() {
   if (!prime_generator_) {
@@ -103,7 +105,6 @@ std::string HCL::Crypto::RSA::RSADecrypt(const mpz_class &modulus, const mpz_cla
     mpz_powm(m, c, private_key.get_mpz_t(), modulus.get_mpz_t());
     mpz_export(buff + 1, nullptr, 1, sizeof(char), 0, 0, m);
     for(it = 2; ((buff[it] != 0) && (it < block_size)); it++);
-    //skip the 0 byte
     it++;
     result += std::string(buff + it, block_size - it);
   }
