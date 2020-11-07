@@ -1,0 +1,144 @@
+cmake_minimum_required(VERSION 3.10)
+project(hcl)
+
+if (NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Release)
+endif ()
+
+#set(GMP_INCLUDES "/home/neodar/Pro/Harpokrat/hcl/gmp/armeabi")
+#set(GMP_LIBRARIES "/home/neodar/Pro/Harpokrat/hcl/gmp/")
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_FLAGS_RELEASE "-Ofast")
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}")
+#find_package(GMP REQUIRED)
+
+set(LIBRARY_SOURCE_FILES
+    src/linkage/auth.cpp
+    src/linkage/auth.h
+    src/services/Crypto/Base64.cpp
+    src/services/Crypto/Base64.h
+    src/linkage/string_utils.cpp
+    src/linkage/string_utils.h
+    src/services/Harpokrat/User.cpp
+    src/services/Harpokrat/User.h
+    src/linkage/password.cpp
+    src/linkage/password.h
+    src/linkage/rsa_keypair.cpp
+    src/linkage/rsa_keypair.h
+    src/linkage/rsa_private_key.cpp
+    src/linkage/rsa_private_key.h
+    src/linkage/rsa_public_key.cpp
+    src/linkage/rsa_public_key.h
+    src/linkage/symmetric_key.cpp
+    src/linkage/symmetric_key.h
+    src/linkage/secret.cpp
+    src/linkage/secret.h
+    src/linkage/user.cpp
+    src/linkage/user.h
+    src/linkage/linkage.h
+    src/services/Crypto/BlockCiphers/Rijndael.h
+    src/services/Crypto/RijndaelKeySchedule.cpp
+    src/services/Crypto/RijndaelKeySchedule.tpp
+    src/services/Crypto/RijndaelKeySchedule.h
+    src/services/Crypto/RijndaelSubstitutionBox.cpp
+    src/services/Crypto/RijndaelSubstitutionBox.h
+    src/services/Crypto/CryptoHelper.cpp
+    src/services/Crypto/CryptoHelper.h
+    src/services/Crypto/Ciphers/ACipher.cpp
+    src/services/Crypto/Ciphers/ACipher.h
+    src/services/Crypto/EncryptedBlob.cpp
+    src/services/Crypto/EncryptedBlob.h
+    src/services/Crypto/SuperFactory.cpp
+    src/services/Crypto/SuperFactory.h
+    src/services/Crypto/Factory.h
+    src/services/Crypto/Ciphers/BlockCipherScheme.cpp
+    src/services/Crypto/Ciphers/BlockCipherScheme.h
+    src/services/Crypto/BlockCiphers/ABlockCipher.cpp
+    src/services/Crypto/BlockCiphers/ABlockCipher.h
+    src/services/Crypto/BlockCiphers/AES128.cpp
+    src/services/Crypto/BlockCiphers/AES128.h
+    src/services/Crypto/BlockCiphers/AES192.cpp
+    src/services/Crypto/BlockCiphers/AES192.h
+    src/services/Crypto/BlockCiphers/AES256.cpp
+    src/services/Crypto/BlockCiphers/AES256.h
+    src/services/Crypto/BlockCipherModes/ABlockCipherMode.cpp
+    src/services/Crypto/BlockCipherModes/ABlockCipherMode.h
+    src/services/Crypto/BlockCipherModes/CBC.cpp
+    src/services/Crypto/BlockCipherModes/CBC.h
+    src/services/Crypto/BlockCipherModes/ECB.cpp
+    src/services/Crypto/BlockCipherModes/ECB.h
+    src/services/Crypto/Padding/APaddedCipher.cpp
+    src/services/Crypto/Padding/APaddedCipher.h
+    src/services/Crypto/Padding/APadding.cpp
+    src/services/Crypto/Padding/APadding.h
+    src/services/Crypto/KeyStretchingFunctions/AKeyStretchingFunction.cpp
+    src/services/Crypto/KeyStretchingFunctions/AKeyStretchingFunction.h
+    src/services/Crypto/HashFunctions/AHashFunction.cpp
+    src/services/Crypto/HashFunctions/AHashFunction.h
+    src/services/Crypto/RandomGenerators/ARandomGenerator.cpp
+    src/services/Crypto/RandomGenerators/ARandomGenerator.h
+    src/services/Crypto/BlockCipherModes/AInitializationVectorBlockCipherMode.cpp
+    src/services/Crypto/BlockCipherModes/AInitializationVectorBlockCipherMode.h
+    src/services/Crypto/Padding/PKCS7.cpp
+    src/services/Crypto/Padding/PKCS7.h
+    src/services/Crypto/RandomGenerators/MT19937.cpp
+    src/services/Crypto/RandomGenerators/MT19937.h
+    src/services/Crypto/KeyStretchingFunctions/PBKDF2.cpp
+    src/services/Crypto/KeyStretchingFunctions/PBKDF2.h
+    src/services/Crypto/MessageAuthenticationCodes/AMessageAuthenticationCode.cpp
+    src/services/Crypto/MessageAuthenticationCodes/AMessageAuthenticationCode.h
+    src/services/Crypto/MessageAuthenticationCodes/HMAC.cpp
+    src/services/Crypto/MessageAuthenticationCodes/HMAC.h
+    src/services/Crypto/HashFunctions/SHA2.cpp
+    src/services/Crypto/HashFunctions/SHA2.h
+    src/services/Crypto/HashFunctions/SHA224.cpp
+    src/services/Crypto/HashFunctions/SHA224.h
+    src/services/Crypto/HashFunctions/SHA256.cpp
+    src/services/Crypto/HashFunctions/SHA256.h
+    src/services/Crypto/HashFunctions/SHA384.cpp
+    src/services/Crypto/HashFunctions/SHA384.h
+    src/services/Crypto/HashFunctions/SHA512.cpp
+    src/services/Crypto/HashFunctions/SHA512.h
+    src/services/Crypto/AutoRegisterer.h
+    src/services/Crypto/AFactory.h
+    src/services/Crypto/ACryptoElement.cpp
+    src/services/Crypto/ACryptoElement.h
+    src/services/Crypto/PrimeGenerators/APrimeGenerator.cpp
+    src/services/Crypto/PrimeGenerators/APrimeGenerator.h
+    src/services/Crypto/PrimeGenerators/CustomPrimeGenerator.cpp
+    src/services/Crypto/PrimeGenerators/CustomPrimeGenerator.h
+    src/services/Crypto/AsymmetricCiphers/AAsymmetricCipher.cpp
+    src/services/Crypto/AsymmetricCiphers/AAsymmetricCipher.h
+    src/services/Crypto/AsymmetricCiphers/RSA.cpp
+    src/services/Crypto/AsymmetricCiphers/RSA.h
+    src/services/Crypto/AsymmetricCiphers/KeyPair.cpp
+    src/services/Crypto/AsymmetricCiphers/KeyPair.h
+    src/services/Harpokrat/Secrets/ASecret.cpp
+    src/services/Harpokrat/Secrets/ASecret.h
+    src/services/Harpokrat/Secrets/Password.cpp
+    src/services/Harpokrat/Secrets/Password.h
+    src/services/Harpokrat/Secrets/PrivateKey.cpp
+    src/services/Harpokrat/Secrets/PrivateKey.h
+    src/services/Harpokrat/Secrets/PublicKey.cpp
+    src/services/Harpokrat/Secrets/PublicKey.h
+    src/services/Harpokrat/Secrets/SymmetricKey.cpp
+    src/services/Harpokrat/Secrets/SymmetricKey.h
+    src/services/Crypto/RSAKey.cpp
+    src/services/Crypto/RSAKey.h
+    src/services/Crypto/Ciphers/ICipherEncryptionKey.cpp
+    src/services/Crypto/Ciphers/ICipherEncryptionKey.h
+    src/services/Crypto/Ciphers/ICipherDecryptionKey.cpp
+    src/services/Crypto/Ciphers/ICipherDecryptionKey.h
+    src/services/Crypto/Ciphers/AsymmetricCipherScheme.cpp
+    src/services/Crypto/Ciphers/AsymmetricCipherScheme.h
+    )
+
+add_library(hcl SHARED ${LIBRARY_SOURCE_FILES})
+
+# Clone https://github.com/Rupan/gmp and change the path below to the cloned folder path
+target_include_directories(hcl PRIVATE "/home/neodar/Pro/Harpokrat/hcl/gmp/${ANDROID_ABI}")
+target_link_libraries(hcl
+                      /home/neodar/Pro/Harpokrat/hcl/gmp/${ANDROID_ABI}/libgmp.so
+                      /home/neodar/Pro/Harpokrat/hcl/gmp/${ANDROID_ABI}/libgmpxx.so
+                      )
