@@ -14,14 +14,11 @@
 static int SimpleRSATest() {
   auto pgenerator = HCL::Crypto::Factory<HCL::Crypto::APrimeGenerator>::BuildTypedFromName("custom-prime-generator");
   auto rsa = HCL::Crypto::Factory<HCL::Crypto::AAsymmetricCipher>::BuildTypedFromName("rsa");
-  std::string input("Coucou les copains d'HPK");
+  std::string input("HCL::Crypto::Factory<HCL::Crypto::APrimeGenerator>::BuildTypedFromName(custom-prime-generator)");
   rsa->SetDependency(std::move(pgenerator), 0);
-  static int test_bits[6] = {
-	  128,
-	  256,
-	  512,
-	  1024,
-	  2048,
+  static int test_bits[3] = {
+      1024,
+      2048,
 	  4096
   };
   std::cout << "Running RSA tests..." << std::endl;
