@@ -10,11 +10,17 @@ HCL::ASecret *EXPORT_FUNCTION DeserializeSecret(const char *key, const char *con
   return HCL::ASecret::DeserializeSecretExternal(key, content);
 }
 
+HCL::ASecret *EXPORT_FUNCTION DeserializeSecretAsymmetric(const HCL::Crypto::RSAKey *key, const char *content) {
+  return HCL::ASecret::DeserializeSecretExternalAsymmetric(key, content);
+}
+
 std::string *EXPORT_FUNCTION SerializeSecret(HCL::ASecret *secret, const char *key) {
   return new std::string(secret->SerializeExternal(key));
 }
 
-// TODO Serialize / Deserialize asymmetric
+std::string *EXPORT_FUNCTION SerializeSecretAsymmetric(HCL::ASecret *secret, const HCL::Crypto::RSAKey *key) {
+  return new std::string(secret->SerializeExternalAsymmetric(key));
+}
 
 bool EXPORT_FUNCTION GetSecretCorrectDecryption(HCL::ASecret *secret) {
   return secret->CorrectDecryption();

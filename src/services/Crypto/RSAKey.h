@@ -16,7 +16,6 @@ class RSAKey {
   [[nodiscard]] mpz_class GetKey() const;
 
  private:
-  std::string owner_;
   mpz_class modulus_;
   mpz_class key_;
 };
