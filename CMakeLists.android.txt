@@ -5,10 +5,13 @@ if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif ()
 
+#set(GMP_INCLUDES "/home/neodar/Pro/Harpokrat/hcl/gmp/armeabi")
+#set(GMP_LIBRARIES "/home/neodar/Pro/Harpokrat/hcl/gmp/")
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS_RELEASE "-Ofast")
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}")
-find_package(GMP REQUIRED)
+#find_package(GMP REQUIRED)
 
 set(LIBRARY_SOURCE_FILES
     src/linkage/auth.cpp
@@ -128,21 +131,14 @@ set(LIBRARY_SOURCE_FILES
     src/services/Crypto/Ciphers/ICipherDecryptionKey.cpp
     src/services/Crypto/Ciphers/ICipherDecryptionKey.h
     src/services/Crypto/Ciphers/AsymmetricCipherScheme.cpp
-    src/services/Crypto/Ciphers/AsymmetricCipherScheme.h)
+    src/services/Crypto/Ciphers/AsymmetricCipherScheme.h
+    )
 
 add_library(hcl SHARED ${LIBRARY_SOURCE_FILES})
 
-target_link_libraries(hcl gmp gmpxx)
-
-set(TEST_SOURCE_FILES
-    tests/main.cpp
-    tests/AES.cpp
-    tests/SHA.cpp
-    tests/FullWorkflow.cpp
-    tests/RijndaelKeySchedule.cpp
-    tests/PrimeGenerator.cpp
-    tests/RSA.cpp)
-
-add_executable(hcl_test_suite ${LIBRARY_SOURCE_FILES} ${TEST_SOURCE_FILES})
-
-target_link_libraries(hcl_test_suite gmp gmpxx)
+# Clone https://github.com/Rupan/gmp and change the path below to the cloned folder path
+target_include_directories(hcl PRIVATE "/home/neodar/Pro/Harpokrat/hcl/gmp/${ANDROID_ABI}")
+target_link_libraries(hcl
+                      /home/neodar/Pro/Harpokrat/hcl/gmp/${ANDROID_ABI}/libgmp.so
+                      /home/neodar/Pro/Harpokrat/hcl/gmp/${ANDROID_ABI}/libgmpxx.so
+                      )

@@ -2,29 +2,26 @@
 // Created by neodar on 06/04/2020.
 //
 
-#ifndef HCL_SRC_SERVICES_CRYPTO_BLOCKCIPHERMODES_CBC_H_
-#define HCL_SRC_SERVICES_CRYPTO_BLOCKCIPHERMODES_CBC_H_
+#ifndef HCL_SRC_SERVICES_CRYPTO_BLOCKCIPHERMODES_ECB_H_
+#define HCL_SRC_SERVICES_CRYPTO_BLOCKCIPHERMODES_ECB_H_
 
 #include <stdexcept>
 #include "ABlockCipherMode.h"
 #include "../AutoRegisterer.h"
 #include "../Padding/APaddedCipher.h"
-#include "AInitializationVectorBlockCipherMode.h"
 
 namespace HCL::Crypto {
 
-class CBC : public AutoRegisterer<ABlockCipherMode, CBC>,
-            public APaddedCipher,
-            public AInitializationVectorBlockCipherMode {
+class ECB : public AutoRegisterer<ABlockCipherMode, ECB>,
+            public APaddedCipher {
  public:
-  CBC() = default;
-  CBC(const std::string &header, size_t &header_length);
+  ECB() = default;
+  ECB(const std::string &header, size_t &header_length);
   const std::vector<std::string> &GetDependenciesTypes() override {
     static const std::vector<std::string> dependencies(
         {
             ABlockCipher::GetName(),
             APadding::GetName(),
-            ARandomGenerator::GetName(),
         });
     return dependencies;
   }
@@ -35,10 +32,8 @@ class CBC : public AutoRegisterer<ABlockCipherMode, CBC>,
     switch (index) {
       case 0:SetCipher(std::move(dependency));
         break;
-      case 1:SetPadding(std::move(dependency));
-        break;
-      case 2:
-      default:SetRandomGenerator(std::move(dependency));
+      case 1:
+      default:SetPadding(std::move(dependency));
     }
   }
   bool IsDependencySet(size_t index) override {
@@ -47,9 +42,8 @@ class CBC : public AutoRegisterer<ABlockCipherMode, CBC>,
     }
     switch (index) {
       case 0:return IsCipherSet();
-      case 1:return IsPaddingSet();
-      case 2:
-      default:return IsRandomGeneratorSet();
+      case 1:
+      default:return IsPaddingSet();;
     }
   }
   ACryptoElement &GetDependency(size_t index) override {
@@ -58,22 +52,21 @@ class CBC : public AutoRegisterer<ABlockCipherMode, CBC>,
     }
     switch (index) {
       case 0:return GetCipher();
-      case 1:return GetPadding();
-      case 2:
-      default:return GetRandomGenerator();
+      case 1:
+      default:return GetPadding();
     }
   }
   std::string Encrypt(const std::string &key, const std::string &content) override;
   std::string Decrypt(const std::string &key, const std::string &content) override;
   const std::string &GetElementName() const override { return GetName(); };
   const std::string &GetElementTypeName() const override { return GetTypeName(); };
-  static const uint16_t id = 1;
+  static const uint16_t id = 2;
   static const std::string &GetName() {
-    static std::string name = "cbc";
+    static std::string name = "ecb";
     return name;
   };
   std::string GetHeader() override;
 };
 }
 
-#endif //HCL_SRC_SERVICES_CRYPTO_BLOCKCIPHERMODES_CBC_H_
+#endif //HCL_SRC_SERVICES_CRYPTO_BLOCKCIPHERMODES_ECB_H_

@@ -63,7 +63,6 @@ bool HCL::Password::DeserializeContent(const std::string &content) {
 std::string HCL::Password::SerializeContent() const {
   std::string serialized_content;
   SerializedPasswordHeader serialized_header{};
-
   serialized_header.fields_sizes[0] = name_.size();
   serialized_header.fields_sizes[1] = login_.size();
   serialized_header.fields_sizes[2] = password_.size();

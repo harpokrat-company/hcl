@@ -7,3 +7,6 @@ libhcl.so
 Makefile
 *~
 hcl_test_suite
+node_modules/
+hcl.wasm
+tests/wasm/lib-importer.bundled.js*

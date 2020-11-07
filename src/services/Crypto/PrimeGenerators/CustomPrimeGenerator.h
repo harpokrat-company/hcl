@@ -5,6 +5,7 @@
 #ifndef HCL_SRC_SERVICES_CRYPTO_PRIMEGENERATORS_CUSTOMPRIMEGENERATOR_H_
 #define HCL_SRC_SERVICES_CRYPTO_PRIMEGENERATORS_CUSTOMPRIMEGENERATOR_H_
 
+#include <stdexcept>
 #include "../AutoRegisterer.h"
 #include "APrimeGenerator.h"
 

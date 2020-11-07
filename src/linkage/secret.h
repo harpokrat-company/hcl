@@ -12,8 +12,8 @@
 #include "../services/Crypto/Ciphers/ICipherEncryptionKey.h"
 
 extern "C" {
-HCL::ASecret *DeserializeSecret(const HCL::Crypto::ICipherDecryptionKey *key, const char *content);
-std::string *SerializeSecret(HCL::ASecret *secret, const HCL::Crypto::ICipherEncryptionKey *key);
+HCL::ASecret *DeserializeSecret(const char *key, const char *content);
+std::string *SerializeSecret(HCL::ASecret *secret, const char *key);
 void SecretInitializeAsymmetricCipher(HCL::ASecret *secret);
 void SecretInitializeSymmetricCipher(HCL::ASecret *secret);
 bool GetSecretCorrectDecryption(HCL::ASecret *secret);

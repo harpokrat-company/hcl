@@ -5,6 +5,7 @@
 #ifndef HCL_SRC_SERVICES_CRYPTO_CIPHERS_ASYMMETRICCIPHERSCHEME_H_
 #define HCL_SRC_SERVICES_CRYPTO_CIPHERS_ASYMMETRICCIPHERSCHEME_H_
 
+#include <stdexcept>
 #include "ACipher.h"
 #include "../AutoRegisterer.h"
 #include "../AsymmetricCiphers/AAsymmetricCipher.h"

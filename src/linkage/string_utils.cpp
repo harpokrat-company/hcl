@@ -5,6 +5,10 @@
 #include "string_utils.h"
 
 extern "C" {
+std::string *EXPORT_FUNCTION GetExceptionMessage(std::exception *exception) {
+  return new std::string(exception->what());
+}
+
 void EXPORT_FUNCTION DeleteString(std::string *string) {
     delete string;
 }

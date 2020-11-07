@@ -5,6 +5,7 @@
 #ifndef HCL_SRC_SERVICES_CRYPTO_FACTORY_H_
 #define HCL_SRC_SERVICES_CRYPTO_FACTORY_H_
 
+#include <stdexcept>
 #include <memory>
 #include <map>
 #include <iostream>

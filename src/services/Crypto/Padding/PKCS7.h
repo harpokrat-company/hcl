@@ -5,6 +5,7 @@
 #ifndef HCL_SRC_SERVICES_CRYPTO_PADDING_PKCS7_H_
 #define HCL_SRC_SERVICES_CRYPTO_PADDING_PKCS7_H_
 
+#include <stdexcept>
 #include "../AutoRegisterer.h"
 #include "APadding.h"
 

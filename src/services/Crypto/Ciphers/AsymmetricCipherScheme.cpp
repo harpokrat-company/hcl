@@ -10,7 +10,7 @@ HCL::Crypto::AsymmetricCipherScheme::AsymmetricCipherScheme(const std::string &h
 
 std::string HCL::Crypto::AsymmetricCipherScheme::Encrypt(const ICipherEncryptionKey *key, const std::string &content) {
   if (!asymmetric_cipher_) {
-    throw std::runtime_error(GetDependencyUnsetError("encrypt", "Block cipher mode"));
+    throw std::runtime_error(GetDependencyUnsetError("encrypt", "Asymmetric cipher"));
   }
   if (key->GetEncryptionKeyType() != "public") {
     throw std::runtime_error(GetError("encrypt", "Cipher encryption key is of wrong type"));
@@ -20,7 +20,7 @@ std::string HCL::Crypto::AsymmetricCipherScheme::Encrypt(const ICipherEncryption
 
 std::string HCL::Crypto::AsymmetricCipherScheme::Decrypt(const ICipherDecryptionKey *key, const std::string &content) {
   if (!asymmetric_cipher_) {
-    throw std::runtime_error(GetDependencyUnsetError("decrypt", "Block cipher mode"));
+    throw std::runtime_error(GetDependencyUnsetError("decrypt", "Asymmetric cipher"));
   }
   if (key->GetDecryptionKeyType() != "private") {
     throw std::runtime_error(GetError("decrypt", "Cipher decryption key is of wrong type"));
@@ -30,7 +30,7 @@ std::string HCL::Crypto::AsymmetricCipherScheme::Decrypt(const ICipherDecryption
 
 std::string HCL::Crypto::AsymmetricCipherScheme::GetHeader() {
   if (!asymmetric_cipher_) {
-    throw std::runtime_error(GetDependencyUnsetError("get header", "Block cipher mode"));
+    throw std::runtime_error(GetDependencyUnsetError("get header", "Asymmetric cipher"));
   }
   return GetIdBytes() + asymmetric_cipher_->GetHeader();
 }
@@ -45,7 +45,7 @@ bool HCL::Crypto::AsymmetricCipherScheme::IsAsymmetricCipherSet() const {
 
 HCL::Crypto::ACryptoElement &HCL::Crypto::AsymmetricCipherScheme::GetAsymmetricCipher() const {
   if (!IsAsymmetricCipherSet()) {
-    throw std::runtime_error(GetDependencyUnsetError("get Block cipher mode", "Block cipher mode"));
+    throw std::runtime_error(GetDependencyUnsetError("get Asymmetric cipher", "Asymmetric cipher"));
   }
   return *asymmetric_cipher_;
 }

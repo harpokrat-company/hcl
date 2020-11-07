@@ -9,6 +9,7 @@
 #include "linkage.h"
 
 extern "C" {
+std::string *GetExceptionMessage(std::exception *exception);
 void DeleteString(std::string *);
 const char *GetCharArrayFromString(std::string *);
 };

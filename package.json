@@ -1,0 +1,15 @@
+{
+  "name": "hcl-library",
+  "version": "0.1.0",
+  "description": "HCL Library tests",
+  "main": "index.js",
+  "scripts": {
+    "build:test": "microbundle build -f cjs -o tests/wasm/lib-importer.bundled.js tests/wasm/lib-importer.js"
+  },
+  "author": "Fantin Bibas <fantin@bib.as>",
+  "license": "MIT",
+  "devDependencies": {
+    "microbundle": "^0.12.3"
+  },
+  "dependencies": {}
+}
