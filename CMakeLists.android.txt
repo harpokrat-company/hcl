@@ -132,6 +132,8 @@ set(LIBRARY_SOURCE_FILES
     src/services/Crypto/Ciphers/ICipherDecryptionKey.h
     src/services/Crypto/Ciphers/AsymmetricCipherScheme.cpp
     src/services/Crypto/Ciphers/AsymmetricCipherScheme.h
+    src/linkage/rsa_key.cpp
+    src/linkage/rsa_key.h
     )
 
 add_library(hcl SHARED ${LIBRARY_SOURCE_FILES})

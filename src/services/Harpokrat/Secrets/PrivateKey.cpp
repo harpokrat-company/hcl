@@ -13,8 +13,8 @@ HCL::PrivateKey::PrivateKey(mpz_class modulus, mpz_class private_key) :
   private_key_ = std::move(private_key);
 }
 
-HCL::PrivateKey::PrivateKey(const HCL::Crypto::RSAKey &key_pair) :
-    PrivateKey(key_pair.GetModulus(), key_pair.GetKey()) {}
+HCL::PrivateKey::PrivateKey(const HCL::Crypto::RSAKey *key_pair) :
+    PrivateKey(key_pair->GetModulus(), key_pair->GetKey()) {}
 
 bool HCL::PrivateKey::DeserializeContent(const std::string &content) {
   mpz_t gmp_value;
@@ -72,6 +72,6 @@ void HCL::PrivateKey::SetOwner(const std::string &owner) {
   this->owner_ = owner;
 }
 
-HCL::Crypto::RSAKey HCL::PrivateKey::ExtractKey() const {
-  return Crypto::RSAKey(modulus_, private_key_);
+HCL::Crypto::RSAKey *HCL::PrivateKey::ExtractKey() const {
+  return new Crypto::RSAKey(modulus_, private_key_);
 }

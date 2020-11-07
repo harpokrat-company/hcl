@@ -16,4 +16,8 @@ void EXPORT_FUNCTION SetPrivateKeyOwner(HCL::PrivateKey *private_key, const char
 std::string *EXPORT_FUNCTION DecryptMessageWithPrivateKey(HCL::PrivateKey *private_key, const char *message) {
   return new std::string(private_key->Decrypt(message));
 }
+
+HCL::Crypto::RSAKey *EXPORT_FUNCTION ExtractKeyFromPrivateKey(const HCL::PrivateKey *private_key) {
+  return private_key->ExtractKey();
+}
 }

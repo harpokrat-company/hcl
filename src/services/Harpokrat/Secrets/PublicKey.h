@@ -20,7 +20,7 @@ class PublicKey : public ASecret, public Crypto::ICipherEncryptionKey {
  public:
   PublicKey() : ASecret() {};
   PublicKey(mpz_class modulus, mpz_class public_key);
-  PublicKey(const Crypto::RSAKey &);
+  explicit PublicKey(const Crypto::RSAKey *);
   ~PublicKey() override = default;
   [[nodiscard]] std::string Encrypt(const std::string &message) const;
   [[nodiscard]] const std::string &GetOwner() const;
@@ -29,7 +29,7 @@ class PublicKey : public ASecret, public Crypto::ICipherEncryptionKey {
     static std::string key_type = "public";
     return key_type;
   }
-  [[nodiscard]] Crypto::RSAKey ExtractKey() const;
+  [[nodiscard]] Crypto::RSAKey *ExtractKey() const;
 
  protected:
   [[nodiscard]] SecretType GetSecretType() const override {

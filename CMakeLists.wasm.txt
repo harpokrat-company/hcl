@@ -121,7 +121,8 @@ set(LIBRARY_SOURCE_FILES
     src/linkage/emscripten_binding.cpp
     src/linkage/emscripten_binding.h
     src/services/Crypto/RSAKey.cpp
-    src/services/Crypto/RSAKey.h)
+    src/services/Crypto/RSAKey.h
+    )
 
 add_executable(hcl ${LIBRARY_SOURCE_FILES})
 

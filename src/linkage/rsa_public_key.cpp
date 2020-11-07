@@ -16,4 +16,8 @@ void EXPORT_FUNCTION SetPublicKeyOwner(HCL::PublicKey *public_key, const char *o
 std::string *EXPORT_FUNCTION EncryptMessageWithPublicKey(HCL::PublicKey *public_key, const char *message) {
   return new std::string(public_key->Encrypt(message));
 }
+
+HCL::Crypto::RSAKey *EXPORT_FUNCTION ExtractKeyFromPublicKey(const HCL::PublicKey *public_key) {
+  return public_key->ExtractKey();
+}
 }

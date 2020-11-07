@@ -97,13 +97,13 @@ std::string HCL::ASecret::SerializeExternal(const std::string &key) {
   return Serialize(&symmetric_key);
 }
 
-HCL::ASecret *HCL::ASecret::DeserializeSecretExternalAsymmetric(const Crypto::RSAKey &key_pair, const std::string &content) {
+HCL::ASecret *HCL::ASecret::DeserializeSecretExternalAsymmetric(const Crypto::RSAKey *key_pair, const std::string &content) {
   PrivateKey private_key(key_pair);
 
   return DeserializeSecret(&private_key, content);
 }
 
-std::string HCL::ASecret::SerializeExternalAsymmetric(const Crypto::RSAKey &key_pair) {
+std::string HCL::ASecret::SerializeExternalAsymmetric(const Crypto::RSAKey *key_pair) {
   PublicKey public_key(key_pair);
 
   return Serialize(&public_key);
