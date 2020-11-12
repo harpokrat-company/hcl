@@ -5,7 +5,6 @@
 #ifndef HCL_SRC_SERVICES_CRYPTO_ASYMMETRICCIPHERS_KEYPAIR_H_
 #define HCL_SRC_SERVICES_CRYPTO_ASYMMETRICCIPHERS_KEYPAIR_H_
 
-#include <gmpxx.h>
 #include <utility>
 #include "../../Harpokrat/Secrets/PrivateKey.h"
 #include "../../Harpokrat/Secrets/PublicKey.h"
@@ -13,13 +12,13 @@
 namespace HCL::Crypto {
 class KeyPair {
  public:
-  KeyPair(mpz_class public_key, mpz_class private_key, mpz_class modulus);
+  KeyPair(__mpz_struct public_key, __mpz_struct private_key, __mpz_struct modulus);
   [[nodiscard]] PublicKey *GetPublic() const;
   [[nodiscard]] PrivateKey *GetPrivate() const;
  private:
-  mpz_class modulus_;
-  mpz_class public_key_;
-  mpz_class private_key_;
+  __mpz_struct modulus_;
+  __mpz_struct public_key_;
+  __mpz_struct private_key_;
 };
 }
 

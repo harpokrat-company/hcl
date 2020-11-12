@@ -6,8 +6,9 @@
 #include <gmp.h>
 #include "CustomPrimeGenerator.h"
 
-HCL::Crypto::CustomPrimeGenerator::CustomPrimeGenerator() : r1(gmp_randinit_mt) {
-  r1.seed(time(NULL));
+HCL::Crypto::CustomPrimeGenerator::CustomPrimeGenerator() {
+  gmp_randinit_default(r1);
+  gmp_randseed_ui(r1, time(nullptr));
 }
 
 HCL::Crypto::CustomPrimeGenerator::CustomPrimeGenerator(const std::string &header, size_t &header_length) : CustomPrimeGenerator() {}
@@ -17,10 +18,11 @@ std::string HCL::Crypto::CustomPrimeGenerator::GetHeader() {
 }
 
 //Source: https://tspiteri.gitlab.io/gmp-mpfr-sys/gmp/C_002b_002b-Class-Interface.html#C_002b_002b-Interface-Random-Numbers
-mpz_class HCL::Crypto::CustomPrimeGenerator::GenerateRandomPrime(size_t bits) {
-  mpz_class output;
+__mpz_struct HCL::Crypto::CustomPrimeGenerator::GenerateRandomPrime(size_t bits) {
+  __mpz_struct output;
 
-  output = r1.get_z_bits(bits);
-  mpz_nextprime(output.get_mpz_t(), output.get_mpz_t());
+  mpz_init(&output);
+  mpz_urandomb(&output, r1, bits);
+  mpz_nextprime(&output, &output);
   return output;
 }

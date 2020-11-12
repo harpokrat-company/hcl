@@ -5,20 +5,21 @@
 #ifndef HCL_SRC_SERVICES_CRYPTO_RSAKey_H_
 #define HCL_SRC_SERVICES_CRYPTO_RSAKey_H_
 
-#include <gmpxx.h>
+#include <gmp.h>
+#include <string>
 
 namespace HCL::Crypto {
 class RSAKey {
  public:
-  RSAKey(mpz_class modulus, mpz_class key);
+  RSAKey(__mpz_struct modulus, __mpz_struct key);
   ~RSAKey() = default;
-  [[nodiscard]] mpz_class GetModulus() const;
-  [[nodiscard]] mpz_class GetKey() const;
+  [[nodiscard]] __mpz_struct GetModulus() const;
+  [[nodiscard]] __mpz_struct GetKey() const;
 
  private:
   std::string owner_;
-  mpz_class modulus_;
-  mpz_class key_;
+  __mpz_struct modulus_;
+  __mpz_struct key_;
 };
 }
 

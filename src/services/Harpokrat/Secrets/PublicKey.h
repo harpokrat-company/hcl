@@ -19,7 +19,7 @@ union SerializedPublicKeyHeader {
 class PublicKey : public ASecret, public Crypto::ICipherEncryptionKey {
  public:
   PublicKey() : ASecret() {};
-  PublicKey(mpz_class modulus, mpz_class public_key);
+  PublicKey(__mpz_struct modulus, __mpz_struct public_key);
   PublicKey(const Crypto::RSAKey &);
   ~PublicKey() override = default;
   [[nodiscard]] std::string Encrypt(const std::string &message) const;
@@ -40,8 +40,8 @@ class PublicKey : public ASecret, public Crypto::ICipherEncryptionKey {
 
  public:
   std::string owner_;
-  mpz_class modulus_;
-  mpz_class public_key_;
+  __mpz_struct modulus_;
+  __mpz_struct public_key_;
 };
 }
 

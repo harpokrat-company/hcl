@@ -23,12 +23,13 @@ static int CustomPrimeGenerator() {
   	2048,
   	4096
   };
-  mpz_class result;
+  __mpz_struct result;
   std::cout << "Running prime numbers generator tests..." << std::endl;
   for (size_t i = 0; i < 10; ++i) {
     std::cout << test_bits[i] << " bits: " << std::flush;
     result = pgenerator->GenerateRandomPrime(test_bits[i]);
-    std::cout << (mpz_probab_prime_p(result.get_mpz_t(), 10) > 0 ? "OK :)" : "KO >:(") << std::endl;
+    std::cout << (mpz_probab_prime_p(&result, 10) > 0 ? "OK :)" : "KO >:(") << std::endl;
+    mpz_clear(&result);
   }
   return 0;
 }
