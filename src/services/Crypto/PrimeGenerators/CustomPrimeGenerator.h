@@ -28,7 +28,7 @@ class CustomPrimeGenerator : public AutoRegisterer<APrimeGenerator, CustomPrimeG
   ACryptoElement &GetDependency(size_t index) override {
 	throw std::runtime_error(GetDependencyIndexError("get"));
   }
-  mpz_class GenerateRandomPrime(size_t bits) override;
+  __mpz_struct GenerateRandomPrime(size_t bits) override;
   std::string GetHeader() override;
   const std::string &GetElementName() const override { return GetName(); };
   const std::string &GetElementTypeName() const override { return GetTypeName(); };
@@ -38,7 +38,7 @@ class CustomPrimeGenerator : public AutoRegisterer<APrimeGenerator, CustomPrimeG
 	return name;
   };
  private:
-  gmp_randclass r1;
+  gmp_randstate_t r1;
 };
 }
 #endif //HCL_SRC_SERVICES_CRYPTO_PRIMEGENERATORS_CUSTOMPRIMEGENERATOR_H_

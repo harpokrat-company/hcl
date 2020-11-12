@@ -6,7 +6,6 @@
 #define HCL_SRC_SERVICES_CRYPTO_ASYMMETRICCIPHERS_RSA_H_
 
 #include <stdexcept>
-#include <gmpxx.h>
 #include <gmp.h>
 
 #include "../AutoRegisterer.h"
@@ -61,10 +60,10 @@ class RSA : public AutoRegisterer<AAsymmetricCipher, RSA> {
   bool IsPrimeGeneratorSet() const;
   ACryptoElement &GetPrimeGenerator() const;
   KeyPair *GenerateKeyPair(size_t bits) override;
-  static std::string RSAEncrypt(const mpz_class &modulus, const mpz_class &public_key, const std::string &content);
-  static std::string RSADecrypt(const mpz_class &modulus, const mpz_class &private_key, const std::string &content);
-  std::string Encrypt(const mpz_class &modulus, const mpz_class &public_key, const std::string &content) override;
-  std::string Decrypt(const mpz_class &modulus, const mpz_class &private_key, const std::string &content) override;
+  static std::string RSAEncrypt(const __mpz_struct modulus, const __mpz_struct public_key, const std::string &content);
+  static std::string RSADecrypt(const __mpz_struct modulus, const __mpz_struct private_key, const std::string &content);
+  std::string Encrypt(const __mpz_struct modulus, const __mpz_struct public_key, const std::string &content) override;
+  std::string Decrypt(const __mpz_struct modulus, const __mpz_struct private_key, const std::string &content) override;
   std::string GetHeader() override;
   const std::string &GetElementName() const override { return GetName(); };
   const std::string &GetElementTypeName() const override { return GetTypeName(); };
@@ -75,7 +74,7 @@ class RSA : public AutoRegisterer<AAsymmetricCipher, RSA> {
   };
  private:
   std::unique_ptr<APrimeGenerator> prime_generator_;
-  gmp_randclass r1;
+  gmp_randstate_t r1;
 };
 }
 

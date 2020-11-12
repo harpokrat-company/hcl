@@ -132,7 +132,7 @@ set(LIBRARY_SOURCE_FILES
 
 add_library(hcl SHARED ${LIBRARY_SOURCE_FILES})
 
-target_link_libraries(hcl gmp gmpxx)
+target_link_libraries(hcl gmp)
 
 set(TEST_SOURCE_FILES
     tests/main.cpp
@@ -145,4 +145,4 @@ set(TEST_SOURCE_FILES
 
 add_executable(hcl_test_suite ${LIBRARY_SOURCE_FILES} ${TEST_SOURCE_FILES})
 
-target_link_libraries(hcl_test_suite gmp gmpxx)
+target_link_libraries(hcl_test_suite gmp)

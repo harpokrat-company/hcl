@@ -4,15 +4,15 @@
 
 #include "RSAKey.h"
 
-HCL::Crypto::RSAKey::RSAKey(mpz_class modulus, mpz_class key) {
+HCL::Crypto::RSAKey::RSAKey(__mpz_struct modulus, __mpz_struct key) {
   modulus_ = std::move(modulus);
   key_ = std::move(key);
 }
 
-mpz_class HCL::Crypto::RSAKey::GetModulus() const {
+__mpz_struct HCL::Crypto::RSAKey::GetModulus() const {
   return modulus_;
 }
 
-mpz_class HCL::Crypto::RSAKey::GetKey() const {
+__mpz_struct HCL::Crypto::RSAKey::GetKey() const {
   return key_;
 }

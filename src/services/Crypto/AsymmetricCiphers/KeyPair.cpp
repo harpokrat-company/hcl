@@ -6,10 +6,10 @@
 
 #include <utility>
 
-HCL::Crypto::KeyPair::KeyPair(mpz_class public_key, mpz_class private_key, mpz_class modulus) :
-    modulus_(std::move(modulus)),
-    private_key_(std::move(private_key)),
-    public_key_(std::move(public_key)) {
+HCL::Crypto::KeyPair::KeyPair(__mpz_struct public_key, __mpz_struct private_key, __mpz_struct modulus) :
+    modulus_(modulus),
+    private_key_(private_key),
+    public_key_(public_key) {
 }
 
 HCL::PublicKey *HCL::Crypto::KeyPair::GetPublic() const {

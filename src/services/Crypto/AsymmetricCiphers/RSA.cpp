@@ -4,11 +4,14 @@
 
 #include "RSA.h"
 
-HCL::Crypto::RSA::RSA() : r1(gmp_randinit_mt) {
-  r1.seed(time(NULL));
+HCL::Crypto::RSA::RSA() {
+  gmp_randinit_default(r1);
+  gmp_randseed_ui(r1, time(nullptr));
 }
 
-HCL::Crypto::RSA::RSA(const std::string &header, size_t &header_length) : r1(gmp_randinit_mt) {
+HCL::Crypto::RSA::RSA(const std::string &header, size_t &header_length) {
+  gmp_randinit_default(r1);
+  gmp_randseed_ui(r1, time(nullptr));
   this->prime_generator_ = Factory<APrimeGenerator>::BuildTypedFromHeader(header, header_length);
 }
 
@@ -35,24 +38,41 @@ HCL::Crypto::ACryptoElement &HCL::Crypto::RSA::GetPrimeGenerator() const {
 }
 
 HCL::Crypto::KeyPair *HCL::Crypto::RSA::GenerateKeyPair(size_t bits) {
+  __mpz_struct n, phi_n, e, d, tmp, one;
   if (!prime_generator_) {
     throw std::runtime_error(GetDependencyUnsetError("generate key pair", "Prime generator"));
   }
-  mpz_class p = prime_generator_->GenerateRandomPrime(bits / 2);
-  mpz_class q = prime_generator_->GenerateRandomPrime(bits / 2);
-  mpz_class n = p * q;
-  mpz_class phi_n = (p - 1) * (q - 1);
-  mpz_class e = r1.get_z_range(phi_n);
-  mpz_class d = 0;
+  mpz_init(&n);
+  mpz_init(&phi_n);
+  mpz_init(&e);
+  mpz_init(&d);
+  mpz_init(&tmp);
+  mpz_init(&one);
+  mpz_set_ui(&one, 1);
+  __mpz_struct p = prime_generator_->GenerateRandomPrime(bits / 2);
+  __mpz_struct q = prime_generator_->GenerateRandomPrime(bits / 2);
+  mpz_mul(&n, &p, &q); // n = p * q
+  mpz_sub(&p, &p, &one); // p = p - 1
+  mpz_sub(&q, &q, &one); // q = q -1
+  mpz_mul(&phi_n, &p, &q); // phi_n = p * q
+  mpz_urandomm (&e, r1, &phi_n); // e = a random integer between 0 and phi_n - 1
   // Ensure that e and phi(n) are co-prime
-  while (gcd(e, phi_n) != 1)
-    e = r1.get_z_range(phi_n);
-  mpz_invert(d.get_mpz_t(), e.get_mpz_t(), phi_n.get_mpz_t());
+  mpz_gcd(&tmp, &e, &phi_n);
+  while (mpz_cmp(&tmp, &one) != 0) {
+    mpz_urandomm (&e, r1, &phi_n);
+    mpz_gcd(&tmp, &e, &phi_n);
+  }
+  mpz_invert(&d, &e, &phi_n);
+  mpz_clear(&phi_n);
+  mpz_clear(&one);
+  mpz_clear(&tmp);
+  mpz_clear(&p);
+  mpz_clear(&q);
   return new KeyPair(e, d, n);
 }
 
-std::string HCL::Crypto::RSA::RSAEncrypt(const mpz_class &modulus, const mpz_class &public_key, const std::string &content) {
-  unsigned int block_size = (modulus.get_mpz_t()->_mp_size * (sizeof(mp_limb_t) * 8)) / 8;
+std::string HCL::Crypto::RSA::RSAEncrypt(const __mpz_struct modulus, const __mpz_struct public_key, const std::string &content) {
+  unsigned int block_size = (modulus._mp_size * (sizeof(mp_limb_t) * 8)) / 8;
   char mess_block[block_size];
   unsigned int prog = content.length();
   unsigned int processed_len = 0;
@@ -79,15 +99,15 @@ std::string HCL::Crypto::RSA::RSAEncrypt(const mpz_class &modulus, const mpz_cla
     }
     prog -= processed_len;
     mpz_import(m, block_size, 1, sizeof(char), 0, 0, mess_block);
-    mpz_powm(c, m, public_key.get_mpz_t(), modulus.get_mpz_t());
+    mpz_powm(c, m, &public_key, &modulus);
     mpz_export(mess_block, nullptr, 1, sizeof(char), 0, 0, c);
     result += std::string(mess_block, block_size);
   }
   return result;
 }
 
-std::string HCL::Crypto::RSA::RSADecrypt(const mpz_class &modulus, const mpz_class &private_key, const std::string &content) {
-  unsigned int block_size = (modulus.get_mpz_t()->_mp_size * (sizeof(mp_limb_t) * 8)) / 8;
+std::string HCL::Crypto::RSA::RSADecrypt(const __mpz_struct modulus, const __mpz_struct private_key, const std::string &content) {
+  unsigned int block_size = (modulus._mp_size * (sizeof(mp_limb_t) * 8)) / 8;
   char buff[block_size];
   unsigned int nb_block = content.length() / block_size;
   const char *message = content.c_str();
@@ -102,7 +122,7 @@ std::string HCL::Crypto::RSA::RSADecrypt(const mpz_class &modulus, const mpz_cla
   for (int i = 0; i < nb_block; i++) {
     memset(buff, 0, block_size);
     mpz_import(c, block_size, 1, sizeof(char), 0, 0, message + i * block_size);
-    mpz_powm(m, c, private_key.get_mpz_t(), modulus.get_mpz_t());
+    mpz_powm(m, c, &private_key, &modulus);
     mpz_export(buff + 1, nullptr, 1, sizeof(char), 0, 0, m);
     for(it = 2; ((buff[it] != 0) && (it < block_size)); it++);
     it++;
@@ -111,13 +131,13 @@ std::string HCL::Crypto::RSA::RSADecrypt(const mpz_class &modulus, const mpz_cla
   return result;
 }
 
-std::string HCL::Crypto::RSA::Encrypt(const mpz_class &modulus, const mpz_class &public_key,
+std::string HCL::Crypto::RSA::Encrypt(const __mpz_struct modulus, const __mpz_struct public_key,
                                       const std::string &content) {
   return RSAEncrypt(modulus, public_key, content);
 }
 
-std::string HCL::Crypto::RSA::Decrypt(const mpz_class &modulus,
-                                      const mpz_class &private_key,
+std::string HCL::Crypto::RSA::Decrypt(const __mpz_struct modulus,
+                                      const __mpz_struct private_key,
                                       const std::string &content) {
   return RSADecrypt(modulus, private_key, content);
 }
