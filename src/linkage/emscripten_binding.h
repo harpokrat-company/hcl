@@ -59,11 +59,11 @@ EMSCRIPTEN_BINDINGS(hcl) {
   emscripten::class_<HCL::PrivateKey, emscripten::base<HCL::ASecret>>("PrivateKey")
       .function("GetOwner", &HCL::PrivateKey::GetOwner)
       .function("SetOwner", &HCL::PrivateKey::SetOwner)
-      .function("ExtractKey", &HCL::PrivateKey::ExtractKey);
+      .function("ExtractKey", &HCL::PrivateKey::ExtractKey, emscripten::allow_raw_pointers());
   emscripten::class_<HCL::PublicKey, emscripten::base<HCL::ASecret>>("PublicKey")
       .function("GetOwner", &HCL::PublicKey::GetOwner)
       .function("SetOwner", &HCL::PublicKey::SetOwner)
-      .function("ExtractKey", &HCL::PublicKey::ExtractKey);
+      .function("ExtractKey", &HCL::PublicKey::ExtractKey, emscripten::allow_raw_pointers());
   emscripten::class_<HCL::SymmetricKey, emscripten::base<HCL::ASecret>>("SymmetricKey")
       .constructor()
       .function("GetOwner", &HCL::SymmetricKey::GetOwner)
