@@ -77,6 +77,8 @@ HCL::ASecret *HCL::ASecret::DeserializeSecret(const Crypto::ICipherDecryptionKey
     case SYMMETRIC_KEY:
       secret = static_cast<ASecret *>(new SymmetricKey());
       break;
+    default:
+      return nullptr;
   }
   secret->DeserializeContent(serialized_content.substr(1));
   return secret;
