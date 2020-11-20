@@ -53,6 +53,7 @@ EMSCRIPTEN_BINDINGS(hcl) {
       .function("Serialize", &HCL::ASecret::SerializeExternal, emscripten::allow_raw_pointers())
       .function("SerializeAsymmetric", &HCL::ASecret::SerializeExternalAsymmetric, emscripten::allow_raw_pointers())
       .function("CorrectDecryption", &HCL::ASecret::CorrectDecryption)
+      .function("InitializePlainCipher", &HCL::ASecret::InitializePlainCipher)
       .function("InitializeSymmetricCipher", &HCL::ASecret::InitializeSymmetricCipher)
       .function("InitializeAsymmetricCipher", &HCL::ASecret::InitializeAsymmetricCipher)
       .function("GetSecretTypeName", &HCL::ASecret::GetSecretTypeName);

@@ -28,6 +28,7 @@ enum SecretType : char {
 class ASecret {
  public:
   virtual ~ASecret() = default;
+  void InitializePlainCipher();
   void InitializeAsymmetricCipher();
   void InitializeSymmetricCipher();
   // TODO optional key and decrypt when needed (IsDecrypted & Decrypt(key)) (in blob ?)

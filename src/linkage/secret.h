@@ -17,6 +17,7 @@ HCL::ASecret *DeserializeSecret(const char *key, const char *content);
 HCL::ASecret *DeserializeSecretAsymmetric(const HCL::Crypto::RSAKey *key, const char *content);
 std::string *SerializeSecret(HCL::ASecret *secret, const char *key);
 std::string *SerializeSecretAsymmetric(HCL::ASecret *secret, const HCL::Crypto::RSAKey *key);
+void SecretInitializePlainCipher(HCL::ASecret *secret);
 void SecretInitializeAsymmetricCipher(HCL::ASecret *secret);
 void SecretInitializeSymmetricCipher(HCL::ASecret *secret);
 bool GetSecretCorrectDecryption(HCL::ASecret *secret);

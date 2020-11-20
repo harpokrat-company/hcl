@@ -18,6 +18,12 @@ const std::map<HCL::SecretType, const std::string> HCL::ASecret::type_names_ = {
     {SYMMETRIC_KEY, "symmetric-key"}
 };
 
+void HCL::ASecret::InitializePlainCipher() {
+  auto cipher = HCL::Crypto::Factory<HCL::Crypto::ACipher>::BuildTypedFromName("plain-cipher-scheme");
+
+  blob_.SetCipher(std::move(cipher));
+}
+
 void HCL::ASecret::InitializeAsymmetricCipher() {
   auto prime_generator = HCL::Crypto::SuperFactory::GetFactoryOfType("prime-generator").BuildFromName("custom-prime-generator");
   auto rsa = HCL::Crypto::SuperFactory::GetFactoryOfType("asymmetric-cipher").BuildFromName("rsa");

@@ -26,6 +26,10 @@ bool EXPORT_FUNCTION GetSecretCorrectDecryption(HCL::ASecret *secret) {
   return secret->CorrectDecryption();
 }
 
+void EXPORT_FUNCTION SecretInitializePlainCipher(HCL::ASecret *secret) {
+  secret->InitializePlainCipher();
+}
+
 void EXPORT_FUNCTION SecretInitializeAsymmetricCipher(HCL::ASecret *secret) {
   secret->InitializeAsymmetricCipher();
 }
