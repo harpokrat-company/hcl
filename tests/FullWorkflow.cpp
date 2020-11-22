@@ -10,6 +10,8 @@
 #include "../src/services/Crypto/EncryptedBlob.h"
 #include "../src/services/Harpokrat/Secrets/Password.h"
 #include "../src/services/Harpokrat/Secrets/SymmetricKey.h"
+#include "../src/services/Crypto/AsymmetricCiphers/AAsymmetricCipher.h"
+#include "../src/services/Crypto/PrimeGenerators/APrimeGenerator.h"
 
 static void PrintHex(const std::string &data) {
   std::stringstream hex_data_stream;
@@ -225,11 +227,43 @@ static int ECBFullEncryptionDecryptionTest() {
   return 0;
 }
 
+static int AsymmetricSecretTest() {
+  std::cout << "Running test of complex autonomous asymmetric secret " << std::flush;
+  auto prime_generator =
+      HCL::Crypto::Factory<HCL::Crypto::APrimeGenerator>::BuildTypedFromName("custom-prime-generator");
+  auto rsa = HCL::Crypto::Factory<HCL::Crypto::AAsymmetricCipher>::BuildTypedFromName("rsa");
+  rsa->SetDependency(std::move(prime_generator), 0);
+  auto key_pair = rsa->GenerateKeyPair(1024);
+  auto key_pair2 = rsa->GenerateKeyPair(1024);
+
+  auto public_before = key_pair2->GetPublic();
+  public_before->InitializePlainCipher();
+  auto serialized_before = public_before->SerializeExternal("");
+  HCL::ASecret *destination_secret = HCL::ASecret::DeserializeSecretExternal("", serialized_before);
+
+  auto publicDeserialized = dynamic_cast<HCL::PublicKey *>(destination_secret);
+  auto privateKey = key_pair->GetPrivate();
+
+  privateKey->InitializeAsymmetricCipher();
+  auto serializedOut = privateKey->SerializeExternalAsymmetric(publicDeserialized->ExtractKey());
+
+  auto privateOutRaw =
+      HCL::ASecret::DeserializeSecretExternalAsymmetric(key_pair2->GetPrivate()->ExtractKey(), serializedOut);
+
+  if (privateOutRaw->CorrectDecryption() && privateOutRaw->GetSecretTypeName() == "private-key") {
+    std::cout << "Success!" << std::endl;
+  } else {
+    std::cout << "Error :(" << std::endl;
+  }
+  return 0;
+}
+
 static int (*full_workflow_test_functions[])() = {
     DefaultFullEncryptionDecryptionTest,
     SecretTest,
     SecretTestWrongKey,
     ECBFullEncryptionDecryptionTest,
+    AsymmetricSecretTest,
     nullptr
 };
 

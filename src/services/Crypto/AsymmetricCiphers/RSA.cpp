@@ -51,7 +51,9 @@ HCL::Crypto::KeyPair *HCL::Crypto::RSA::GenerateKeyPair(size_t bits) {
   return new KeyPair(e, d, n);
 }
 
-std::string HCL::Crypto::RSA::RSAEncrypt(const mpz_class &modulus, const mpz_class &public_key, const std::string &content) {
+std::string HCL::Crypto::RSA::RSAEncrypt(const mpz_class &modulus,
+                                         const mpz_class &public_key,
+                                         const std::string &content) {
   unsigned int block_size = (modulus.get_mpz_t()->_mp_size * (sizeof(mp_limb_t) * 8)) / 8;
   char mess_block[block_size];
   unsigned int prog = content.length();
@@ -69,8 +71,8 @@ std::string HCL::Crypto::RSA::RSAEncrypt(const mpz_class &modulus, const mpz_cla
     it = 0;
     mess_block[it++] = 0x00;
     mess_block[it++] = 0x02;
-    while(it < (block_size - processed_len - 1)) {
-      mess_block[it++] = (rand() % (0xFF - 1)) + 1;
+    while (it < (block_size - processed_len - 1)) {
+      mess_block[it++] = 0x03;// TODO (rand() % (0xFF - 1)) + 1;
     }
     mess_block[it++] = 0x00;
     while (it < block_size) {
@@ -86,7 +88,9 @@ std::string HCL::Crypto::RSA::RSAEncrypt(const mpz_class &modulus, const mpz_cla
   return result;
 }
 
-std::string HCL::Crypto::RSA::RSADecrypt(const mpz_class &modulus, const mpz_class &private_key, const std::string &content) {
+std::string HCL::Crypto::RSA::RSADecrypt(const mpz_class &modulus,
+                                         const mpz_class &private_key,
+                                         const std::string &content) {
   unsigned int block_size = (modulus.get_mpz_t()->_mp_size * (sizeof(mp_limb_t) * 8)) / 8;
   char buff[block_size];
   unsigned int nb_block = content.length() / block_size;
@@ -104,9 +108,11 @@ std::string HCL::Crypto::RSA::RSADecrypt(const mpz_class &modulus, const mpz_cla
     mpz_import(c, block_size, 1, sizeof(char), 0, 0, message + i * block_size);
     mpz_powm(m, c, private_key.get_mpz_t(), modulus.get_mpz_t());
     mpz_export(buff + 1, nullptr, 1, sizeof(char), 0, 0, m);
-    for(it = 2; ((buff[it] != 0) && (it < block_size)); it++);
-    it++;
-    result += std::string(buff + it, block_size - it);
+    for (it = 2; ((buff[it] != 0) && (it < block_size)); it++);
+    if (it < block_size) {
+      it++;
+      result += std::string(buff + it, block_size - it);
+    }
   }
   return result;
 }

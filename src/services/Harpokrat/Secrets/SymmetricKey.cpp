@@ -22,12 +22,11 @@ void HCL::SymmetricKey::SetKey(const std::string &key) {
 
 bool HCL::SymmetricKey::DeserializeContent(const std::string &content) {
   const auto *serialized_header = reinterpret_cast<const SerializedSymmetricKeyHeader *>(content.c_str());
-  size_t offset = 6;
+  size_t offset = 4;
   size_t serialized_length = offset
       + serialized_header->fields_sizes[0]
       + serialized_header->fields_sizes[1];
 
-  // TODO Check correct before decryption with checksum (look at android backup method)
   if (content.size() == serialized_length) {
     owner_ = content.substr(offset, serialized_header->fields_sizes[0]);
     offset += serialized_header->fields_sizes[0];
@@ -44,7 +43,7 @@ std::string HCL::SymmetricKey::SerializeContent() const {
 
   serialized_header.fields_sizes[0] = owner_.size();
   serialized_header.fields_sizes[1] = key_.size();
-  serialized_content += std::string(serialized_header.bytes, 8);
+  serialized_content += std::string(serialized_header.bytes, 4);
   serialized_content += owner_;
   serialized_content += key_;
   return serialized_content;
