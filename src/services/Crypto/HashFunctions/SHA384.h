@@ -22,6 +22,9 @@ class SHA384 : public AutoRegisterer<AHashFunction, SHA384>, public SHA512 {
     static std::string name = "sha384";
     return name;
   };
+  uint8_t GetOutputSize() const override {
+    return 48;
+  };
  protected:
   uint64_t GetHashValue(size_t index) const override {
     static const uint64_t hash_values[8] = {
@@ -30,9 +33,6 @@ class SHA384 : public AutoRegisterer<AHashFunction, SHA384>, public SHA512 {
     };
     return hash_values[index];
   }
-  uint8_t GetOutputSize() const override {
-    return 48;
-  };
 };
 }
 

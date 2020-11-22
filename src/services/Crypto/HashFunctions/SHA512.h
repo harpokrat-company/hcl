@@ -29,6 +29,9 @@ class SHA512 : public AutoRegisterer<AHashFunction, SHA512>, public SHA2<uint64_
     static std::string name = "sha512";
     return name;
   };
+  uint8_t GetOutputSize() const override {
+    return 64;
+  };
  protected:
   uint64_t GetHashValue(size_t index) const override {
     static const uint64_t hash_values[8] = {
@@ -58,9 +61,6 @@ class SHA512 : public AutoRegisterer<AHashFunction, SHA512>, public SHA2<uint64_
     };
     return round_constants[index];
   }
-  uint8_t GetOutputSize() const override {
-    return 64;
-  };
   uint8_t GetRoundsNbr() const override {
     return 80;
   };

@@ -90,23 +90,79 @@ static int SecretTest() {
   const std::string key = "The answer to the life, the universe and everything...";
   HCL::SymmetricKey symmetricKey;
   symmetricKey.SetKey(key);
+  std::string name = "Google";
+  std::string domain = "https://www.google.com/";
+  std::string login = "neodar";
+  std::string password = "qwerty123456789";
 
   std::cout << "Running test of autonomous Password... "
             << std::flush;
   HCL::Password origin_secret;
   origin_secret.InitializeSymmetricCipher();
 
-  origin_secret.SetName("Google");
-  origin_secret.SetDomain("https://www.google.com/");
-  origin_secret.SetLogin("neodar");
-  origin_secret.SetPassword("qwerty123456789");
+  origin_secret.SetName(name);
+  origin_secret.SetDomain(domain);
+  origin_secret.SetLogin(login);
+  origin_secret.SetPassword(password);
 
-//  PrintHex(origin_secret.Serialize(&symmetricKey));
   HCL::ASecret *destination_secret = HCL::ASecret::DeserializeSecret(
       &symmetricKey,
       origin_secret.Serialize(&symmetricKey)
   );
-  std::cout << "Success! (probably)" << std::endl;
+  if (destination_secret->CorrectDecryption() && destination_secret->GetSecretTypeName() == "password") {
+    auto out_password = dynamic_cast<HCL::Password *>(destination_secret);
+    if (out_password->GetPassword() == password
+        && out_password->GetLogin() == login
+        && out_password->GetDomain() == domain
+        && out_password->GetName() == name) {
+      std::cout << "Success!" << std::endl;
+    } else {
+      std::cout << "Error :( :" << std::endl;
+      std::cout << "- Password: \"" << out_password->GetPassword() << "\" but expected \"" << password << "\""
+                << std::endl;
+      std::cout << "- Login: \"" << out_password->GetLogin() << "\" but expected \"" << login << "\"" << std::endl;
+      std::cout << "- Domain: \"" << out_password->GetDomain() << "\" but expected \"" << domain << "\"" << std::endl;
+      std::cout << "- Name: \"" << out_password->GetName() << "\" but expected \"" << name << "\"" << std::endl;
+    }
+  } else {
+    std::cout << "Error :( :" << std::endl;
+    std::cout << "- Correct decryption: " << destination_secret->CorrectDecryption() << std::endl;
+    std::cout << "- Secret type name: \"" << destination_secret->GetSecretTypeName() << R"(" but expected "secret")"
+              << std::endl;
+  }
+  return 0;
+}
+
+static int SecretTestWrongKey() {
+  const std::string key = "The answer to the life, the universe and everything...";
+  HCL::SymmetricKey symmetricKey;
+  symmetricKey.SetKey(key);
+  std::string name = "Google";
+  std::string domain = "https://www.google.com/";
+  std::string login = "neodar";
+  std::string password = "qwerty123456789";
+
+  std::cout << "Running test of autonomous Password with wrong key... "
+            << std::flush;
+  HCL::Password origin_secret;
+  origin_secret.InitializeSymmetricCipher();
+
+  origin_secret.SetName(name);
+  origin_secret.SetDomain(domain);
+  origin_secret.SetLogin(login);
+  origin_secret.SetPassword(password);
+
+  std::string serialized = origin_secret.Serialize(&symmetricKey);
+  symmetricKey.SetKey("The answer to the life, the universe and everything ?");
+  HCL::ASecret *destination_secret = HCL::ASecret::DeserializeSecret(&symmetricKey, serialized);
+  if (!destination_secret->CorrectDecryption() && destination_secret->GetSecretTypeName() == "incorrect") {
+    std::cout << "Success!" << std::endl;
+  } else {
+    std::cout << "Error :( :" << std::endl;
+    std::cout << "- Correct decryption: " << destination_secret->CorrectDecryption() << std::endl;
+    std::cout << "- Secret type name: \"" << destination_secret->GetSecretTypeName() << R"(" but expected "incorrect")"
+              << std::endl;
+  }
   return 0;
 }
 
@@ -172,6 +228,7 @@ static int ECBFullEncryptionDecryptionTest() {
 static int (*full_workflow_test_functions[])() = {
     DefaultFullEncryptionDecryptionTest,
     SecretTest,
+    SecretTestWrongKey,
     ECBFullEncryptionDecryptionTest,
     nullptr
 };

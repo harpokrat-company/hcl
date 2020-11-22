@@ -10,12 +10,15 @@
 #include "PrivateKey.h"
 #include "PublicKey.h"
 #include "SymmetricKey.h"
+#include "IncorrectSecret.h"
+#include "../../Crypto/HashFunctions/AHashFunction.h"
 
 const std::map<HCL::SecretType, const std::string> HCL::ASecret::type_names_ = {
     {PASSWORD, "password"},
     {PRIVATE_KEY, "private-key"},
     {PUBLIC_KEY, "public-key"},
-    {SYMMETRIC_KEY, "symmetric-key"}
+    {SYMMETRIC_KEY, "symmetric-key"},
+    {INCORRECT, "incorrect"}
 };
 
 void HCL::ASecret::InitializePlainCipher() {
@@ -25,7 +28,8 @@ void HCL::ASecret::InitializePlainCipher() {
 }
 
 void HCL::ASecret::InitializeAsymmetricCipher() {
-  auto prime_generator = HCL::Crypto::SuperFactory::GetFactoryOfType("prime-generator").BuildFromName("custom-prime-generator");
+  auto prime_generator =
+      HCL::Crypto::SuperFactory::GetFactoryOfType("prime-generator").BuildFromName("custom-prime-generator");
   auto rsa = HCL::Crypto::SuperFactory::GetFactoryOfType("asymmetric-cipher").BuildFromName("rsa");
   auto cipher = HCL::Crypto::Factory<HCL::Crypto::ACipher>::BuildTypedFromName("asymmetric-cipher-scheme");
 
@@ -59,33 +63,38 @@ void HCL::ASecret::InitializeSymmetricCipher() {
 }
 
 HCL::ASecret *HCL::ASecret::DeserializeSecret(const Crypto::ICipherDecryptionKey *key, const std::string &content) {
+  auto hash_function = HCL::Crypto::Factory<HCL::Crypto::AHashFunction>::BuildTypedFromName(CHECKSUM_HASH_ALGORITHM);
   HCL::Crypto::EncryptedBlob blob = HCL::Crypto::EncryptedBlob(key, HCL::Crypto::Base64::Decode(content));
   std::string serialized_content = blob.GetContent();
   SecretType type = reinterpret_cast<const SecretType *>(serialized_content.c_str())[0];
+  std::string checksum = serialized_content.substr(1, hash_function->GetOutputSize());
+  serialized_content = serialized_content.substr(hash_function->GetOutputSize() + 1);
   ASecret *secret;
 
-  switch (type) {
-    case PASSWORD:
-      secret = static_cast<ASecret *>(new Password());
-      break;
-    case PRIVATE_KEY:
-      secret = static_cast<ASecret *>(new PrivateKey());
-      break;
-    case PUBLIC_KEY:
-      secret = static_cast<ASecret *>(new PublicKey());
-      break;
-    case SYMMETRIC_KEY:
-      secret = static_cast<ASecret *>(new SymmetricKey());
-      break;
-    default:
-      return nullptr;
+  if (hash_function->HashData(serialized_content) != checksum) {
+    secret = static_cast<ASecret *>(new IncorrectSecret());
+  } else {
+    switch (type) {
+      case PASSWORD:secret = static_cast<ASecret *>(new Password());
+        break;
+      case PRIVATE_KEY:secret = static_cast<ASecret *>(new PrivateKey());
+        break;
+      case PUBLIC_KEY:secret = static_cast<ASecret *>(new PublicKey());
+        break;
+      case SYMMETRIC_KEY:secret = static_cast<ASecret *>(new SymmetricKey());
+        break;
+      default:secret = static_cast<ASecret *>(new IncorrectSecret());
+    }
   }
-  secret->DeserializeContent(serialized_content.substr(1));
+  secret->DeserializeContent(serialized_content);
   return secret;
 }
 
 std::string HCL::ASecret::Serialize(const Crypto::ICipherEncryptionKey *key) {
-  std::string serialized_content = std::string(1, this->GetSecretType()) + SerializeContent();
+  auto hash_function = HCL::Crypto::Factory<HCL::Crypto::AHashFunction>::BuildTypedFromName(CHECKSUM_HASH_ALGORITHM);
+  std::string serialized_content = SerializeContent();
+  serialized_content = hash_function->HashData(serialized_content) + serialized_content;
+  serialized_content = std::string(1, this->GetSecretType()) + serialized_content;
 
   blob_.SetContent(serialized_content);
   return HCL::Crypto::Base64::Encode(blob_.GetEncryptedContent(key));
@@ -105,7 +114,8 @@ std::string HCL::ASecret::SerializeExternal(const std::string &key) {
   return Serialize(&symmetric_key);
 }
 
-HCL::ASecret *HCL::ASecret::DeserializeSecretExternalAsymmetric(const Crypto::RSAKey *key_pair, const std::string &content) {
+HCL::ASecret *HCL::ASecret::DeserializeSecretExternalAsymmetric(const Crypto::RSAKey *key_pair,
+                                                                const std::string &content) {
   PrivateKey private_key(key_pair);
 
   return DeserializeSecret(&private_key, content);
@@ -118,7 +128,7 @@ std::string HCL::ASecret::SerializeExternalAsymmetric(const Crypto::RSAKey *key_
 }
 
 bool HCL::ASecret::CorrectDecryption() const {
-  return !decryption_error_;
+  return true;
 }
 
 const std::string &HCL::ASecret::GetSecretTypeName() const {

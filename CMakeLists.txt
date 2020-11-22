@@ -121,6 +121,8 @@ set(LIBRARY_SOURCE_FILES
     src/services/Harpokrat/Secrets/PublicKey.h
     src/services/Harpokrat/Secrets/SymmetricKey.cpp
     src/services/Harpokrat/Secrets/SymmetricKey.h
+    src/services/Harpokrat/Secrets/IncorrectSecret.cpp
+    src/services/Harpokrat/Secrets/IncorrectSecret.h
     src/services/Crypto/RSAKey.cpp
     src/services/Crypto/RSAKey.h
     src/services/Crypto/Ciphers/ICipherEncryptionKey.cpp

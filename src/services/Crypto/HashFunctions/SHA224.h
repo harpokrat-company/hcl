@@ -22,6 +22,9 @@ class SHA224 : public AutoRegisterer<AHashFunction, SHA224>, public SHA256 {
     static std::string name = "sha224";
     return name;
   };
+  uint8_t GetOutputSize() const override {
+    return 28;
+  }
  protected:
   uint32_t GetHashValue(size_t index) const override {
     static const uint32_t hash_values[8] = {
@@ -29,9 +32,6 @@ class SHA224 : public AutoRegisterer<AHashFunction, SHA224>, public SHA256 {
     };
     return hash_values[index];
   }
-  uint8_t GetOutputSize() const override {
-    return 28;
-  };
 };
 }
 

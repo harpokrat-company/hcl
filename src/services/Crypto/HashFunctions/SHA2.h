@@ -99,7 +99,6 @@ class SHA2 : virtual public AHashFunction {
  protected:
   virtual WordType GetHashValue(size_t index) const = 0;
   virtual WordType GetRoundConstant(size_t index) const = 0;
-  virtual uint8_t GetOutputSize() const = 0;
   virtual uint8_t GetRoundsNbr() const = 0;
  private:
   std::string PadData(const std::string &data);

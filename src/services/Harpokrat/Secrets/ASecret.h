@@ -16,8 +16,11 @@ enum SecretType : char {
   PASSWORD,
   PRIVATE_KEY,
   PUBLIC_KEY,
-  SYMMETRIC_KEY
+  SYMMETRIC_KEY,
+  INCORRECT
 };
+
+#define CHECKSUM_HASH_ALGORITHM ("sha512")
 
 //-> RSAPrivateKey
 //-> RSAPublicKey
@@ -39,7 +42,7 @@ class ASecret {
   [[nodiscard]] std::string SerializeExternal(const std::string &key);
   static ASecret *DeserializeSecretExternalAsymmetric(const Crypto::RSAKey *key_pair, const std::string &content);
   [[nodiscard]] std::string SerializeExternalAsymmetric(const Crypto::RSAKey *key_pair);
-  [[nodiscard]] bool CorrectDecryption() const;
+  [[nodiscard]] virtual bool CorrectDecryption() const;
   [[nodiscard]] const std::string &GetSecretTypeName() const;
 
  protected:
@@ -49,8 +52,6 @@ class ASecret {
   virtual bool DeserializeContent(const std::string &content) = 0;
 
  private:
-  // TODO Change behaviour via throwing (find how to catch in every wrapper)
-  bool decryption_error_ = false;
   // TODO Move blob somewhere else & implement API for customization of crypto workflow
   HCL::Crypto::EncryptedBlob blob_;
   static const std::map<SecretType, const std::string> type_names_;
